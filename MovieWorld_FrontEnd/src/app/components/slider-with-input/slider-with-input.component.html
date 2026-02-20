@@ -1,0 +1,16 @@
+<input 
+  type="number"
+  class="form-control mb-3"
+  [min]="minValue"
+  [max]="maxValue"
+  [(ngModel)]="value"
+  (ngModelChange)="handleChange($event)"
+/>
+
+<p-slider 
+  class="w-full" 
+  [min]="minValue" 
+  [max]="maxValue"
+  [(ngModel)]="value"
+  (ngModelChange)="handleChange($event)"
+></p-slider>

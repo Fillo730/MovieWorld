@@ -1,0 +1,16 @@
+mat-dialog-content {
+    min-width: 400px;
+    max-width: 600px;
+    overflow-x: hidden;
+}
+
+.image-preview img {
+    width: auto;
+    max-width: 100%;
+    object-fit: cover;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+mat-form-field {
+    width: 100%;
+}

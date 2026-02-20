@@ -1,0 +1,87 @@
+<header-component></header-component>
+
+@if (isLoading && !movie) {
+  <state-handler-component 
+    type="loading" 
+    message="Catalog.Loading">
+  </state-handler-component>
+} 
+@else if (error) {
+  <state-handler-component 
+    type="error" 
+    title="Catalog.ErrorTitle" 
+    message="MovieDetail.ErrorMessage"
+    buttonLabel="Catalog.RetryButton"
+    [buttonSeverity]="getButtonTheme()"
+    (action)="loadMovieData()">
+  </state-handler-component>
+} 
+@else if (movie) {
+  <movie-detail-card-component 
+    [movie]="movie"
+    [areCartServicesDisabled]="false"
+    [watchTrailerLabel]="'MovieDetail.WatchTrailer' | translate"
+    [goBackLabel]="'MovieDetail.GoBack' | translate"
+    [addCartLabel]="'MovieDetail.AddToCart' | translate"
+    [removeCartLabel]="'MovieDetail.RemoveFromCart' | translate"
+    [addToastText]="'MovieDetail.ToastAdd' | translate"
+    [removeToastText]="'MovieDetail.ToastRemove' | translate"
+    [quantity]="getQuantityOfMovie()">
+  </movie-detail-card-component>
+
+  <div class="tabs-container background-color-custom">
+    <p-tabs [value]="value">
+      <p-tablist class="background-color-custom">
+        <p-tab [value]="0" class="text-color">{{ 'MovieDetail.Director' | translate }}</p-tab>
+        <p-tab [value]="1" class="text-color">{{ 'MovieDetail.MainCast' | translate }}</p-tab>
+        
+        @if(moviesWithSameGenre.length > 0) {
+          <p-tab [value]="2" class="text-color">{{ 'MovieDetail.Recommended' | translate }}</p-tab>
+        }
+      </p-tablist>
+
+      <p-tabpanels class="background-color-custom-ligher">
+        <p-tabpanel [value]="0">
+          <div class="people-grid">
+            <image-title-card-component
+              [name]="movie.director?.fullName ?? ''" 
+              [imagePath]="movie.director?.imagePath ?? ''"
+              [isActorLabelDark]="true">
+            </image-title-card-component>
+          </div>
+        </p-tabpanel>
+
+        <p-tabpanel [value]="1">
+          <div class="people-grid">
+            @for (actor of movie.actors; track actor.fullName) {
+              <image-title-card-component 
+                [name]="actor.fullName" 
+                [imagePath]="actor.imagePath"
+                [isActorLabelDark]="true">
+              </image-title-card-component>
+            }
+          </div>
+        </p-tabpanel>
+
+        @if(moviesWithSameGenre.length > 0) {
+          <p-tabpanel [value]="2">
+            <div class="people-grid">
+              @for (m of moviesWithSameGenre; track m.movieId) {
+                <image-title-card-component 
+                  [name]="m.title"
+                  [imagePath]="m.imagePath ?? ''"
+                  [movieClicked]="m"
+                  [isClicable]="true"
+                  (cardClicked)="handleMovieClick($event)"
+                  [isActorLabelDark]="true">
+                </image-title-card-component>
+              }
+            </div>
+          </p-tabpanel>
+        }
+      </p-tabpanels>
+    </p-tabs>
+  </div>
+}
+
+<footer-component></footer-component>

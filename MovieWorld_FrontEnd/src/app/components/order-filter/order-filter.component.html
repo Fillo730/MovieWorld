@@ -1,0 +1,54 @@
+<div class="filter-container" [formGroup]="filtersForm">
+  <h3 class="mb-4 text-color">{{ 'Admin.OrdersPage.Filters.MainTitle' | translate }}</h3>
+
+  <div class="filter-row">
+    <mat-form-field appearance="outline">
+      <mat-label>{{ 'Admin.OrdersPage.Filters.Year' | translate }}</mat-label>
+      <input matInput type="number" 
+             [min]="minYear" 
+             [max]="maxYear"
+             formControlName="year">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>{{ 'Admin.OrdersPage.Filters.State' | translate }}</mat-label>
+      <mat-select formControlName="orderStateId">
+        <mat-option [value]="0">{{ 'Admin.OrdersPage.Filters.All' | translate }}</mat-option>
+        @for (state of orderStates; track state.id) {
+          <mat-option [value]="state.id">
+            {{ state.name }}
+          </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>{{ 'Admin.OrdersPage.Filters.MoviesNumber' | translate }}</mat-label>
+      <input matInput type="number" 
+             min="0"
+             formControlName="moviesNumber">
+    </mat-form-field>
+  </div>
+
+  <div class="price-slider-container">
+    <label class="text-color">
+      {{ 'Admin.OrdersPage.Filters.PriceRange' | translate }} 
+      <span>{{filters.totalValue[0]}}€ - {{filters.totalValue[1]}}€</span>
+    </label>
+    <mat-slider [min]="minMaxPrices[0]" [max]="minMaxPrices[1]" step="10">
+      <input formControlName="minPrice" matSliderStartThumb>
+      <input formControlName="maxPrice" matSliderEndThumb>
+    </mat-slider>
+  </div>
+
+  <div class="actions">
+    <button 
+        mat-flat-button 
+        [class.btn-light-blue]="!isDarkTheme()" 
+        [class.btn-dark-green]="isDarkTheme()" 
+        (click)="handleResetFilters()">
+        <mat-icon>restart_alt</mat-icon>
+        {{ "Admin.OrdersPage.Filters.Reset" | translate }}
+    </button>
+  </div>
+</div>

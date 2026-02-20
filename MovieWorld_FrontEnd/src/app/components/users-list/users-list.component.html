@@ -1,0 +1,28 @@
+@if (users.length > 0) {
+    <div class="user-grid">
+      @for (user of users; track user.userId) {
+        <user-card-component 
+          [user]="user"
+          (userDeleted)="deleteUser($event)"
+          (userUpdated)="updateUser($event)">
+        </user-card-component>
+      }
+    </div>
+    <p-paginator
+      class="background-color-custom-ligher p-3"
+      (onPageChange)="handlePageChange($event)" 
+      [first]="first" 
+      [rows]="rows" 
+      [totalRecords]="totalRecords" 
+      [rowsPerPageOptions]="paginatorElements"
+    />
+} @else {
+    <div class="empty-state display-vertical-center text-color">
+      <mat-icon class="large-icon">person_search</mat-icon>
+      <h2>{{ "Admin.UsersPage.Empty.NoUsersFound" | translate }}</h2>
+      <p>{{ "Admin.UsersPage.Empty.TryReset" | translate }}</p>
+      <button mat-stroked-button color="primary" (click)="resetFilters()">
+        {{ "Admin.UsersPage.Filters.Reset" | translate }}
+      </button>
+    </div>
+}

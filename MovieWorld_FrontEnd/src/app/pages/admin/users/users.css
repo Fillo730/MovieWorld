@@ -1,0 +1,54 @@
+.admin-container {
+  margin: 0 auto;
+  min-height: 80vh;
+  padding: 24px;
+}
+
+.header-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 32px;
+}
+
+@media (min-width: 992px) {
+  .header-actions {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.stats-chips {
+  display: flex;
+  align-items: center;
+}
+
+.empty-state mat-icon {
+  font-size: 80px;
+  width: 80px;
+  height: 80px;
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+.fab-add {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 1000;
+}
+
+users-filter-component {
+  flex: 1;
+}
+
+@media (max-width: 600px) {
+  .admin-container {
+    padding: 16px;
+  }
+  
+  .user-grid {
+    grid-template-columns: 1fr;
+  }
+}

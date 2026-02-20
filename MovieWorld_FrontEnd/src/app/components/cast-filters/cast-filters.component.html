@@ -1,0 +1,35 @@
+<div>
+    <h3 class="mb-3 text-color">{{ "Admin.CastPage.CastFilters.Title" | translate }}</h3>
+    
+    <div class="filter-row">
+        <mat-form-field appearance="outline">
+            <mat-label class="text-color">{{ "Admin.CastPage.CastFilters.SearchName" | translate }}</mat-label>
+            <input matInput [(ngModel)]="filters.query" (ngModelChange)="notifyChange()">
+            <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label class="text-color">{{ "Admin.CastPage.CastFilters.Role" | translate }}</mat-label>
+            <mat-select class="text-color" [(ngModel)]="filters.role" (selectionChange)="notifyChange()">
+                <mat-option [value]="Roles.Actor">
+                    {{ "Admin.CastPage.CastFilters.AllRoles" | translate }}
+                </mat-option>
+                <mat-option [value]="Roles.Actor">
+                    {{ "Admin.CastPage.CastFilters.Actor" | translate }}
+                </mat-option>
+                <mat-option [value]="Roles.Director">
+                    {{ "Admin.CastPage.CastFilters.Director" | translate }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+    <button 
+        mat-flat-button 
+        [class.btn-light-blue]="!isDarkTheme()" 
+        [class.btn-dark-green]="isDarkTheme()" 
+        (click)="onResetClick()">
+        <mat-icon>restart_alt</mat-icon>
+        {{ "Admin.CastPage.CastFilters.Reset" | translate }}
+    </button>
+</div>

@@ -1,0 +1,58 @@
+<div class="admin-container">
+  <div class="header-actions">
+    @if (!error && !(isLoading && filteredCast.length === 0)) {
+      <cast-filters-component
+        [filters]="filters"
+        (filterChanged)="onFilterChanged($event)"
+        (filterReset)="resetFilters()"></cast-filters-component>
+        <div class="stats-chips">
+          <mat-chip-set>
+            <mat-chip>{{ 'Admin.CastPage.Stats.Total' | translate }}: {{ totalCount }}</mat-chip>
+          </mat-chip-set>
+        </div>
+        <button mat-fab color="accent" class="fab-add" (click)="addPerson()">
+          <mat-icon>add</mat-icon>
+        </button>  
+    }
+  </div>
+
+  @if (isLoading && filteredCast.length === 0) {
+    <state-handler-component type="loading" message="Admin.CastPage.Loading"></state-handler-component>
+  }
+  @else if (error) {
+    <state-handler-component 
+      type="error" 
+      title="Admin.CastPage.ErrorTitle" 
+      message="Admin.CastPage.ErrorMessage"
+      buttonLabel="Admin.CastPage.RetryButton"
+      (action)="loadData()">
+    </state-handler-component>
+  }
+  @else {
+    <div class="grow">
+      @if (filteredCast.length === 0) {
+        <div class="d-flex align-items-center justify-content-center py-5">
+          <state-handler-component 
+            type="empty"
+            title="Admin.CastPage.Empty.Title"
+            message="Admin.CastPage.Empty.Subtitle"
+            buttonLabel="Admin.CastPage.Empty.Button"
+            (action)="resetFilters()">
+          </state-handler-component>
+        </div>
+      } 
+      @else {
+        <cast-list-component
+          [actors]="filteredCast"
+          [totalRecords]="totalCount"
+          [rows]="pageSize"
+          [first]="pageIndex * pageSize"
+          [pagingOptions]="[10, 20, 30]"
+          (onPageChange)="handlePageChange($event)"
+          (onDelete)="deletePerson($event)"
+          (onUpdate)="updatePerson($event)"
+        ></cast-list-component>
+      }
+    </div>
+  }
+</div>

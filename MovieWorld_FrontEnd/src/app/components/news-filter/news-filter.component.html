@@ -1,0 +1,40 @@
+<div [formGroup]="filtersForm">
+    <h3 class="mb-4 text-color">{{ "Admin.NewsPage.Filters.Title" | translate }}</h3>
+    
+    <div class="filter-row">
+        <mat-form-field appearance="outline" class="search-field w-50">
+            <mat-label class="text-color">{{ "Admin.NewsPage.Filters.SearchLabel" | translate }}</mat-label>
+            <input class="text-color" matInput formControlName="query" [placeholder]="'Admin.NewsPage.Filters.Placeholder' | translate">
+            <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="select-field">
+            <mat-label class="text-color">{{ "Admin.NewsPage.Filters.Year" | translate }}</mat-label>
+            <mat-select class="text-color" formControlName="year">
+                <mat-option value="">{{ "Admin.NewsPage.Filters.All" | translate }}</mat-option>
+                @for (year of getYearsForFilters(); track year) {
+                    <mat-option [value]="year">{{ year }}</mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+    <div class="filter-row">
+        <mat-form-field appearance="outline" class="search-field">
+            <mat-label class="text-color">{{ "Admin.NewsPage.Filters.ActorLabel" | translate }}</mat-label>
+            <input class="text-color" matInput formControlName="actorQuery" [placeholder]="'Admin.NewsPage.Filters.ActorPlaceholder' | translate">
+            <mat-icon matSuffix>person</mat-icon>
+        </mat-form-field>
+
+         <mat-form-field appearance="outline" class="search-field">
+            <mat-label class="text-color">{{ "Admin.NewsPage.Filters.MovieLabel" | translate }}</mat-label>
+            <input class="text-color" matInput formControlName="movieQuery" [placeholder]="'Admin.NewsPage.Filters.MoviePlaceholder' | translate">
+            <mat-icon matSuffix>movie</mat-icon>
+        </mat-form-field>
+    </div>
+
+    <button mat-flat-button color="warn" class="reset-button" (click)="onResetClick()">
+        <mat-icon>restart_alt</mat-icon>
+        {{ "Admin.NewsPage.Filters.Reset" | translate }}
+    </button>
+</div>

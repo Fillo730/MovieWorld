@@ -1,0 +1,83 @@
+<h2 mat-dialog-title class="text-color">{{ data.title }}</h2>
+
+<mat-dialog-content class="d-flex flex-column p-3">
+    <div class="row">
+        <mat-form-field appearance="outline" class="col-12 col-md-12 text-color">
+            <mat-label class="text-color">{{ 'Admin.NewsPage.NewsDialog.TitleLabel' | translate }}</mat-label>
+            <input matInput [(ngModel)]="newsUpdate.title" [placeholder]="'Admin.NewsPage.NewsDialog.TitlePlaceholder' | translate" class="text-color">
+        </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="outline" class="w-100 text-color">
+        <mat-label class="text-color">{{ 'Admin.NewsPage.NewsDialog.ContentLabel' | translate }}</mat-label>
+        <textarea matInput rows="4" [(ngModel)]="newsUpdate.text" class="text-color"></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-100 text-color">
+        <mat-label class="text-color">{{ 'Admin.NewsPage.NewsDialog.MoviesLabel' | translate }}</mat-label>
+        <mat-chip-grid #chipGridMovies>
+            @for (m of newsUpdate.relatedMovies; track m.movieId) {
+                <mat-chip-row (removed)="removeMovie(m.movieId)">
+                    {{ m.title }}
+                    <button matChipRemove><mat-icon>cancel</mat-icon></button>
+                </mat-chip-row>
+            }
+        </mat-chip-grid>
+        <input matInput 
+               [formControl]="movieSearch" 
+               [matAutocomplete]="autoMovie" 
+               [matChipInputFor]="chipGridMovies"
+               class="text-color">
+        <mat-icon matSuffix *ngIf="isLoading" class="spinning">sync</mat-icon>
+        <mat-autocomplete #autoMovie="matAutocomplete" (optionSelected)="addMovie($event.option.value)">
+            @for (movie of moviesQuered; track movie.movieId) {
+                <mat-option [value]="movie" class="text-color">{{ movie.title }}</mat-option>
+            }
+        </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-100 text-color mt-2">
+        <mat-label class="text-color">{{ 'Admin.NewsPage.NewsDialog.ActorsLabel' | translate }}</mat-label>
+        <mat-chip-grid #chipGridActors>
+            @for (a of newsUpdate.relatedActors; track a.personId) {
+                <mat-chip-row (removed)="removeActor(a.personId)">
+                    {{ a.fullName }}
+                    <button matChipRemove><mat-icon>cancel</mat-icon></button>
+                </mat-chip-row>
+            }
+        </mat-chip-grid>
+        <input matInput 
+               [formControl]="actorSearch" 
+               [matAutocomplete]="autoActor" 
+               [matChipInputFor]="chipGridActors"
+               class="text-color">
+        <mat-autocomplete #autoActor="matAutocomplete" (optionSelected)="addActor($event.option.value)">
+            @for (actor of actorsQuered; track actor.personId) {
+                <mat-option [value]="actor" class="text-color">{{ actor.fullName }}</mat-option>
+            }
+        </mat-autocomplete>
+    </mat-form-field>
+
+    <div class="row align-items-center mt-2">
+        <div class="col-8">
+            <mat-form-field appearance="outline" class="w-100 text-color">
+                <mat-label class="text-color">{{ 'Admin.NewsPage.NewsDialog.ImageLabel' | translate }}</mat-label>
+                <input matInput [(ngModel)]="newsUpdate.imagePath" class="text-color">
+            </mat-form-field>
+        </div>
+        <div class="col-4 d-flex justify-content-center">
+            <img [src]="newsUpdate.imagePath" 
+                 (error)="$any($event.target).src= getDefaultImage()" 
+                 style="max-height: 80px; border-radius: 4px; border: 1px solid #ccc;">
+        </div>
+    </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button (click)="dialogRef.close()" class="text-color">
+        {{ data.cancelButtonLabel }}
+    </button>
+    <button mat-flat-button color="primary" (click)="onSave()" [disabled]="!newsUpdate.title">
+        {{ data.successButtonLabel }}
+    </button>
+</mat-dialog-actions>

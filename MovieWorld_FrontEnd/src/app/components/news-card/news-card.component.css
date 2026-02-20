@@ -1,0 +1,35 @@
+.news-card {
+    padding: 1rem;
+    border-radius: 12px;
+    gap: 1.2rem;
+    max-width: 450px;
+}
+
+.display {
+    display: flex;
+    flex-direction: row;
+}
+
+.news-image {
+    width: 150px;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 8px;
+    flex-shrink: 0;
+}
+
+@media (max-width: 576px) {
+    .display {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 250px;
+    }
+
+    .display-info {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+}

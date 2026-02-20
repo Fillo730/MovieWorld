@@ -1,0 +1,22 @@
+.admin-container {
+  min-height: 100vh;
+}
+
+.admin-sidenav {
+  width: 250px;
+  position: fixed;
+}
+
+.admin-content {
+  padding: 20px;
+}
+
+.border-top {
+  border-top: 1px solid rgba(128, 128, 128, 0.2);
+}
+
+@media (max-width: 768px) {
+  .admin-sidenav {
+    display: none !important;
+  }
+}

@@ -1,0 +1,29 @@
+<div class="display-vertical-center text-color">
+
+    <h1 class="mb-4">{{ mainTitle }}</h1>
+
+    <div class="display-horizontal-center gap-3 limit-width"> 
+        @for (news of newsList; track $index) {
+            <news-card-component
+                [news]="news"
+                [findMoreButtonLabel]="findMoreButtonNewsLabel"
+                [deleteButtonLabel]="'Admin.NewsPage.Buttons.Delete' | translate"
+                [modifyButtonLabel]="'Admin.NewsPage.Buttons.Edit' | translate"
+                (modalOpened)="handleOpenModal($event)">
+            </news-card-component>
+        }
+    </div>
+
+    @if (isPaginatorActive) {
+        <div class="mt-3">
+            <p-paginator 
+                (onPageChange)="handlePageChange($event)" 
+                [first]="first" 
+                [rows]="rows" 
+                [totalRecords]="totalRecords" 
+                [rowsPerPageOptions]="paginatorElements"
+                class="background-color-custom-ligher"
+            />
+        </div>
+    }
+</div>

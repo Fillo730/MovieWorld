@@ -1,0 +1,96 @@
+.order-card {
+  margin-bottom: 16px;
+  border-radius: 12px;
+  width: 420px;
+  height: 450px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+mat-card-content {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.user-avatar {
+  background-size: cover;
+  background-position: center;
+}
+
+.spacer { 
+  flex: 1 1 auto; 
+}
+
+.info-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px 0;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.movies-preview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 16px 0;
+}
+
+.thumb-container {
+  position: relative;
+}
+
+.movie-thumb {
+  width: 45px;
+  height: 65px;
+  object-fit: cover;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.qty-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: #ff4081;
+  color: white;
+  font-size: 10px;
+  padding: 2px 5px;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+.order-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+}
+
+.actions-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 8px 16px;
+  background-color: rgba(0,0,0,0.03);
+}
+
+.total-label { 
+  font-weight: 300; 
+  letter-spacing: 1px; 
+}
+
+.total-price { 
+  font-weight: bold; 
+  font-size: 1.2rem; 
+}
+
+.text-white { 
+  color: white !important; 
+}

@@ -1,0 +1,58 @@
+<div class="p-4 rounded filters-container background-color-custom-ligher text-color">
+    <h3 class="text-color mb-4">{{ filtersTitle }}</h3>
+
+    <div class="filter-row">
+        <mat-form-field appearance="outline" class="flex-2">
+            <mat-label>{{ nameTitle }}</mat-label>
+            <input matInput [placeholder]="namePlaceholder" [(ngModel)]="filters.name" (ngModelChange)="emitChange()" />
+            <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="flex-1">
+            <mat-label>{{ yearTitle }}</mat-label>
+            <input matInput type="number" [placeholder]="yearTitle" [(ngModel)]="filters.year" (ngModelChange)="emitChange()" />
+            <mat-icon matSuffix>calendar_today</mat-icon>
+        </mat-form-field>
+    </div>
+
+    <div class="filter-row">
+        @if(areGenresVisible) {
+            <mat-form-field appearance="outline" class="flex-1">
+                <mat-label>{{ genreTitle }}</mat-label>
+                <mat-select [(ngModel)]="filters.genre" (selectionChange)="onGenreChange()">
+                    <mat-option [value]="''">Tutti i generi</mat-option>
+                    @for (genre of genres; track genre.id) {
+                        <mat-option [value]="genre.name">{{ genre.name }}</mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+        }
+
+        <mat-form-field appearance="outline" class="flex-1">
+            <mat-label>{{ priceTitle }}</mat-label>
+            <input matInput type="number" [placeholder]="priceTitle" [(ngModel)]="filters.price" (ngModelChange)="emitChange()" />
+            <mat-icon matSuffix>payments</mat-icon>
+        </mat-form-field>
+    </div>
+
+    <div class="filter-row">
+        <mat-form-field appearance="outline" class="flex-1">
+            <mat-label>{{ directorTitle }}</mat-label>
+            <input matInput [placeholder]="directorPlaceholder" [(ngModel)]="filters.director" (ngModelChange)="emitChange()" />
+            <mat-icon matSuffix>movie_filter</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="flex-1">
+            <mat-label>{{ actorTitle }}</mat-label>
+            <input matInput [placeholder]="actorPlaceholder" [(ngModel)]="filters.actor" (ngModelChange)="emitChange()" />
+            <mat-icon matSuffix>person</mat-icon>
+        </mat-form-field>
+    </div>
+
+    <div class="d-flex justify-content-start mt-2">
+        <button mat-flat-button color="warn" class="reset-button" (click)="handleResetFilters()">
+            <mat-icon>restart_alt</mat-icon>
+            {{ resetLabel }}
+        </button>
+    </div>
+</div>

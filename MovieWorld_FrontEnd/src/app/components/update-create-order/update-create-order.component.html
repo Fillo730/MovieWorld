@@ -1,0 +1,87 @@
+<h2 mat-dialog-title>
+    <mat-icon color="primary">shopping_bag</mat-icon>
+    {{ data.title }}
+</h2>
+
+<mat-dialog-content>
+    <p *ngIf="data.text" [innerHTML]="data.text" class="description"></p>
+
+    <div class="form-container">
+        <mat-form-field appearance="outline" class="w-100">
+            <mat-label>{{ 'Admin.OrdersPage.OrderDialog.UserIdLabel' | translate }}</mat-label>
+            <input matInput [formControl]="userSearch" [matAutocomplete]="autoUser">
+            <mat-icon matSuffix *ngIf="!isLoading">search</mat-icon>
+            <mat-icon matSuffix *ngIf="isLoading" class="loading-spinner">sync</mat-icon>
+            <mat-autocomplete #autoUser="matAutocomplete" (optionSelected)="onUserSelected($event)" [displayWith]="displayUserFn">
+                @for (user of usersQuered; track user.userId) {
+                    <mat-option [value]="user">{{ user.name }} {{ user.surname }}</mat-option>
+                }
+            </mat-autocomplete>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-100">
+            <mat-label>{{ 'Admin.OrdersPage.OrderDialog.SellPointLabel' | translate }}</mat-label>
+            <input matInput [formControl]="sellPointSearch" [matAutocomplete]="autoSP">
+            <mat-icon matSuffix>store</mat-icon>
+            <mat-autocomplete #autoSP="matAutocomplete" (optionSelected)="onSellPointSelected($event)" [displayWith]="displaySellPointFn">
+                @for (point of sellPointsQuered; track point.id) {
+                    <mat-option [value]="point">{{ point.name }} ({{ point.city }})</mat-option>
+                }
+            </mat-autocomplete>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-100">
+            <mat-label>{{ 'Admin.OrdersPage.OrderDialog.MoviesLabel' | translate }}</mat-label>
+            <input matInput [formControl]="movieSearch" [matAutocomplete]="autoMovie">
+            <mat-icon matSuffix>add_shopping_cart</mat-icon>
+            <mat-autocomplete #autoMovie="matAutocomplete" (optionSelected)="onMovieSelected($event)" [displayWith]="displayMovieFn">
+                @for (movie of moviesQuered; track movie.movieId) {
+                    <mat-option [value]="movie">{{ movie.title }} - {{ movie.cost || movie.cost }}€</mat-option>
+                }
+            </mat-autocomplete>
+        </mat-form-field>
+
+        @if(orderUpdate.items.length > 0) {
+            <div class="items-list">
+            <div class="items-header">
+                <span>Articolo</span>
+                <span>Quantità</span>
+            </div>
+            @for (item of orderUpdate.items; track item.movie.movieId; let i = $index) {
+                <div class="item-row">
+                    <span class="movie-title">{{ item.movie.title }}</span>
+                    <div class="qty-actions">
+                        <input type="number" class="qty-input" [(ngModel)]="item.quantity" (change)="calculateTotal()" min="1">
+                        <button mat-icon-button color="warn" (click)="removeItem(i)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </div>
+                </div>
+            }
+        </div>
+        }
+
+        <div class="row-footer">
+            <mat-form-field appearance="outline">
+                <mat-label>{{ 'Admin.OrdersPage.OrderDialog.StatusLabel' | translate }}</mat-label>
+                <mat-select [(ngModel)]="orderUpdate.state" [compareWith]="compareStates">
+                    @for (state of states; track state.id) {
+                        <mat-option [value]="state">{{ state.name }}</mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="readonly-field">
+                <mat-label>{{ 'Admin.OrdersPage.OrderDialog.AmountLabel' | translate }}</mat-label>
+                <input matInput type="number" [(ngModel)]="orderUpdate.totalAmount" readonly>
+                <span matPrefix>€&nbsp;</span>
+                <mat-icon matSuffix>lock</mat-icon>
+            </mat-form-field>
+        </div>
+    </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button (click)="dialogRef.close()">{{ data.cancelButtonLabel }}</button>
+    <button mat-flat-button color="accent" (click)="onSave()">{{ data.successButtonLabel }}</button>
+</mat-dialog-actions>

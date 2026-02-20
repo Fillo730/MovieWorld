@@ -1,0 +1,31 @@
+<div class="display-vertical-center background-color-custom-ligher">
+  <div class="gap-5" [class.display]="showMoviesNotCentered" [class.display-horizontal-center]="!showMoviesNotCentered"> 
+    @for (movie of movies; track movie.movieId) {
+      <movie-card-component 
+        [movie]="movie"
+        [isLoading]="loadingMovieId === movie.movieId"
+        [isInTheCart]="isMovieInTheCart(movie)"
+        (toggleInTheCart)="toggleIsInTheCart($event)"
+        [discoverLabel]="discoverLabel"
+        [addLabel]="addLabel"
+        [removeLabel]="removeLabel"
+        [cartServicesVisible]="castServicesVisible"
+        [cartServicesDisabled]="cartServicesDisabled"
+        [modifyButtonLabel]="modifyButtonLabel"
+        [deleteButtonLabel]="deleteButtonLabel"
+        (deleteMovie)="handleDeleteMovie($event)"
+        (editMovie)="handleEditMovie($event)"
+        [quantity]="isMovieInTheCart(movie) ? findQuantityMovie(movie) : 1"
+      ></movie-card-component>
+    }
+  </div>
+
+  <p-paginator
+    (onPageChange)="handlePageChange($event)"
+    [first]="first"
+    [rows]="rows"
+    [totalRecords]="totalRecords" 
+    [rowsPerPageOptions]="[10,20,30]"
+    class="mt-4 background-color-custom-ligher"
+  />
+</div>

@@ -1,0 +1,33 @@
+<h2 mat-dialog-title>{{ data.title }}</h2>
+
+<mat-dialog-content class="d-flex flex-column align-items-center p-3">
+    @if (data.text) {
+        <div [innerHTML]="data.text" class="mb-3 text-center"></div>
+    }
+
+    <mat-form-field appearance="outline" class="w-100">
+        <mat-label>{{ "Admin.CastPage.CastDialog.FullName" | translate }}</mat-label>
+        <input matInput [(ngModel)]="castUpdate.fullName" name="fullName" required>
+        <mat-icon matSuffix>person</mat-icon>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-100">
+        <mat-label>{{ "Admin.CastPage.CastDialog.ImageUrl" | translate }}</mat-label>
+        <input matInput [(ngModel)]="castUpdate.imagePath" name="imagePath" [placeholder]="'Admin.CastPage.CastDialog.PlaceholderUrl' | translate">
+        <mat-icon matSuffix>image</mat-icon>
+    </mat-form-field>
+
+    <div class="image-preview mt-2">
+        <img [src]="castUpdate.imagePath || 'assets/images/default-avatar.png'" 
+             alt="Preview" 
+             style="max-height: 150px; border-radius: 8px;"
+             (error)="handleImageError($event)">
+    </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="center" class="pb-3">
+    <button mat-button (click)="onNoClick()">{{ data.cancelButtonLabel }}</button>
+    <button mat-flat-button color="warn" (click)="onUpdateClick()" [disabled]="!castUpdate.fullName">
+        {{ data.successButtonLabel }}
+    </button>
+</mat-dialog-actions>

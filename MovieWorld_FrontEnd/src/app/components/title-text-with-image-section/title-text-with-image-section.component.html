@@ -1,0 +1,13 @@
+<div class="display-vertical-center p-4 text-color">
+    <h1 class="text-center mb-3">{{title}}</h1>
+    
+    <div class="display-horizontal-center mt-3 gap-5">
+         <div class="display-vertical-center">
+            <p [innerHTML]="text" class="catalog-description"></p>
+            
+            <p-button [label]="buttonLabel" icon="pi pi-arrow-right" iconPos="right" [severity]="handleButtonThem()" 
+            size="large" (onClick)="handleGoToCatalog()"/>
+        </div>
+        <img class="home-image" src="https://i0.wp.com/rafflespress.com/wp-content/uploads/2017/12/tumblr_static_2012_movies_collage.jpg?fit=1366%2C768&ssl=1" alt="movie">
+    </div> 
+</div>

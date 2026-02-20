@@ -1,0 +1,13 @@
+<div class="news-card card-border-theme">
+    <div class="display">
+        <img [src]="news.imagePath" class="news-image" [alt]="news.title">
+
+        <div class="news-header-info p-3">
+            <h5 class="text-color m-0"><strong>{{ news.title }}</strong></h5>
+            <p class="news-text mt-2">{{ news.text }}</p>
+            <p-button [label]="findMoreButtonLabel" 
+                          [severity]="handleButtonTheme()" 
+                          (onClick)="handleOpenModal()"/>
+        </div>
+    </div>
+</div>

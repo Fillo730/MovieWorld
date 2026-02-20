@@ -1,0 +1,43 @@
+<div class="display-vertical-center mb-5 p-4">
+    <h1 class="mb-5">{{ mainTitle }}</h1>
+    <p class="text-center">
+        {{ text }}
+    </p>
+
+    @if (isLoading) {
+        <state-handler-component 
+            type="loading" 
+            [smallSection]="true"
+            message="SellPoints.Loading">
+        </state-handler-component>
+    } 
+    @else if (error) {
+        <state-handler-component 
+            type="error" 
+            [smallSection]="true"
+            title="SellPoints.ErrorTitle" 
+            message="SellPoints.ErrorMessage"
+            buttonLabel="SellPoints.RetryButton"
+            [buttonSeverity]="handleButtonTheme()"
+            (action)="findNearSellPoints()">
+        </state-handler-component>
+    } 
+    @else {
+        <p-button 
+            [label]="buttonLabel" 
+            [rounded]="true" 
+            [severity]="handleButtonTheme()" 
+            (onClick)="findNearSellPoints()"
+            class="mb-4" />
+
+        <div class="sell-points-container gap-5 d-flex flex-wrap justify-content-center">
+            @for (sellPoint of closest; track $index) {
+                <sell-point-card 
+                    [sellPoint]="sellPoint"
+                    [isDistanzaVisible]="true"
+                    [searchOnMapsLabel]="searchOnMapPointsLabel">
+                </sell-point-card>
+            }
+        </div>
+    }
+</div>

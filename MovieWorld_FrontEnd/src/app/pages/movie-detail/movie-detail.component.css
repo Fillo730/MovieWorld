@@ -1,0 +1,96 @@
+.movie-detail-container {
+  position: relative;
+  padding: 40px 20px;
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.background-image {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.8;
+  filter: blur(18px);
+  z-index: -2;
+}
+
+.background-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: -1;
+}
+
+.movie-grid {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  max-width: 1000px;
+}
+
+@media (min-width: 768px) {
+  .movie-grid {
+    grid-template-columns: 1fr 1.2fr;
+  }
+}
+
+.movie-poster-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.movie-poster {
+  width: 260px;
+  max-width: 90%;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+  border: 4px solid rgba(255,255,255,0.2);
+}
+
+.movie-info {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.movie-title {
+  font-size: 42px;
+  font-weight: bold;
+}
+
+.movie-genre {
+  opacity: 0.8;
+  font-size: 18px;
+}
+
+.movie-story {
+  line-height: 1.6;
+}
+
+.movie-price {
+  font-size: 26px;
+  font-weight: bold;
+}
+
+.movie-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.tabs-container {
+  padding: 30px 20px;
+}
+
+.people-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}

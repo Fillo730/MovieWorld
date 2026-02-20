@@ -1,0 +1,34 @@
+<div 
+  class="sell-card card-border-theme" 
+  [class.selected]="isSelected"
+  [class.cursor-pointer]="isSelectable"
+  (click)="isSelectable && handleClickSellPoint()"
+>
+  <div class="d-flex justify-content-between text-color">
+    <h3 class="sell-title">{{ sellPoint.name }}</h3>
+
+    @if (isDistanzaVisible) {
+      <p class="distance-badge">{{ sellPoint.distance | KmLabelPipe:'postfix' }}</p>
+    }
+  </div>
+
+  <div class="sell-info text-color">
+    <p class="sell-location">
+      <i class="bi bi-geo-alt-fill"></i>
+      {{ sellPoint.address }}, {{ sellPoint.city }} ({{ sellPoint.province }})
+    </p>
+
+    <p class="sell-description text-color">
+      {{ sellPoint.description }}
+    </p>
+  </div>
+
+  <div class="sell-footer">
+    <p-button 
+      [label]="searchOnMapsLabel"
+      icon="pi pi-search" 
+      [severity]="handleButtonTheme()" 
+      (onClick)="handleGoToMaps()"
+    />
+  </div>
+</div>

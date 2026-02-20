@@ -1,0 +1,99 @@
+<h2 mat-dialog-title class="text-color">{{ data.title }}</h2>
+
+<mat-dialog-content class="d-flex flex-column p-3">
+    <div class="row">
+        <mat-form-field appearance="outline" class="col-12 col-md-6 text-color">
+            <mat-label class="text-color">{{ "Admin.MoviesPage.MovieDialog.Title" | translate }}</mat-label>
+            <input matInput [(ngModel)]="movie.title" class="text-color">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="col-12 col-md-6 text-color">
+            <mat-label class="text-color">{{ "Admin.MoviesPage.MovieDialog.Genre" | translate }}</mat-label>
+            <mat-select [(ngModel)]="selectedGenreIds" multiple (selectionChange)="onGenreChange()">
+                @for (genre of genres; track genre.id) {
+                    <mat-option [value]="genre.id">{{ genre.name }}</mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="col-12 col-md-6 text-color">
+            <mat-label class="text-color">{{ "Admin.MoviesPage.MovieDialog.Format" | translate }}</mat-label>
+            <mat-select [(ngModel)]="movie.format.id">
+                @for (format of formats; track format.id) {
+                    <mat-option [value]="format.id">{{ format.name }}</mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="outline" class="w-100 text-color">
+        <mat-label class="text-color">{{ "Admin.MoviesPage.MovieDialog.Director" | translate }}</mat-label>
+        <input matInput [formControl]="directorSearchCtrl" [matAutocomplete]="autoDir" class="text-color">
+        <mat-icon matSuffix class="text-color">search</mat-icon>
+        <mat-autocomplete #autoDir="matAutocomplete" (optionSelected)="onDirectorSelected($event)" [displayWith]="displayFn">
+            @for (dir of filteredDirectors; track dir.personId) {
+                <mat-option [value]="dir" class="text-color">{{ dir.fullName }}</mat-option>
+            }
+        </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-100 text-color">
+        <mat-label class="text-color">{{ "Admin.MoviesPage.MovieDialog.Cast" | translate }}</mat-label>
+        <mat-chip-grid #chipGrid>
+            @for (actor of movie.actors; track actor.personId) {
+                <mat-chip-row (removed)="removeActor(actor.personId)">
+                    {{ actor.fullName }}
+                    <button matChipRemove><mat-icon>cancel</mat-icon></button>
+                </mat-chip-row>
+            }
+        </mat-chip-grid>
+        <input matInput [formControl]="actorSearchCtrl" 
+               [matAutocomplete]="autoActor" 
+               [matChipInputFor]="chipGrid"
+               class="text-color">
+        <mat-autocomplete #autoActor="matAutocomplete" (optionSelected)="onActorSelected($event)">
+            @for (actor of filteredActors; track actor.personId) {
+                <mat-option [value]="actor" class="text-color">{{ actor.fullName }}</mat-option>
+            }
+        </mat-autocomplete>
+    </mat-form-field>
+
+    <div class="row">
+        <mat-form-field appearance="outline" class="col-12 col-md-6 text-color">
+            <mat-label class="text-color">{{ "Admin.MoviesPage.MovieDialog.Year" | translate }}</mat-label>
+            <input matInput type="number" [(ngModel)]="movie.year" class="text-color">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col-12 col-md-6 text-color">
+            <mat-label class="text-color">{{ "Admin.MoviesPage.MovieDialog.Price" | translate }}</mat-label>
+            <input matInput type="number" [(ngModel)]="movie.cost" class="text-color">
+        </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="outline" class="w-100 text-color">
+        <mat-label class="text-color">{{ "Admin.MoviesPage.MovieDialog.Story" | translate }}</mat-label>
+        <textarea matInput [(ngModel)]="movie.story" rows="3" class="text-color"></textarea>
+    </mat-form-field>
+
+    <div class="row align-items-center mb-3">
+        <div class="col-8">
+            <mat-form-field appearance="outline" class="w-100 text-color">
+                <mat-label class="text-color">{{ "Admin.MoviesPage.MovieDialog.ImageUrl" | translate }}</mat-label>
+                <input matInput [(ngModel)]="movie.imagePath" class="text-color">
+            </mat-form-field>
+        </div>
+        <div class="col-4">
+            <mat-checkbox [(ngModel)]="movie.isCult" color="primary" class="text-color">
+                {{ "Admin.MoviesPage.MovieDialog.IsCult" | translate }}
+            </mat-checkbox>
+        </div>
+    </div>
+
+    <div class="image-preview d-flex justify-content-center">
+        <img [src]="movie.imagePath" (error)="handleImageError($event)" style="max-height: 120px; border-radius: 8px;">
+    </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="center">
+    <button mat-button (click)="onNoClick()" class="text-color">{{ data.cancelButtonLabel }}</button>
+    <button mat-flat-button color="primary" (click)="onSaveClick()">{{ data.successButtonLabel }}</button>
+</mat-dialog-actions>

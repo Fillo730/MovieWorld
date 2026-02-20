@@ -1,0 +1,61 @@
+<div class="admin-container">
+  <div class="header-actions">
+    @if (!error && !(isLoading && users.length === 0)) {
+      <users-filter-component 
+          [filters]="currentFilters" 
+          (filterChanged)="onFilterChanged($event)"
+          (filterReset)="resetFilters()">
+      </users-filter-component>
+
+      <div class="stats-chips">
+        <mat-chip-set>
+          <mat-chip>{{ 'Admin.UsersPage.Stats.Total' | translate }}: {{ totalUsers }}</mat-chip>
+          <mat-chip color="primary">{{ 'Admin.UsersPage.Stats.Admin' | translate }}: {{ adminCount }}</mat-chip>
+          <mat-chip>{{ 'Admin.UsersPage.Stats.Standard' | translate }}: {{ standardCount }}</mat-chip>
+        </mat-chip-set>
+      </div>
+
+      <button mat-fab color="primary" class="fab-add" (click)="addUser()">
+        <mat-icon>add</mat-icon>
+      </button>
+    }
+  </div>
+
+  @if (isLoading && users.length === 0) {
+    <state-handler-component type="loading" message="Admin.UsersPage.Loading"></state-handler-component>
+  }
+  @else if (error) {
+    <state-handler-component 
+      type="error" 
+      title="Admin.UsersPage.ErrorTitle" 
+      message="Admin.UsersPage.ErrorMessage"
+      buttonLabel="Admin.UsersPage.RetryButton"
+      (action)="loadUsers()">
+    </state-handler-component>
+  }
+  @else {
+    <div class="grow">
+      @if (users.length === 0) {
+        <state-handler-component 
+          type="empty"
+          title="Admin.UsersPage.Empty.Title"
+          message="Admin.UsersPage.Empty.Subtitle"
+          buttonLabel="Admin.UsersPage.Empty.Button"
+          (action)="resetFilters()">
+        </state-handler-component>
+      } 
+      @else {
+        <users-list-component 
+          [users]="users"
+          [totalRecords]="totalCount"
+          [rows]="pageSize"
+          [first]="pageIndex * pageSize"
+          (onPageChange)="handlePageChange($event)"
+          (onDeleteUser)="deleteUser($event)"
+          (onUpdateUser)="updateUser($event)"
+          (onReset)="resetFilters()">
+        </users-list-component>
+      }
+    </div>
+  }
+</div>

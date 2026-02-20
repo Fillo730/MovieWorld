@@ -1,0 +1,15 @@
+<div class="orders-list gap-4">
+    @for (order of orders; track $index) {
+        <order-card-component [order]="order" (onDeleteOrder)="handleDeleteOrder($event)"
+        (onEditOrder)="handleEditOrder($event)"></order-card-component>
+    }
+</div>
+
+<p-paginator
+    (onPageChange)="handlePageChange($event)"
+    [first]="first"
+    [rows]="rows"
+    [totalRecords]="totalRecords"
+    [rowsPerPageOptions]="pagingOptions"
+    class="mt-4 background-color-custom-ligher"
+  />

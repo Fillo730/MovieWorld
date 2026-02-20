@@ -1,0 +1,55 @@
+<div class="d-flex flex-column justify-content-center align-items-center occupy-all-screen login-background p-3">
+  <div class="login-card">
+    <h1 class="text-4xl text-white mb-4">
+      <strong>{{ 'Login.Title' | translate }}</strong>
+    </h1>
+
+    <p class="text-white" [innerHTML]="'Login.Text' | translate"></p>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="d-flex flex-column justify-content-center align-items-center gap-4">
+      
+      <div class="flex flex-col">
+        <input pInputText type="email" [placeholder]="'Login.EmailPlaceholder' | translate" formControlName="email" [invalid]="isInvalid('email')" class="p-inputtext-lg" />
+        @if (isInvalid('email')) {
+          @if (loginForm.get('email')?.errors?.['required']) {
+            <p-message severity="error" size="small" [text]="'Login.Errors.EmailRequired' | translate"></p-message>
+          }
+          @if (loginForm.get('email')?.errors?.['emailInvalid']) {
+            <p-message severity="error" size="small" [text]="'Login.Errors.EmailInvalid' | translate"></p-message>
+          }
+        }
+      </div>
+
+      <div class="flex flex-col">
+        <input pInputText type="password" [placeholder]="'Login.PasswordPlaceholder' | translate" formControlName="password" [invalid]="isInvalid('password')" class="p-inputtext-lg" />
+        @if (isInvalid('password')) {
+          @if (loginForm.get('password')?.errors?.['required']) {
+            <p-message severity="error" size="small" [text]="'Login.Errors.PasswordRequired' | translate"></p-message>
+          }
+          @if (loginForm.get('password')?.errors?.['passwordInvalid']) {
+            <p-message severity="error" size="small" [text]="'Login.Errors.PasswordInvalid' | translate"></p-message>
+          }
+        }
+      </div>
+
+      @if(areCredentialsInvalid) {
+        <p-message severity="error" size="small" [text]="'Login.Errors.NotValidCredentials' | translate"></p-message>
+      }
+
+      <div class="display-horizontal-center gap-5 mt-4">
+        <button pButton type="button" severity="success" (click)="handleGoBack()" class="p-button-lg">
+          <span pButtonLabel>{{ 'Login.GoBackButtonText' | translate }}</span>
+        </button>
+
+        <button pButton severity="success" type="submit" [loading]="isLoading" class="p-button-lg">
+          <span pButtonLabel>{{ 'Login.GoToLoginButtonText' | translate }}</span>
+        </button>
+      </div>
+
+      <button pButton type="button" severity="secondary" (click)="handleGoSignUp()" class="p-button-lg">
+        <span pButtonLabel>{{ 'Login.GoToSignUpButtonText' | translate }}</span>
+      </button>
+
+    </form>
+  </div>
+</div>

@@ -1,0 +1,48 @@
+<h2 mat-dialog-title>{{ data.title }}</h2>
+
+<mat-dialog-content class="d-flex flex-column align-items-center">
+    <div [innerHTML]="data.text" class="mb-3 text-center"></div>
+
+    <mat-form-field appearance="outline">
+        <mat-label>{{ "Admin.UsersPage.Dialog.Labels.Name" | translate }}</mat-label>
+        <input matInput [(ngModel)]="userUpdate.name">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label>{{ "Admin.UsersPage.Dialog.Labels.Surname" | translate }}</mat-label>
+        <input matInput [(ngModel)]="userUpdate.surname">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label>{{ "Admin.UsersPage.Dialog.Labels.Email" | translate }}</mat-label>
+        <input matInput [(ngModel)]="userUpdate.email">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label>{{ "Admin.UsersPage.Dialog.Labels.Role" | translate }}</mat-label>
+        <mat-select [(ngModel)]="userUpdate.role">
+            <mat-option [value]="1">
+                {{ "Admin.UsersPage.Table.RoleAdmin" | translate }}
+            </mat-option>
+            <mat-option [value]="0">
+                {{ "Admin.UsersPage.Table.RoleUser" | translate }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label>{{ "Admin.UsersPage.Dialog.Labels.ImageUrl" | translate }}</mat-label>
+        <input matInput [(ngModel)]="userUpdate.imagePath" placeholder="https://esempio.com/foto.jpg">
+        <mat-icon matSuffix>image</mat-icon>
+    </mat-form-field>
+
+    <div class="image-preview">
+        <img [src]="userUpdate.imagePath || 'assets/default-avatar.png'" alt="Preview" 
+            (error)="handleImageError($event)">
+    </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="center"> 
+    <button mat-button (click)="onNoClick()">{{ data.cancelButtonLabel }}</button>
+    <button mat-flat-button color="primary" (click)="onUpdateClick()">{{ data.successButtonLabel }}</button>
+</mat-dialog-actions>

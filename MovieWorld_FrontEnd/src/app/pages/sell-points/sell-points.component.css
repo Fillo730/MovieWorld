@@ -1,0 +1,47 @@
+.header-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    min-height: 80px;
+}
+
+.buttons-container {
+    position: absolute;
+    left: 20px;
+    z-index: 1;
+    display: flex;
+}
+
+h1 {
+    width: 100%;
+    text-align: center;
+    margin: 0;
+    font-size: 1.8rem;
+}
+
+.sell-points-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    min-height: 70vh;
+    width: 100%;
+}
+
+@media (max-width: 1400px) {
+    .header-row {
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .buttons-container {
+        position: static;
+        padding: 32px;
+    }
+
+    .sell-points-container {
+        flex-direction: column;
+        align-items: center;
+    }
+}

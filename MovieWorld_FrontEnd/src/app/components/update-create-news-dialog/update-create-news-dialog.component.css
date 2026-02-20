@@ -1,0 +1,27 @@
+.form-container {
+    display: flex;
+    flex-direction: column;
+    padding-top: 8px;
+}
+
+.w-100 { width: 100%; }
+.mt-3 { margin-top: 16px; }
+
+.chips-list {
+    margin-top: 4px;
+    margin-bottom: 12px;
+}
+
+mat-dialog-content {
+    min-width: 550px;
+    max-height: 75vh;
+}
+
+.spinning {
+    animation: rotate 2s linear infinite;
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}

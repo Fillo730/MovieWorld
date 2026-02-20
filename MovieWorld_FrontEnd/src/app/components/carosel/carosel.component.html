@@ -1,0 +1,17 @@
+<div class="wrapper">
+    <p-carousel 
+    [value]="images" 
+    [numVisible]="4" 
+    [numScroll]="1" 
+    [autoplayInterval]="4000"
+    [responsiveOptions]="responsiveOptions"
+    [circular]="true"
+>
+    <ng-template let-image #item>
+        <div class="p-3">
+            <img [src]="image" class="carousel-image" />
+        </div>
+    </ng-template>
+    </p-carousel>
+
+</div>

@@ -1,0 +1,69 @@
+<div class="admin-container">
+  <div class="header-actions">
+    @if (!hasError && !(isLoading && orders.length === 0)) {
+      <order-filter-component
+          [filters]="filters"
+          [orderStates]="orderStates"
+          (filtersChanged)="handleFiltersChange($event)"
+          (resetFilters)="handleFiltersReset()">
+      </order-filter-component>
+
+      <div class="stats-chips mb-4">
+        <mat-chip-set>
+          <mat-chip class="text-color">
+            {{ "Admin.OrdersPage.Stats.TotalOrders" | translate }}: {{ ordersCount }}
+          </mat-chip>
+          
+          <mat-chip color="primary" class="text-color">
+            {{ "Admin.OrdersPage.Stats.CompletedOrders" | translate }}: {{ ordersCompletedCount }}
+          </mat-chip>
+        </mat-chip-set>
+      </div>
+      <button mat-fab color="accent" class="fab-add" (click)="addOrder()">
+        <mat-icon>add</mat-icon>
+      </button>
+    }
+  </div>
+
+  @if (isLoading && orders.length === 0) {
+    <state-handler-component 
+      type="loading" 
+      message="YourOrders.Loading">
+    </state-handler-component>
+  }
+  @else if (hasError) {
+    <state-handler-component 
+      type="error" 
+      title="Admin.OrdersPage.ErrorTitle" 
+      message="Admin.OrdersPage.ErrorMessage"
+      buttonLabel="YourOrders.RetryButton"
+      (action)="handleRetry()">
+    </state-handler-component>
+  }
+  @else {
+    <div class="grow">
+      @if (orders.length === 0) {
+        <div class="d-flex align-items-center justify-content-center py-5">
+          <state-handler-component 
+            type="empty"
+            title="Admin.OrdersPage.Messages.NoOrdersTitle"
+            message="Admin.OrdersPage.Messages.NoOrdersMessage"
+            buttonLabel="Admin.OrdersPage.Messages.ResetFilters"
+            (action)="handleFiltersReset()">
+          </state-handler-component>
+        </div>
+      } 
+      @else {
+        <order-list-component 
+          [orders]="orders"
+          [totalRecords]="totalRecords"
+          [first]="first"
+          [rows]="rows"
+          (onPageChange)="handlePageChange($event)"
+          (onEditOrder)="updateOrder($event)"
+          (onDeleteOrder)="deleteOrder($event)">
+        </order-list-component>
+      }
+    </div>
+  }
+</div>

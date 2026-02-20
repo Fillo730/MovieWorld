@@ -1,0 +1,76 @@
+<div class="movie-detail-container">
+  
+  <div class="background-image" [style.background-image]="'url(' + movie.imagePath + ')'"></div>
+  <div class="background-overlay"></div>
+
+  <div class="movie-grid">
+    
+    <div class="movie-poster-wrapper">
+      <img [src]="movie.imagePath" [alt]="movie.title" class="movie-poster">
+    </div>
+
+    <div class="movie-info">
+      <p-button 
+        [label]="watchTrailerLabel"
+        icon="pi pi-play"
+        severity="danger"
+        class="btn-trailer"
+        (onClick)="handleOpenYoutubeTrailer()"
+      />
+
+      <h1 class="movie-title">{{ movie.title }}</h1>
+      <div class="movie-genre">
+        @for (genre of movie.genres; track $index; let last = $last) {
+          {{ genre.name }} {{ last ? '' : ',' }}
+        }
+    </div>
+      <p class="movie-story">{{ movie.story }}</p>
+      <div class="movie-price">{{ movie.cost | currency:'EUR':'symbol' }}</div>
+
+      <div class="movie-actions">
+        @if (!isInTheCart()) {
+          <p-button 
+            class="button"
+            [label]="addCartLabel"
+            [disabled]="areCartServicesDisabled || isLoading || internalLoading || !isLoggedIn()"
+            [loading]="isLoading || internalLoading"
+            severity="success"
+            (onClick)="handleAddCart()"
+          />
+        }
+        @else {
+          <p-button 
+            class="button"
+            [label]="removeCartLabel"
+            [disabled]="areCartServicesDisabled || isLoading || internalLoading || !isLoggedIn()"
+            [loading]="isLoading || internalLoading"
+            severity="danger" 
+            (onClick)="handleRemoveCart()"
+          />
+        }
+
+        <p-inputNumber
+          [(ngModel)]="internalQuantity"
+          [disabled]="isInTheCart() || areCartServicesDisabled || isLoading || internalLoading || !isLoggedIn()"
+          [min]="1"
+          [max]="10"
+          (ngModelChange)="handleQuantityMovieChanged($event)"
+          [showButtons]="true"
+          buttonLayout="vertical"
+          spinnerMode="vertical"
+          inputId="quantity-selector"
+          styleClass="quantity-input"
+          [inputStyle]="{ width: '3rem' }"
+        ></p-inputNumber>
+      </div>
+
+      <p-button 
+        [label]="goBackLabel"
+        severity="secondary"
+        icon="pi pi-arrow-left"
+        (onClick)="handleGoToCatalog()"
+      />
+    </div>
+
+  </div>
+</div>

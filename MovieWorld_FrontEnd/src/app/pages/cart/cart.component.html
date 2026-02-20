@@ -1,0 +1,99 @@
+<header-component></header-component>
+
+<div class="cart-container background-color-custom-ligher text-color">
+  
+  @if (isLoading) {
+    <div class="p-5">
+      <state-handler-component type="loading" message="Cart.Loading"></state-handler-component>
+    </div>
+  } 
+  @else if (error) {
+    <div class="p-5">
+      <state-handler-component 
+        type="error" 
+        title="Cart.ErrorTitle" 
+        message="Cart.ErrorMessage"
+        buttonLabel="Cart.RetryButton"
+        [buttonSeverity]="handleButtonTheme()"
+        (action)="initCart()">
+      </state-handler-component>
+    </div>
+  } 
+  @else {
+    <h1 class="p-4">{{ 'Cart.MainTitleWithGreetings' | translate: {value: getUserName()} }}</h1>
+
+    <div class="list-group mb-4 cart-list">
+      @for (cartItem of moviesInTheCart; track cartItem.movie.movieId) {
+        <cart-item-component 
+          [movie]="cartItem.movie" 
+          [quantity]="cartItem.quantity"
+          [quantityLabel]="'Cart.QuantytyLabel' | translate"
+          [removeButtonLabel]="'Cart.RemoveButtonText' | translate" 
+          (onRemoveItem)="handleRemove(cartItem.movie)">
+        </cart-item-component> 
+      }
+    </div>
+
+    <div class="recap-container">
+      <p-button 
+        [label]="'Cart.ClearCartButtonText' | translate" 
+        [severity]="handleButtonTheme()" 
+        (onClick)="handleClearCart()"/>
+        
+      <h3 class="fw-bold m-0">
+        {{ 'Cart.TotalLabel' | translate }}: {{ total | currency:'EUR':'symbol' }}
+      </h3>
+    </div>
+
+    <div class="select-container background-color-custom-ligher p-3">
+      <div>
+        <h1 class="mb-2 mt-4">{{ 'Cart.SellPointsSectionTitle' | translate }}</h1>
+        <p class="m-0">{{ 'Cart.SellPointsSectionText' | translate }}</p>
+      </div>
+
+      <p-button 
+        [label]="'Cart.OrderByDistanceButtonText' | translate"
+        [loading]="distanceCalculationLoading"
+        [severity]="handleButtonTheme()"
+        (onClick)="handleOrderByDistance()"/>
+    </div>
+
+    <div class="cart-list">
+      @if (sellPoints.length === 0) {
+        <state-handler-component 
+          type="empty"
+          [title]="'Cart.NoSellPointsTitle' | translate"
+          [message]="'Cart.NoSellPointsMessage' | translate"
+          [buttonLabel]="'Cart.BackToCatalog' | translate"
+          (action)="goToCatalog()"
+          >
+        </state-handler-component>
+      } @else {
+        <sell-points-list-component 
+          [sellPoints]="sellPoints"
+          [first]="first"
+          [rows]="rows"
+          [totalRecords]="totalRecords"
+          [isPaginatorActive]="true"
+          [isSelectable]="true"
+          [isDistanceOnCardsVisible]="areSellPointsOrdered"
+          [paginatorElements]="[3,6]"
+          [searchOnMapsLabel]="'SellPoints.FindOnMapsButtonText' | translate"
+          (clickedSellPoint)="handleClickedSellPoint($event)"
+          (pageChanged)="onPageChange($event)">
+        </sell-points-list-component>
+      }
+    </div>
+    @if(sellPoints.length !== 0) {
+      <div class="d-flex justify-content-end mt-4 mb-4">
+          <p-button 
+            [label]="'Cart.CompleteOrderButtonText' | translate"
+            [severity]="handleButtonTheme()" 
+            [disabled]="!selectedSellPoint" 
+            (onClick)="handleCompleteOrder()"/>
+        </div>
+    }
+  }
+</div>
+
+<footer-component></footer-component>

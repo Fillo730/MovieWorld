@@ -1,0 +1,40 @@
+.admin-container {
+  padding: 24px;
+  position: relative;
+  min-height: 100vh;
+}
+
+.header-actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 32px;
+}
+
+.stats-chips {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.stats-chips mat-chip {
+  font-weight: bold;
+}
+
+.fab-add {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 1000;
+}
+
+@media (max-width: 768px) {
+  .admin-container {
+    padding: 12px;
+  }
+  
+  .stats-chips {
+    justify-content: center;
+  }
+}

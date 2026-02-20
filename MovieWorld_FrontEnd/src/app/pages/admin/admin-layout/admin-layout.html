@@ -1,0 +1,55 @@
+<mat-sidenav-container class="admin-container background-color-custom-ligher">
+  
+  <mat-sidenav mode="side" opened class="admin-sidenav background-color-custom d-none d-md-block">
+    <mat-nav-list class="admin-nav">
+      <a mat-list-item routerLink="dashboard">
+        <span class="text-color">{{ "Admin.Layout.DashboardLink" | translate }}</span>
+      </a>
+      <a mat-list-item routerLink="users">
+        <span class="text-color">{{ "Admin.Layout.UsersLink" | translate }}</span>
+      </a>
+      <a mat-list-item routerLink="movies">
+        <span class="text-color">{{ "Admin.Layout.Movies" | translate }}</span>
+      </a>
+      <a mat-list-item routerLink="cast">
+        <span class="text-color">{{ "Admin.Layout.Cast" | translate }}</span>
+      </a>
+      <a mat-list-item routerLink="news">
+        <span class="text-color">{{ "Admin.Layout.News" | translate }}</span>
+      </a>
+      <a mat-list-item routerLink="orders">
+        <span class="text-color">{{ "Admin.Layout.Orders" | translate }}</span>
+      </a>
+    </mat-nav-list>
+
+    <div class="d-flex flex-row align-items-center p-3 gap-3 border-top">
+      <language-selector></language-selector>
+      <theme-toggler></theme-toggler>
+    </div>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-toolbar class="d-md-none background-color-custom text-color shadow-sm">
+      <button mat-icon-button [matMenuTriggerFor]="mobileMenu">
+        <mat-icon>menu</mat-icon>
+      </button>
+
+      <mat-menu #mobileMenu="matMenu">
+        <button mat-menu-item routerLink="dashboard">{{ "Admin.Layout.DashboardLink" | translate }}</button>
+        <button mat-menu-item routerLink="users">{{ "Admin.Layout.UsersLink" | translate }}</button>
+        <button mat-menu-item routerLink="movies">{{ "Admin.Layout.Movies" | translate }}</button>
+        <button mat-menu-item routerLink="cast">{{ "Admin.Layout.Cast" | translate }}</button>
+        <button mat-menu-item routerLink="news">{{ "Admin.Layout.News" | translate }}</button>
+        <button mat-menu-item routerLink="orders">{{ "Admin.Layout.Orders" | translate }}</button>
+        <div class="p-2 d-flex flex-row align-items-center gap-2 border-top">
+           <language-selector></language-selector>
+           <theme-toggler></theme-toggler>
+        </div>
+      </mat-menu>
+    </mat-toolbar>
+
+    <div class="admin-content">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

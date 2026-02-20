@@ -1,0 +1,511 @@
+{
+  "Header": {
+    "Brand": "MovieWorld",
+    "HomeNavBar": "Home",
+    "CatalogNavBar": "Catalog",
+    "SellPointsNavBar": "Stores",
+    "YourOrder": "Your Orders"
+  },
+  "Footer": {
+    "HelpAndInfo": {
+      "Title": "Help and Info",
+      "Help": "Help",
+      "TrackOnline": "Track Online",
+      "Shipments": "Shipments",
+      "ReturnItem": "Return Item",
+      "DamagedItem": "Damaged Item"
+    },
+    "SellPoints": {
+      "Title": "Our Stores",
+      "FindValidPoint": "Find a store",
+      "BecomeAffiliate": "Become an affiliate"
+    },
+    "ContactUs": {
+      "Title": "Contact Us",
+      "GoToSupport": "Go to Support"
+    }
+  },
+  "YourOrders": {
+    "MainTitle": "Your Orders",
+    "Loading": "Loading orders...",
+    "ErrorTitle": "Oops! Something went wrong",
+    "ErrorMessage": "Unable to retrieve your order list. Please try again.",
+    "RetryButton": "Retry",
+    "NoOrdersTitle": "No orders yet",
+    "NoOrdersMessage": "It looks like you haven't made any purchases yet. Go check out our movie catalog!",
+    "StatusLabel": "Order Status",
+    "DateLabel": "Date",
+    "TotalLabel": "Total"
+  },
+  "MovieDetail": {
+    "WatchTrailer": "Watch trailer",
+    "GoBack": "Back to Catalog",
+    "AddToCart": "Add to Cart",
+    "RemoveFromCart": "Remove from cart",
+    "ErrorAddCart": "Unable to complete order",
+    "ToastAdd": "Movie successfully added to cart",
+    "ToastRemove": "Movie successfully removed from cart",
+    "Director": "Director",
+    "MainCast": "Main Cast",
+    "Recommended": "Movies you might like"
+  },
+  "Home": {
+    "MainTitle": "Cult Movies",
+    "EsploreCatalogTitle": "Explore our Catalog",
+    "GoToCatalogButtonText": "Go to Catalog",
+    "CatalogDescription": "In our catalog, you will find a wide selection of carefully chosen movies from recent years.<br/>A total of <span class=\"catalog-number\">{{total}}</span> titles are available for you to explore.",
+    "NewsSectionTitle": "Latest News",
+    "FindMoreButtonText": "Find out more",
+    "Loading": "Loading"
+  },
+  "Catalog": {
+    "MainTitle": "Catalog",
+    "FindMoreButtonText": "Find out more",
+    "AddToTheCart": "Add to Cart",
+    "RemoveFromTheCart": "Remove from cart",
+    "DownloadExcell": "Download excel file",
+    "ToastAddToCart": "Item successfully added to cart",
+    "ToastRemoveFromCart": "Item successfully removed from cart",
+    "FiltersTitle": "Search Filters",
+    "FilterNameTitle": "Name",
+    "FilterNamePlaceholder": "Search name",
+    "FiltersPriceTitle": "Price",
+    "FiltersGenreTitle": "Genre",
+    "FilterYearTitle": "Year",
+    "FilterDirectorTitle": "Director",
+    "FilterDirectorPlaceholder": "Search Director",
+    "FilterActorTitle": "Actor",
+    "FilterActorPlaceholder": "Search Actor",
+    "FiltersResetButton": "Clear",
+    "AllGenresLabel": "All genres",
+    "Loading": "Loading catalog...",
+    "ErrorTitle": "Oops! Something went wrong",
+    "ErrorMessage": "We couldn't load the movies. Check your connection or try again later.",
+    "RetryButton": "Retry",
+    "NoMoviesFound": "No movies found",
+    "NoMoviesFoundMessage": "There are no movies matching the selected filters."
+  },
+  "SellPoints": {
+    "SellPointsTitle": "Stores",
+    "FiltersTitle": "Search Filters",
+    "FilterCityTitle": "City",
+    "FiltersAllCitiesLabel": "All cities",
+    "FindOnMapsButtonText": "View on Google Maps",
+    "NearestSellPointTitle": "Find the nearest store",
+    "NearestSellPointText": "Enable location services to discover the store closest to your current position.",
+    "NearestSellPointButtonText": "Find nearest",
+    "NoPointsFound": "No stores found",
+    "NoPointsFoundMessage": "There are no stores matching the selected filters. Try changing the city or resetting the filters.",
+    "Loading": "Loading stores...",
+    "ErrorTitle": "Loading error",
+    "ErrorMessage": "Could not load stores. Please check your connection and try again.",
+    "RetryButton": "Retry",
+    "FiltersResetButton": "Reset Filters"
+  },
+  "Cart": {
+    "MainTitle": "Your Cart",
+    "RemoveButtonText": "Remove",
+    "ClearCartButtonText": "Empty Cart",
+    "SellPointsSectionTitle": "Stores",
+    "SellPointsSectionText": "Select a store to complete your order",
+    "OrderByDistanceButtonText": "Order by Distance",
+    "CompleteOrderButtonText": "Complete Order",
+    "TotalLabel": "Total",
+    "QuantytyLabel": "Quantity:",
+    "ToastItemRemoved": "Movie removed successfully",
+    "ToastCartEmpty": "Cart is empty",
+    "ToastOrderCompleted": "Order completed successfully",
+    "MainTitleWithGreetings": "Hi {{value}}, this is your cart",
+    "NoSellPointsTitle": "No stores available",
+    "NoSellPointsMessage": "Unable to find a valid store for your order. Please try again later.",
+    "BackToCatalog": "Back to Catalog",
+    "Loading": "Loading Cart"
+  },
+  "Login": {
+    "Title": "Login",
+    "Text": "Enter your account credentials <br/>email and password.",
+    "EmailPlaceholder": "Email",
+    "PasswordPlaceholder": "Password",
+    "GoBackButtonText": "Back",
+    "GoToLoginButtonText": "Login",
+    "GoToSignUpButtonText": "Go to Registration",
+    "LoginSuccess": "Login successful",
+    "LoginFailure": "Unable to login",
+    "Errors": {
+      "EmailRequired": "Email is required.",
+      "EmailInvalid": "Invalid email format.",
+      "PasswordRequired": "Password is required.",
+      "PasswordInvalid": "Password does not meet minimum requirements."
+    }
+  },
+  "SignUp": {
+    "Title": "Sign Up",
+    "Text": "Enter the required data to create a new account.",
+    "NamePlaceholder": "First Name",
+    "SurnamePlaceholder": "Last Name",
+    "EmailPlaceholder": "Email",
+    "PasswordPlaceholder": "Password",
+    "ConfirmPasswordPlaceholder": "Confirm Password",
+    "GoBackButtonText": "Back",
+    "GoToSignUpButtonText": "Register",
+    "GoToLoginButtonText": "Go to Login",
+    "SignupSuccess": "Registration successful",
+    "SignupError": "Registration failed",
+    "Errors": {
+      "NameRequired": "Name required.",
+      "NameInvalid": "Invalid name.",
+      "SurnameRequired": "Surname required.",
+      "SurnameInvalid": "Invalid surname.",
+      "EmailRequired": "Email required.",
+      "EmailInvalid": "Invalid email format.",
+      "PasswordRequired": "Password required.",
+      "PasswordInvalid": "Password not compliant.",
+      "ConfirmPasswordRequired": "Confirmation required.",
+      "PasswordMismatch": "Passwords do not match."
+    }
+  },
+  "Admin": {
+    "Layout": {
+      "DashboardLink": "Dashboard",
+      "UsersLink": "Users",
+      "SettingsLink": "Settings",
+      "Movies": "Movies",
+      "Cast": "Cast",
+      "News": "News",
+      "Orders": "Orders"
+    },
+    "Dashboard": {
+      "Sections": {
+        "UserManagement": "User Management",
+        "CastManagement": "Cast Management",
+        "MovieManagement": "Movie Management",
+        "NewsManagement": "News Management",
+        "OrdersManagment": "Order Management"
+      },
+      "Labels": {
+        "Admins": "Administrators",
+        "StandardUsers": "Standard Users",
+        "Actors": "Actors",
+        "Directors": "Directors",
+        "SubscriptionTrend": "Subscription Trend",
+        "MovieReleaseTrend": "Release Trend (Years)",
+        "GenresDistribution": "Distribution by Genre",
+        "YearDistribution": "Distribution by Year",
+        "Movie": "Total movies",
+        "CultMovie": "Total cult movies",
+        "News": "Total News",
+        "Order": "Total orders",
+        "OrderCompleted": "Total completed orders"
+      }
+    },
+    "MoviesPage": {
+      "Stats": {
+        "Total": "Total Movies",
+        "AveragePrice": "Average Price"
+      },
+      "Loading": "Loading movies...",
+      "ErrorTitle": "Loading error",
+      "ErrorMessage": "Unable to retrieve movies.",
+      "RetryButton": "Retry",
+      "Empty": {
+        "Title": "No movies found",
+        "Subtitle": "Try changing your search criteria.",
+        "Button": "Reset Filters"
+      },
+      "Filters": {
+        "Title": "Filter Movies",
+        "Name": "Title",
+        "NamePlaceholder": "Search by title...",
+        "Price": "Price",
+        "Genre": "Genre",
+        "Year": "Year",
+        "Director": "Director",
+        "DirectorPlaceholder": "Director name...",
+        "Actor": "Actor",
+        "ActorPlaceholder": "Actor name...",
+        "Reset": "Reset Filters"
+      },
+      "Buttons": {
+        "Edit": "Edit",
+        "Delete": "Delete",
+        "Add": "Add Movie",
+        "Update": "Update Movie",
+        "Cancel": "Cancel"
+      },
+      "Dialog": {
+        "AddTitle": "Add New Movie",
+        "EditTitle": "Edit Movie",
+        "DeleteTitle": "Delete Movie",
+        "DeleteConfirm": "Are you sure you want to delete the movie {{ name }}?",
+        "EditText": "Edit the details of the selected movie"
+      },
+      "MovieDialog": {
+        "Title": "Movie Title",
+        "Genre": "Genre",
+        "Year": "Release Year",
+        "Price": "Price (€)",
+        "Format": "Format",
+        "Director": "Director",
+        "Cast": "Cast / Actors",
+        "Story": "Plot",
+        "ImageUrl": "Cover Image URL",
+        "IsCult": "Cult Movie"
+      },
+      "Messages": {
+        "AddSuccess": "Movie '{{ title }}' added successfully!",
+        "UpdateSuccess": "Movie '{{ title }}' updated successfully!",
+        "DeleteSuccess": "Movie deleted correctly"
+      }
+    },
+    "CastPage": {
+      "Stats": {
+        "Total": "Total Cast",
+        "Actors": "Actors",
+        "Directors": "Directors"
+      },
+      "Empty": {
+        "Title": "No cast members found",
+        "Subtitle": "No results match the selected filters.",
+        "Button": "Show all cast"
+      },
+      "Dialog": {
+        "AddTitle": "Add to Cast",
+        "EditTitle": "Edit Person",
+        "DeleteTitle": "Remove from Cast",
+        "DeleteConfirm": "Are you sure you want to delete <strong>{{name}}</strong>?"
+      },
+      "Messages": {
+        "AddSuccess": "{{name}} added successfully!",
+        "UpdateSuccess": "{{name}} modified successfully!",
+        "ErrorUpdate": "Person update failed",
+        "AddError": "Adding person failed",
+        "ErrorDelete": "Person removal failed",
+        "DeleteSuccess": "Person removed successfully",
+        "FiltersReset": "Cast filters reset"
+      },
+      "Buttons": {
+        "Update": "Edit",
+        "Cancel": "Cancel",
+        "Delete": "Delete",
+        "Add": "Add",
+        "Save": "Save"
+      },
+      "Loading": "Loading cast...",
+      "ErrorTitle": "Ops! Loading error",
+      "ErrorMessage": "We couldn't retrieve cast members. Check your connection.",
+      "RetryButton": "Retry",
+      "CastDialog": {
+        "FullName": "Full Name",
+        "Role": "Role",
+        "ImageUrl": "Image URL",
+        "PlaceholderUrl": "https://example.com/photo.jpg",
+        "Actor": "Actor",
+        "Director": "Director"
+      },
+      "CastFilters": {
+        "Title": "Cast Filters",
+        "SearchName": "Search name",
+        "Role": "Role",
+        "AllRoles": "All roles",
+        "Actor": "Actor",
+        "Director": "Director",
+        "Reset": "Reset Filters"
+      },
+      "CastCard": {
+        "EditButtonLabel": "Edit",
+        "DeleteButtonLabel": "Delete"
+      }
+    },
+    "UsersPage": {
+      "Stats": {
+        "Total": "Total Users",
+        "Admin": "Administrators",
+        "Standard": "Standard Users"
+      },
+      "Loading": "Loading users...",
+      "ErrorTitle": "Loading error",
+      "ErrorMessage": "Unable to retrieve the user list. Please try again later.",
+      "RetryButton": "Retry",
+      "Filters": {
+        "Title": "User Filters",
+        "Placeholder": "Search name or email...",
+        "Year": "Year",
+        "Role": "Role",
+        "All": "All",
+        "Name": "Name and Email", 
+        "Reset": "Reset Filters"
+      },
+      "Dialog": {
+        "AddTitle": "Create New User",
+        "EditTitle": "Edit User",
+        "DeleteTitle": "Confirm Deletion",
+        "DeleteConfirm": "Are you sure you want to delete user <strong>{{name}}</strong>?<br/>This operation cannot be undone.",
+        "Labels": {
+          "Name": "Name",
+          "Surname": "Surname",
+          "Email": "Email",
+          "IsAdmin": "Administrator",
+          "Role": "User Role",
+          "ImageUrl": "Image URL"
+        }
+      },
+      "Messages": {
+        "AddSuccess": "User created successfully!",
+        "UpdateSuccess": "User updated successfully",
+        "DeleteSuccess": "User deleted successfully",
+        "FiltersReset": "Filters reset"
+      },
+      "Buttons": {
+        "Edit": "EDIT",
+        "Delete": "DELETE",
+        "Cancel": "CANCEL",
+        "Create": "CREATE",
+        "Reset": "Reset Filters"
+      },
+      "Empty": {
+        "Title": "No users found",
+        "Subtitle": "No users match the search criteria",
+        "Button": "Reset Filters",
+        "NoUsersFound": "No users found",
+        "TryReset": "Try resetting the filters"
+      },
+      "Table": {
+        "Id": "ID",
+        "Registered": "Registration",
+        "RoleAdmin": "Administrator",
+        "RoleUser": "Standard User"
+      }
+    },
+    "OrdersPage": {
+      "Stats": {
+        "TotalOrders": "Total Orders",
+        "CompletedOrders": "Delivered Orders",
+        "TotalRevenue": "Total Revenue",
+        "FilteredRevenue": "Filtered Revenue"
+      },
+      "Loading": "Loading orders...",
+      "ErrorTitle": "Ops! Loading error",
+      "ErrorMessage": "Could not load orders.",
+      "RetryButton": "Retry",
+      "Empty": {
+        "Title": "No orders found",
+        "Subtitle": "There are no orders matching the selected filters.",
+        "Button": "Reset Filters"
+      },
+      "Filters": {
+        "MainTitle": "Order Filters",
+        "Year": "Year",
+        "YearPlaceholder": "E.g.: 2024",
+        "State": "Order Status",
+        "MoviesNumber": "Number of Movies",
+        "PriceRange": "Price",
+        "Reset": "Reset Filters",
+        "All": "All",
+        "Pending": "Pending",
+        "Completed": "Completed",
+        "Shipped": "Shipped",
+        "Cancelled": "Cancelled"
+      },
+      "Buttons": {
+        "Create": "CREATE",
+        "Update": "UPDATE",
+        "Delete": "DELETE",
+        "Cancel": "CANCEL"
+      },
+      "Dialog": {
+        "AddTitle": "Create New Order",
+        "AddText": "Enter data to create an order manually.",
+        "EditTitle": "Edit Order",
+        "EditText": "Update order status or amount.",
+        "DeleteTitle": "Delete Order",
+        "DeleteConfirm": "Are you sure you want to delete order <strong>#{{id}}</strong>?"
+      },
+      "OrderDialog": {
+        "UserIdLabel": "User",
+        "SellPointLabel": "Store",
+        "MoviesLabel": "Ordered Movies",
+        "QuantityLabel": "Item",
+        "StatusLabel": "Transaction Status",
+        "AmountLabel": "Total Amount (€)",
+        "UserIdPlaceholder": "Enter user ID...",
+        "AmountPlaceholder": "0.00"
+      },
+      "Messages": {
+        "AddSuccess": "Order created successfully!",
+        "UpdateSuccess": "Order updated successfully!",
+        "DeleteSuccess": "Order deleted!",
+        "FiltersReset": "Order filters reset",
+        "ErrorLoading": "Unable to retrieve orders. Please try again later",
+        "ErrorTitle": "Ops! Something went wrong",
+        "NoOrdersTitle": "No orders found",
+        "NoOrdersMessage": "No order was found matching the search criteria",
+        "ResetFilters": "Reset filters"
+      },
+      "Table": {
+        "Id": "Order ID",
+        "Date": "Date",
+        "Status": "Status",
+        "Total": "Total",
+        "Actions": "Actions"
+      }
+    },
+    "NewsPage": {
+      "Stats": {
+        "Total": "Total News",
+        "Recent": "Recent News"
+      },
+      "Filters": {
+        "Title": "News Filters",
+        "SearchLabel": "Search in title",
+        "Placeholder": "Enter keyword...",
+        "MovieLabel": "Related Movie",
+        "MoviePlaceholder": "Search by movie title...",
+        "ActorLabel": "Related Actor",
+        "ActorPlaceholder": "Search by actor name...",
+        "Year": "Year",
+        "All": "All years",
+        "Reset": "Reset Filters"
+      },
+      "Dialog": {
+        "AddTitle": "Publish New Article",
+        "EditTitle": "Edit Article",
+        "DeleteTitle": "Delete Article",
+        "DeleteConfirm": "Are you sure you want to delete the news <strong>{{title}}</strong>?"
+      },
+      "NewsDialog": {
+        "TitleLabel": "News Title",
+        "TitlePlaceholder": "Enter title...",
+        "ImageLabel": "Image URL",
+        "ContentLabel": "News Content",
+        "MoviesLabel": "Related Movies",
+        "ActorsLabel": "Related Actors/Cast",
+        "Loading": "Searching..."
+      },
+      "Messages": {
+        "AddSuccess": "News published successfully!",
+        "UpdateSuccess": "News updated successfully!",
+        "DeleteSuccess": "News permanently removed",
+        "FiltersReset": "News filters reset",
+        "ErrorUpdate": "Update failed",
+        "AddError" : "The news addition operation failed",
+        "DeleteError": "News deletion failed"
+      },
+      "Buttons": {
+        "Create": "Publish",
+        "Edit": "Edit",
+        "Delete": "Delete",
+        "Cancel": "Cancel",
+        "Save": "Save"
+      },
+      "Loading": "Loading news...",
+      "ErrorTitle": "Error",
+      "ErrorMessage": "Unable to load news.",
+      "RetryButton": "Retry",
+      "Empty": {
+        "Title": "No news",
+        "Subtitle": "There is no news matching the criteria.",
+        "Button": "Show all"
+      }
+    }
+  }
+}

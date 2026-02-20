@@ -1,0 +1,237 @@
+@if (isLoading) {
+  <state-handler-component type="loading" message="Admin.Dashboard.Loading.LoadingMessage"></state-handler-component>
+}
+@else {
+  @if(errorLoading) {
+  <state-handler-component 
+    type="error" 
+    title="Admin.Dashboard.Loading.TitleError" 
+    message="Admin.Dashboard.Loading.MessageError"
+    buttonLabel="Admin.Dashboard.Loading.RetryButtonLabel"
+    (action)="loadData()">
+  </state-handler-component>
+} 
+@else {
+  <div class="dashboard-wrapper p-4">
+  
+  <section class="dashboard-section mb-5">
+    <h3 class="text-color section-title">{{ "Admin.Dashboard.Sections.UserManagement" | translate }}</h3>
+    <div class="cards-row mb-4">
+      <dashboard-card-component [label]="'Admin.UsersPage.Stats.Total' | translate" [value]="totalUsers"
+      icon="group" colorClass="blue"></dashboard-card-component>
+
+      <dashboard-card-component [label]="'Admin.UsersPage.Stats.Admin' | translate" [value]="adminCount"
+      icon="admin_panel_settings" colorClass="orange"></dashboard-card-component>
+
+      <dashboard-card-component [label]="'Admin.UsersPage.Stats.Standard' | translate" [value]="usersStandardCount"
+      icon="person" colorClass="green"></dashboard-card-component>
+
+      <dashboard-card-component [label]="'Admin.UsersPage.Stats.OrdersPerUser' | translate" [value]="ordersPerUserRatio"
+      icon="receipt_long" colorClass="purple"></dashboard-card-component>
+
+      <dashboard-card-component [label]="'Admin.UsersPage.Stats.InactiveUsers' | translate: {count: 6}" [value]="inactiveUsersCount"
+      icon="person_off" colorClass="purple"></dashboard-card-component>
+    </div>
+    <div class="charts-row mt-4">
+      <mat-card class="chart-container full-width card-border-theme background-color-custom-ligher">
+        <mat-card-content>
+          <canvas baseChart 
+            [data]="pieChartUsers" 
+            [options]="pieChartOptions" 
+            [type]="'pie'">
+          </canvas>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="charts-row mt-4">
+      <mat-card class="chart-container full-width card-border-theme background-color-custom-ligher">
+        <mat-card-content>
+          <canvas baseChart 
+            [data]="lineChartUsersMonth" 
+            [options]="barChartOptions" 
+            [type]="'line'">
+          </canvas>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="charts-row mt-4">
+      <mat-card class="chart-container full-width card-border-theme background-color-custom-ligher">
+        <mat-card-content>
+          <canvas baseChart 
+            [data]="lineChartUsersYears" 
+            [options]="barChartOptions" 
+            [type]="'line'">
+          </canvas>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    @if (usersTopSpending && usersTopSpending.length > 0) {
+      <div class="mt-4">
+        <mat-card class="background-color-custom p-0 overflow-hidden">
+          <mat-card-header class="p-3 border-bottom-theme">
+            <mat-card-title class="text-color fs-5">
+              🏆 {{ 'Admin.Dashboard.Labels.TopSpenders' | translate }}
+            </mat-card-title>
+          </mat-card-header>
+          
+          <mat-card-content>
+            <div class="table-responsive">
+              <table class="table background-color-custom mb-0">
+                <thead>
+                  <tr>
+                    <th class="background-color-custom text-color">#</th>
+                    <th class="background-color-custom text-color">{{ 'Admin.Dashboard.Table.User' | translate }}</th>
+                    <th class="text-end background-color-custom text-color">{{ 'Admin.Dashboard.Table.Revenue' | translate }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (stat of usersTopSpending; track stat.user.userId; let i = $index) {
+                    <tr>
+                      <td class="align-middle background-color-custom">
+                        @if (i === 0) { <span>🥇</span> }
+                        @else if (i === 1) { <span>🥈</span> }
+                        @else if (i === 2) { <span>🥉</span> }
+                        @else { <span class="text-muted text-color">{{ i + 1 }}</span> }
+                      </td>
+                      <td class="background-color-custom">
+                        <div class="d-flex align-items-center">
+                          <img [src]="stat.user.imagePath || 'assets/images/default-avatar.png'" 
+                              class="rounded-circle me-3" width="35" height="35">
+                          <div>
+                            <div class="fw-bold text-color">{{ stat.user.name }} {{ stat.user.surname }}</div>
+                            <div class="text-muted small text-color">{{ stat.user.email }}</div>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="text-end align-middle fw-bold text-success background-color-custom">
+                        {{ stat.revenue | currency:'EUR' }}
+                      </td>
+                    </tr>
+                  } @empty {
+                    <tr>
+                      <td colspan="3" class="text-center p-4 text-muted">
+                        {{ 'Admin.Dashboard.Table.NoDataAvailable' | translate }}
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    }
+  </section>
+
+  <hr class="section-divider">
+
+  <section class="dashboard-section mb-5">
+    <h3 class="text-color section-title">{{ "Admin.Dashboard.Sections.MovieManagement" | translate }}</h3>
+    <div class="cards-row mb-4">
+      <dashboard-card-component [label]="'Admin.Dashboard.Labels.Movie' | translate" [value]="moviesCount"
+      icon="movie" colorClass="blue"></dashboard-card-component>
+
+      <dashboard-card-component [label]="'Admin.Dashboard.Labels.CultMovie' | translate" [value]="moviesCultCount"
+      icon="star" colorClass="orange"></dashboard-card-component>
+    </div>
+    <div class="charts-row mt-4">
+      <mat-card class="chart-container full-width card-border-theme background-color-custom-ligher">
+        <mat-card-content>
+          <canvas baseChart 
+            [data]="barChartMoviesGenres" 
+            [options]="barChartOptions" 
+            [type]="'bar'">
+          </canvas>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <section class="dashboard-section mb-5">
+    <h3 class="text-color section-title">{{ "Admin.Dashboard.Sections.CastManagement" | translate }}</h3>
+    <div class="cards-row mb-4">
+      <dashboard-card-component [label]="'Admin.CastPage.Stats.Total' | translate" [value]="totalCast"
+      icon="recent_actors" colorClass="blue"></dashboard-card-component>
+
+      <dashboard-card-component [label]="'Admin.CastPage.Stats.Actors' | translate" [value]="actorsCount"
+      icon="recent_actors" colorClass="orange"></dashboard-card-component>
+
+      <dashboard-card-component [label]="'Admin.CastPage.Stats.Directors' | translate" [value]="directorsCount"
+      icon="recent_actors" colorClass="green"></dashboard-card-component>
+    </div>
+    <div class="charts-row mt-4">
+      <mat-card class="chart-container full-width card-border-theme background-color-custom-ligher">
+        <mat-card-content>
+          <canvas baseChart 
+            [data]="pieChartCast" 
+            [options]="pieChartOptions" 
+            [type]="'pie'">
+          </canvas>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <section class="dashboard-section mb-5">
+    <h3 class="text-color section-title">{{ "Admin.Dashboard.Sections.NewsManagement" | translate }}</h3>
+    <div class="cards-row mb-4">
+      <dashboard-card-component 
+        [label]="'Admin.Dashboard.Labels.News' | translate" 
+        [value]="newsCount"
+        icon="newspaper" 
+        colorClass="blue">
+      </dashboard-card-component>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <section class="dashboard-section mb-5">
+    <h3 class="text-color section-title">{{ "Admin.Dashboard.Sections.OrdersManagment" | translate }}</h3>
+    <div class="cards-row mb-4">
+      <dashboard-card-component 
+        [label]="'Admin.Dashboard.Labels.Order' | translate" 
+        [value]="ordersCount"
+        icon="shopping_cart" 
+        colorClass="blue">
+      </dashboard-card-component>
+
+      <dashboard-card-component 
+        [label]="'Admin.Dashboard.Labels.OrderCompleted' | translate" 
+        [value]="ordersCompletedCount"
+        icon="task_alt" 
+        colorClass="orange">
+      </dashboard-card-component>
+    </div>
+
+    <div class="charts-row mt-4">
+      <mat-card class="chart-container full-width card-border-theme background-color-custom-ligher">
+        <mat-card-content>
+          <canvas baseChart 
+            [data]="lineChartRevenueYears" 
+            [options]="barChartOptions" 
+            [type]="'line'">
+          </canvas>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="charts-row mt-4">
+      <mat-card class="chart-container full-width card-border-theme background-color-custom-ligher">
+        <mat-card-content>
+          <canvas baseChart 
+            [data]="barChartOrdersPerOrderState" 
+            [options]="barChartOptions" 
+            [type]="'bar'">
+          </canvas>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </section>
+
+</div>
+}
+}

@@ -1,0 +1,29 @@
+.catalog-description {
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+.catalog-number {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-left: 6px;
+    margin-right: 6px;
+}
+
+.catalog-button {
+    font-size: 1.3rem;
+    padding: 1rem 2rem;
+}
+
+.home-image {
+    width: 40%;
+    height: auto;
+    object-fit: cover;
+}
+
+@media (max-width: 765px) {
+    .home-image {
+        width: 0%;
+    }
+
+}

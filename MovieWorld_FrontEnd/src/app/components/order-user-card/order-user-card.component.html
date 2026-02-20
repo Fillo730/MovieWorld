@@ -1,0 +1,60 @@
+<p-card [style]="{ width: '350px', height: '360px', overflow: 'hidden' }" styleClass="background-color-custom shadow-2">
+  <ng-template pTemplate="header">
+    <div class="p-3 d-flex align-items-center justify-content-between">
+      <div class="flex-grow-1 m-2">
+        <h4 class="m-0 text-color">ID: #{{ order.id }}</h4>
+        <small class="text-color opacity-7">
+          <i class="pi pi-calendar mr-1" style="font-size: 0.8rem"></i>
+          {{ order.date | date:'dd/MM/yyyy HH:mm' }}
+        </small>
+      </div>
+      <p-tag 
+        [value]="order.state.name" 
+        [style]="{ 'background-color': getOrderStatusColor() }">
+      </p-tag>
+    </div>
+  </ng-template>
+
+  <div class="info-section py-2">
+    <div class="info-item d-flex align-items-center gap-2 mb-2 text-color">
+      <i class="pi pi-map-marker text-primary"></i>
+      <span>{{ order.sellPoint.name }} ({{ order.sellPoint.city }})</span>
+    </div>
+    <div class="info-item d-flex align-items-center gap-2 mb-3 text-color">
+      <i class="pi pi-box text-primary"></i>
+      <span>
+        {{ getTotalItemsCount() }} 
+        {{ (getTotalItemsCount() === 1 ? 'Admin.OrdersPage.OrderDialog.QuantityLabel' : 'Admin.OrdersPage.OrderDialog.MoviesLabel') | translate }}
+      </span>
+    </div>
+
+    <p-divider></p-divider>
+
+    <div class="movies-preview d-flex flex-wrap gap-3 mt-3">
+      @for (item of order.items; track item.movie.movieId) {
+        <div class="thumb-container">
+          @if (item.quantity > 1) {
+            <p-overlay-badge [value]="item.quantity" severity="danger">
+              <img [src]="item.movie.imagePath" 
+                   [pTooltip]="item.movie.title" 
+                   tooltipPosition="top"
+                   class="movie-thumb border-round shadow-1">
+            </p-overlay-badge>
+          } @else {
+            <img [src]="item.movie.imagePath" 
+                 [pTooltip]="item.movie.title" 
+                 tooltipPosition="top"
+                 class="movie-thumb border-round shadow-1">
+          }
+        </div>
+      }
+    </div>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <div class="order-footer d-flex justify-content-between align-items-center">
+      <span class="total-label text-color font-bold">{{ 'Admin.OrdersPage.Table.Total' | translate | uppercase }}</span>
+      <span class="total-price text-primary text-xl font-bold">{{ order.totalAmount | currency:'EUR' }}</span>
+    </div>
+  </ng-template>
+</p-card>

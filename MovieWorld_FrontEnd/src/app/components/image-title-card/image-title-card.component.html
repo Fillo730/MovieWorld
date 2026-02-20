@@ -1,0 +1,27 @@
+<div class="person-card background-color-custom-ligher text-color" 
+     [class.cursor-pointer]="isClicable" 
+     [class.card-with-buttons]="areButtonsVisible"
+     (click)="isClicable && handleCardClicked()">
+    
+    <img [src]="imagePath" class="person-image" [alt]="name" />
+
+    <div class="person-body d-flex flex-column align-items-center justify-content-center" 
+        [class.background-color-custom]="isActorLabelDark"
+        [class.background-color-custom-ligher] ="!isActorLabelDark">
+        
+        <p class="person-name mb-2">
+            {{ name }}
+        </p>
+
+        @if(areButtonsVisible) {
+            <div class="d-flex flex-row gap-2 mt-2 w-100 justify-content-center">
+                <button mat-button color="primary" (click)="handleEditCard()">
+                    {{ editButtonLabel }}
+                </button>
+                <button mat-button color="warn" (click)="handleDeleteCard()">
+                    {{ deleteButtonLabel }}
+                </button>
+            </div>
+        }
+    </div>
+</div>

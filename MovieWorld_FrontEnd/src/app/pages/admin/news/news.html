@@ -1,0 +1,69 @@
+<div class="admin-container">
+  <div class="header-actions">
+    @if (!error && !(isLoading && news.length === 0)) {
+      <news-filter-component 
+          [filters]="currentFilters" 
+          (filterChanged)="onFilterChanged($event)"
+          (filterReset)="resetFilters()">
+      </news-filter-component>
+
+
+
+      <div class="stats-chips">
+        <mat-chip-set>
+          <mat-chip>{{ 'Admin.NewsPage.Stats.Total' | translate }}: {{ totalCount }}</mat-chip>
+        </mat-chip-set>
+      </div>
+
+      <button mat-fab color="primary" class="fab-add" (click)="addNews()">
+        <mat-icon>add</mat-icon>
+      </button>
+    }
+  </div>
+
+  @if (isLoading && news.length === 0) {
+    <state-handler-component type="loading" message="Admin.NewsPage.Loading"></state-handler-component>
+  }
+  @else if (error) {
+    <state-handler-component 
+      type="error" 
+      title="Admin.NewsPage.ErrorTitle" 
+      message="Admin.NewsPage.ErrorMessage"
+      buttonLabel="Admin.NewsPage.RetryButton"
+      (action)="loadNews()">
+    </state-handler-component>
+  }
+  @else {
+    <div class="grow">
+      @if (news.length === 0) {
+        <state-handler-component 
+          type="empty"
+          title="Admin.NewsPage.Empty.Title"
+          message="Admin.NewsPage.Empty.Subtitle"
+          buttonLabel="Admin.NewsPage.Empty.Button"
+          (action)="resetFilters()">
+        </state-handler-component>
+      } 
+      @else {
+        <news-list-material
+          [news]="news"
+          [first]="first"
+          [rows]="rows"
+          [totalRecords]="totalRecords"
+          [pagingOptions]="[3,6,9]"
+          
+          [movieLabel]="'Admin.NewsPage.Filters.MovieLabel' | translate"
+          [actorLabel]="'Admin.NewsPage.Filters.ActorLabel' | translate"
+          [readMoreLabel]="'Home.FindMoreButtonText' | translate"
+          [shareTitle]="'Admin.NewsPage.Filters.SearchLabel' | translate"
+          [updateLabel]="'Admin.NewsPage.Buttons.Edit' | translate"
+          [deleteLabel]="'Admin.NewsPage.Buttons.Delete' | translate"
+
+          (onPageChange)="handlePageChange($event)"
+          (onUpdateNews)="updateNews($event)"
+          (onDeleteNews)="deleteNews($event)">
+        </news-list-material>
+      }
+    </div>
+  }
+</div>

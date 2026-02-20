@@ -1,0 +1,94 @@
+<header-component></header-component>
+
+<div class="header-row background-color-custom-ligher text-color p-3">
+    <h1>{{ 'Catalog.MainTitle' | translate }}</h1>
+    @if (!error && !(isLoading && movies.length === 0)) {
+        <div class="buttons-container d-flex gap-2">
+            <p-button
+                label="{{ 'Catalog.FiltersTitle' | translate }}"
+                [severity]="getButtonTheme()"
+                data-bs-toggle="collapse"
+                data-bs-target="#filtersCollapse"
+                aria-expanded="false"
+                aria-controls="filtersCollapse">
+            </p-button>
+
+            <p-button
+                label="{{ 'Catalog.DownloadExcell' | translate }}"
+                [loading]="isLoadingButton"
+                [severity]="getDownloadButtonTheme()"
+                (onClick)="downloadExcel()">
+            </p-button>
+        </div>
+    }
+</div>
+
+@if (isLoading && movies.length === 0) {
+    <state-handler-component type="loading" message="Catalog.Loading"></state-handler-component>
+}
+@else if (error) {
+    <state-handler-component 
+        type="error" 
+        title="Catalog.ErrorTitle" 
+        message="Catalog.ErrorMessage"
+        buttonLabel="Catalog.RetryButton"
+        [buttonSeverity]="getButtonTheme()"
+        (action)="loadMovies()">
+    </state-handler-component>
+}
+@else {
+    <div class="movie-filters-container background-color-custom-ligher p-4 d-flex gap-5">
+        <div class="filters-sidebar">
+            <div class="collapse p-fluid" id="filtersCollapse">
+                <movies-filters-component
+                    [filters]="filters"
+                    (filtersChanged)="applyFilters()"
+                    [areGenresVisible]="genres.length > 0"
+                    (filtersReset)="handleResetFilters()"
+                    [genres]="genres"
+                    [filtersTitle]="'Catalog.FiltersTitle' | translate"
+                    [allGenresLabel]="'Catalog.AllGenresLabel' | translate"
+                    [nameTitle]="'Catalog.FilterNameTitle' | translate"
+                    [namePlaceholder]="'Catalog.FilterNamePlaceholder' | translate"
+                    [priceTitle]="'Catalog.FiltersPriceTitle' | translate"
+                    [genreTitle]="'Catalog.FiltersGenreTitle' | translate"
+                    [yearTitle]="'Catalog.FilterYearTitle' | translate"
+                    [directorTitle]="'Catalog.FilterDirectorTitle' | translate"
+                    [directorPlaceholder]="'Catalog.FilterDirectorPlaceholder' | translate"
+                    [actorTitle]="'Catalog.FilterActorTitle' | translate"
+                    [actorPlaceholder]="'Catalog.FilterActorPlaceholder' | translate"
+                    [resetLabel]="'Catalog.FiltersResetButton' | translate">
+                </movies-filters-component>
+            </div>
+        </div>
+
+        <div class="grow d-flex flex-column">
+            @if (movies.length === 0) {
+                <div class="d-flex align-items-center justify-content-center py-5" style="min-height: 400px;">
+                    <state-handler-component 
+                        type="empty"
+                        title="Catalog.NoMoviesFound"
+                        message="Catalog.NoMoviesFoundMessage"
+                        buttonLabel="Catalog.FiltersResetButton"
+                        (action)="handleResetFilters()">
+                    </state-handler-component>
+                </div>
+            } 
+            @else {
+                <movies-list-component 
+                    [movies]="movies"
+                    [totalRecords]="totalRecords"
+                    [rows]="rows"
+                    [first]="first"
+                    (onPageChange)="onPageChange($event)"
+                    [discoverLabel]="'Catalog.FindMoreButtonText' | translate"
+                    [addLabel]="'Catalog.AddToTheCart' | translate"
+                    [removeLabel]="'Catalog.RemoveFromTheCart' | translate"
+                    [toastAddLabel]="'Catalog.ToastAddToCart' | translate"
+                    [toastRemoveLabel]="'Catalog.ToastRemoveFromCart' | translate">>
+                </movies-list-component>
+            }
+        </div>
+    </div>
+}
+<footer-component></footer-component>

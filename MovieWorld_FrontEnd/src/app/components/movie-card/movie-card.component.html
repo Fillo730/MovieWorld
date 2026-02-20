@@ -1,0 +1,52 @@
+<div class="movie-card card-border-theme text-color">
+    <div class="movie-header cursor-pointer" (click)="openDetail()">
+        <img [src]="movie.imagePath" [alt]="movie.title" class="movie-image" />
+    </div>
+
+    <div class="movie-body p-3">
+        <div class="movie-header-row">
+            <h2 class="movie-title">{{ movie.title }}</h2>
+            <span class="movie-price text-color">{{ movie.cost | currency:'EUR':'symbol'}}</span>
+        </div>
+        @for (genre of movie.genres; track $index) {
+            <span class="movie-genre">{{ genre.name }} </span>
+        }
+        <p class="movie-story">{{ movie.story }}</p>
+    </div>
+
+    <div class="movie-footer p-3">
+        @if(cartServicesVisible) {
+            <p-inputNumber
+                [(ngModel)]="quantity"
+                [disabled]="isInTheCart || cartServicesDisabled || isLoading || !isLoggedIn()"
+                [min]="1"
+                [max]="10"
+                [showButtons]="true"
+                buttonLayout="vertical"
+                spinnerMode="vertical"
+                inputId="quantity-input"
+                styleClass="quantity-input"
+                [inputStyle]="{ width: '3rem' }"
+            ></p-inputNumber>
+
+            <p-button 
+                [label]="isInTheCart ? removeLabel : addLabel"
+                [severity]="isInTheCart ? 'danger' : 'success'"
+                [disabled]="cartServicesDisabled || isLoading || !isLoggedIn()" 
+                [loading]="isLoading"
+                (onClick)="handleToggleToTheCart()"
+            />
+        } @else {
+            <p-button 
+                [label]="modifyButtonLabel"
+                [severity]="isDark() ? 'success' : 'info'" 
+                (onClick)="handleEditMovie()"
+            />
+            <p-button 
+                [label]="deleteButtonLabel"
+                [severity]="isDark() ? 'success' : 'info'" 
+                (onClick)="handleDeleteMovie()"
+            />
+        }
+    </div>
+</div>

@@ -1,0 +1,57 @@
+.filter-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+}
+
+.filter-row {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    align-items: center;
+    width: 100%;
+}
+
+.filter-row mat-form-field {
+    flex: 1;
+    min-width: 0;
+}
+
+.price-slider-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+}
+
+.price-slider-container label {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 500;
+}
+
+mat-slider {
+    width: 100%;
+}
+
+.actions {
+    display: flex;
+    justify-content: flex-start;
+}
+
+@media (max-width: 768px) {
+    .filter-row {
+        flex-wrap: wrap;
+    }
+    
+    .filter-row mat-form-field {
+        flex: 1 1 calc(50% - 12px);
+    }
+}
+
+@media (max-width: 480px) {
+    .filter-row mat-form-field {
+        flex: 1 1 100%;
+    }
+}

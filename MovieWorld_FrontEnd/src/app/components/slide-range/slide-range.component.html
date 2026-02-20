@@ -1,0 +1,12 @@
+<div class="mb-2">
+  {{label}}: {{ rangeValues[0] }}€ – {{ rangeValues[1] }}€
+</div>
+
+<p-slider
+    [(ngModel)]="rangeValues"
+    [range]="true"
+    [min]="minValue"
+    [max]="maxValue"
+    class="w-56"
+    (onSlideEnd)="handleChange(rangeValues)">
+</p-slider>

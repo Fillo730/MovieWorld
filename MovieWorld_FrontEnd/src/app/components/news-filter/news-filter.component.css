@@ -1,0 +1,48 @@
+.filter-row {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    max-width: 100%;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.search-field {
+    flex: 2;
+    max-width: 300px;
+}
+
+.select-field {
+    flex: 1;
+    max-width: 300px;
+}
+
+.reset-button {
+    height: 56px;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+:host ::ng-deep {
+    .mat-mdc-form-field-subscript-wrapper {
+        display: none;
+    }
+    
+    .mat-mdc-form-field-label {
+        color: var(--text) !important;
+    }
+
+    .mat-mdc-select-value, 
+    .mat-mdc-input-element {
+        color: var(--text) !important;
+    }
+
+    .mdc-notched-outline__leading,
+    .mdc-notched-outline__notch,
+    .mdc-notched-outline__trailing {
+        border-color: var(--border-start) !important;
+    }
+}

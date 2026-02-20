@@ -1,0 +1,137 @@
+﻿{
+   "CodeGenerationMode": 4,
+   "ContextClassName": "TrainingBrattiContext",
+   "ContextNamespace": null,
+   "FilterSchemas": false,
+   "IncludeConnectionString": false,
+   "IrregularWords": null,
+   "MinimumProductVersion": "2.6.1301",
+   "ModelNamespace": null,
+   "OutputContextPath": null,
+   "OutputPath": "Models",
+   "PluralRules": null,
+   "PreserveCasingWithRegex": true,
+   "ProjectRootNamespace": "MovieWorld",
+   "Schemas": null,
+   "SelectedHandlebarsLanguage": 2,
+   "SelectedToBeGenerated": 0,
+   "SingularRules": null,
+   "T4TemplatePath": null,
+   "Tables": [
+      {
+         "Name": "[dbo].[Chart]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ChartItem]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Format]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Genre]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[GenreTranslation]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[LanguageCode]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Movie]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[MoviePerson]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[MovieSellPoint]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[MovieTranslation]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[News]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[NewsMovie]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[NewsPerson]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[NewsTranslation]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Order]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[OrderItem]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[OrderState]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[OrderStateTranslation]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Person]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[SellPoint]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[SellPointTranslation]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[User]",
+         "ObjectType": 0
+      }
+   ],
+   "UiHint": null,
+   "UncountableWords": null,
+   "UseAsyncStoredProcedureCalls": true,
+   "UseBoolPropertiesWithoutDefaultSql": false,
+   "UseDatabaseNames": false,
+   "UseDatabaseNamesForRoutines": true,
+   "UseDateOnlyTimeOnly": true,
+   "UseDbContextSplitting": false,
+   "UseDecimalDataAnnotationForSprocResult": true,
+   "UseFluentApiOnly": true,
+   "UseHandleBars": false,
+   "UseHierarchyId": false,
+   "UseInflector": true,
+   "UseInternalAccessModifiersForSprocsAndFunctions": false,
+   "UseLegacyPluralizer": false,
+   "UseManyToManyEntity": false,
+   "UseNoDefaultConstructor": false,
+   "UseNoNavigations": false,
+   "UseNoObjectFilter": false,
+   "UseNodaTime": false,
+   "UseNullableReferences": false,
+   "UsePrefixNavigationNaming": false,
+   "UseSchemaFolders": false,
+   "UseSchemaNamespaces": false,
+   "UseSpatial": false,
+   "UseT4": false,
+   "UseT4Split": false
+}

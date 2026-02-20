@@ -1,0 +1,24 @@
+<div class="people-grid">
+    @for (person of actors; track person.personId) {
+    <image-title-card-component 
+        [name]="person.fullName" 
+        [imagePath]="person.imagePath"
+        [id]="person.personId"
+        [isActorLabelDark]="true"
+        [areButtonsVisible]="true"
+        [deleteButtonLabel]="'Admin.CastPage.CastCard.DeleteButtonLabel' | translate"
+        [editButtonLabel]="'Admin.CastPage.CastCard.EditButtonLabel' | translate"
+        (onDeleteCard)="deletePerson($event)"
+        (onEditCard)="updatePerson($event)">
+    </image-title-card-component>
+    }
+</div>
+
+<p-paginator
+    (onPageChange)="handlePageChange($event)"
+    [first]="first"
+    [rows]="rows"
+    [totalRecords]="totalRecords"
+    [rowsPerPageOptions]="pagingOptions"
+    class="mt-4 background-color-custom-ligher" 
+/>

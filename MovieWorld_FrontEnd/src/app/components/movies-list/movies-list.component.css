@@ -1,0 +1,48 @@
+.movie-card {
+    display: block;
+}
+
+.display {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: start;
+}
+
+.movie-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+}
+
+.movie-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+.movie-card .movie-genre {
+    font-size: 0.875rem;
+    color: #007ad9 !important;
+}
+
+.movie-story {
+    margin-top: 0.75rem;
+    line-height: 1.5;
+    font-size: 0.95rem;
+}
+
+.movie-footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.75rem;
+    gap: 1rem;
+}
+
+.movie-price {
+    font-weight: bold;
+    font-size: 1.125rem;
+}

@@ -1,0 +1,57 @@
+<div class="p-4 rounded filters-container background-color-custom-ligher text-color">
+
+    <div class="title-container">
+        <h4 class="fw-bold mb-4">{{ filtersTitle }}</h4>
+    </div>
+
+    <div class="width-custom-filters mb-5">
+        <label class="form-label fw-semibold">{{ nameTitle }}</label>
+        <input type="text" class="form-control" [placeholder]="namePlaceholder"
+            [(ngModel)]="filters.name" (blur)="emitChange()" />
+    </div>
+
+    <div class="width-custom-filters mb-5">
+        <label class="form-label fw-semibold">{{ priceTitle }}</label>
+        <slide-range [minValue]="0" [maxValue]="50" [label]="priceTitle"
+            [min]="filters.priceRange[0]" [max]="filters.priceRange[1]"
+            (changedValue)="onPriceRangeChange($event)">
+        </slide-range>
+    </div>
+
+    @if(areGenresVisible) {
+        <div class="width-custom-filters mb-5">
+            <label class="form-label fw-semibold">{{ genreTitle }}</label>
+            <select class="form-select" [(ngModel)]="filters.genre" (change)="onGenreChange()">
+                <option [value]="''">{{ allGenresLabel }}</option> @for (genre of genres; track $index) {
+                    <option [value]="genre.name">{{ genre.name }}</option>
+                }
+            </select>
+        </div>
+    }
+
+    <div class="width-custom-filters mb-5">
+        <label class="form-label fw-semibold">{{ yearTitle }}</label>
+        <slider-with-input-component [minValue]="1960" [maxValue]="2025"
+            [value]="filters.year" (valueChange)="onYearChange($event)">
+        </slider-with-input-component>
+    </div>
+
+    <div class="width-custom-filters mb-5">
+        <label class="form-label fw-semibold">{{ directorTitle }}</label>
+        <input type="text" class="form-control" [placeholder]="directorPlaceholder"
+            [(ngModel)]="filters.director" (blur)="emitChange()" />
+    </div>
+
+    <div class="width-custom-filters mb-5">
+        <label class="form-label fw-semibold">{{ actorTitle }}</label>
+        <input type="text" class="form-control" [placeholder]="actorPlaceholder"
+            [(ngModel)]="filters.actor" (blur)="emitChange()" />
+    </div>
+
+    <div class="occupy-all-row"></div>
+
+    <div>
+        <p-button [label]="resetLabel" icon="pi pi-refresh"
+            [severity]="handleButtonTheme()" (onClick)="handleResetFilters()"/>
+    </div>
+</div>

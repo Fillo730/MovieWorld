@@ -1,0 +1,24 @@
+.fab-add {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 1000;
+}
+
+.admin-container {
+  padding: 20px;
+}
+
+.header-actions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.stats-chips {
+  display: flex;
+  justify-content: flex-start;
+}

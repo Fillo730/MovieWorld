@@ -1,0 +1,81 @@
+.sell-card {
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  width: 350px;
+  height: 260px;
+}
+
+.sell-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+}
+
+.sell-title {
+  font-weight: 700;
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+}
+
+.sell-location {
+  color: #555;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.7rem;
+}
+
+.sell-description {
+  font-size: 0.95rem;
+  color: #333;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.distance-badge {
+  background: #f0f4ff;
+  color: #1a3fa3;
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  height: fit-content;
+}
+
+.sell-info {
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+.sell-footer {
+  margin-top: auto;
+  display: flex;
+  justify-content: flex-end;
+}
+
+@media (max-width: 480px) {
+  .sell-card {
+    width: 260px;
+    height: auto;
+    padding: 1rem;
+    border-radius: 10px;
+  }
+
+  .sell-title {
+    font-size: 1rem;
+  }
+
+  .sell-location,
+  .sell-description {
+    font-size: 0.8rem;
+  }
+
+  .distance-badge {
+    font-size: 0.75rem;
+    padding: 3px 8px;
+  }
+}

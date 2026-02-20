@@ -1,0 +1,24 @@
+<div class="news-list">
+    @for (singleNews of news; track singleNews.id) {
+       <news-card-material 
+           [news]="singleNews"
+           [movieLabel]="movieLabel"
+           [actorLabel]="actorLabel"
+           [readMoreLabel]="readMoreLabel"
+           [shareTitle]="shareTitle"
+           [updateLabel]="updateLabel"
+           [deleteLabel]="deleteLabel"
+           (onUpdateNews)="handleUpdateNews($event)"
+           (onDeleteNews)="handleDeleteNews($event)">
+       </news-card-material>
+    }
+</div>
+
+<p-paginator
+    (onPageChange)="handlePageChange($event)"
+    [first]="first"
+    [rows]="rows"
+    [totalRecords]="totalRecords"
+    [rowsPerPageOptions]="pagingOptions"
+    styleClass="mt-4 background-color-custom-ligher"
+/>

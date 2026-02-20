@@ -1,0 +1,117 @@
+<nav class="navbar navbar-expand-lg background-color-custom px-4 position-sticky-custom text-color" 
+     style="padding-top: 1rem; padding-bottom: 1rem; font-size: 1.25rem;">
+
+  <div class="container-fluid">
+
+    <a class="navbar-brand fw-bold text-color" routerLink="/home" style="font-size: 1.6rem;">
+      {{ 'Header.Brand' | translate }}
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarMenu" aria-controls="navbarMenu"
+            aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarMenu">
+
+      <ul class="navbar-nav mx-auto">
+        <li class="nav-item">
+          <a class="nav-link text-color" routerLink="/home" style="padding: 0.75rem 1rem;">
+            {{ 'Header.HomeNavBar' | translate }}
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link text-color" routerLink="/catalog" style="padding: 0.75rem 1rem;">
+            {{ 'Header.CatalogNavBar' | translate }}
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link text-color" routerLink="/sell-points" style="padding: 0.75rem 1rem;">
+            {{ 'Header.SellPointsNavBar' | translate }}
+          </a>
+        </li>
+      </ul>
+
+      <div class="d-flex flex-row align-items-center gap-4 text-color nav-icons-wrapper">
+
+        <language-selector></language-selector>
+
+        <theme-toggler></theme-toggler>
+
+       @if(isLoggedIn()) {
+        <div class="dropdown">
+          <a class="dropdown-toggle d-flex align-items-center" 
+            id="profileMenu" 
+            data-bs-toggle="dropdown" 
+            aria-expanded="false"
+            style="text-decoration: none; cursor: pointer;">
+            
+            <p-avatar [image]="getProfileImage()" size="normal" shape="circle" />
+          </a>
+            
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileMenu">
+            <li>
+              <a class="dropdown-item cursor-pointer" routerLink="/profile">
+                <i class="pi pi-user me-2"></i> {{ 'Header.ProfileNavBar' | translate }}
+              </a>
+            </li>
+
+            <li>
+              <a class="dropdown-item cursor-pointer" routerLink="/your-orders">
+                <i class="pi pi-box me-2"></i> {{ 'Header.OrdersNavBar' | translate }}
+              </a>
+            </li>
+
+            <li><hr class="dropdown-divider"></li>
+
+            <li>
+              <a class="dropdown-item cursor-pointer text-danger" (click)="handleLogout()">
+                <i class="pi pi-sign-out me-2"></i> {{ 'Header.LogoutNavBar' | translate }}
+              </a>
+            </li>
+          </ul>
+        </div>
+      } @else {
+        <i class="pi pi-user cursor-pointer text-color" 
+          routerLink="/login" 
+          style="font-size: 1.5rem;"></i>
+      }
+
+        @if (isLoggedIn()) {
+          @if(isCartEmpty()) {
+            <i class="pi pi-shopping-cart text-color"
+              style="font-size: 1.7rem;"
+              [class.cursor-pointer]="!isCartEmpty()"
+              [class.disabled-cart]="isCartEmpty()"
+              (click)="!isCartEmpty() && handleGoToCart()">
+            </i>
+          } @else {
+            <p-overlay-badge 
+            [value]="isCartEmpty() ? null : getCartNumberOfItems()"
+            severity="danger"
+            class="inline-flex">
+            
+            <i class="pi pi-shopping-cart text-color"
+              style="font-size: 1.7rem;"
+              [class.cursor-pointer]="!isCartEmpty()"
+              [class.disabled-cart]="isCartEmpty()"
+              (click)="!isCartEmpty() && handleGoToCart()">
+            </i>
+          </p-overlay-badge>
+          }
+        }
+        @else {
+          <i class="pi pi-shopping-cart disabled-button" 
+             style="font-size: 1.7rem; cursor: not-allowed; opacity: 0.5;"></i>
+        }
+
+      </div>
+
+    </div>
+
+  </div>
+
+</nav>

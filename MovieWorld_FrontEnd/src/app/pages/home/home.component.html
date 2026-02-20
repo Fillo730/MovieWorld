@@ -1,0 +1,62 @@
+<header-component></header-component>
+
+@if (isLoading) {
+    <state-handler-component 
+        type="loading" 
+        message="Home.Loading">
+    </state-handler-component>
+}
+@else if (error) {
+    <state-handler-component 
+        type="error" 
+        title="Home.ErrorTitle" 
+        message="Home.ErrorMessage"
+        buttonLabel="Home.ErrorButtonLabel"
+        [buttonSeverity]="getButtonTheme()"
+        (action)="loadInitialData()">
+    </state-handler-component>
+}
+@else {
+    <div class="d-flex flex-column align-items-center background-color-custom-ligher">
+        @if(cultMovies.length > 0) {
+            <h1 class="mt-3 mb-3 text-color">
+                {{ 'Home.MainTitle' | translate }}
+            </h1>
+            <carosel-component [images]="imagesForCarosel"></carosel-component>
+        }
+    </div>
+
+    <div class="p-4 background-color-custom-ligher">
+        <title-text-with-image-section-component
+            [text]="('Home.CatalogDescription' | translate:{ total: count })"
+            [buttonLabel]="'Home.GoToCatalogButtonText' | translate"
+            [title]="'Home.EsploreCatalogTitle' | translate"
+            imagePath="https://i0.wp.com/rafflespress.com/wp-content/uploads/2017/12/tumblr_static_2012_movies_collage.jpg?fit=1366%2C768&ssl=1"
+            (isGoToCatalogClicked)="handleGoToCatalog()">
+        </title-text-with-image-section-component>
+    </div>
+
+    <div class="background-color-custom-ligher p-3">
+        <news-list-component 
+            [first]="first"
+            [rows]="rows"
+            [totalRecords]="totalRecords"
+            [newsList]="newsList"
+            [isPaginatorActive]="true"
+            [mainTitle]="'Home.NewsSectionTitle' | translate"
+            [findMoreButtonNewsLabel]="'Home.FindMoreButtonText' | translate"
+            (onPageChange)="onPageChange($event)"
+            (modalOpened)="handleOpenModal($event)">
+        </news-list-component>
+    </div>
+}
+
+@if (clickedNews) {
+    <modal-component 
+        [news]="clickedNews" 
+        [isVisible]="isModalVisible" 
+        (isModalClosed)="handleCloseModal()">
+    </modal-component>
+}
+
+<footer-component></footer-component>

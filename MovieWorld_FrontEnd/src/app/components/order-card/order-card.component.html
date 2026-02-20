@@ -1,0 +1,56 @@
+<mat-card class="order-card background-color-custom">
+  <mat-card-header>
+    <div mat-card-avatar class="user-avatar" [style.background-image]="'url(' + order.user.imagePath"></div>
+    <mat-card-title class="text-color">{{ order.user.name }} {{ order.user.surname }}</mat-card-title>
+    <mat-card-subtitle class="text-color opacity-7">
+      ID: #{{ order.id }} - {{ order.date | date:'dd/MM/yyyy HH:mm' }}
+    </mat-card-subtitle>
+    <span class="spacer"></span>
+    <mat-chip-listbox>
+      <mat-chip [style.background-color]="getBackgroundOrderNameColor()" class="state-chip text-white">
+        {{ order.state.name }}
+      </mat-chip>
+    </mat-chip-listbox>
+  </mat-card-header>
+
+  <mat-card-content>
+    <div class="info-section">
+      <div class="info-item text-color">
+        <mat-icon color="primary">store</mat-icon>
+        <span>{{ order.sellPoint.name }} ({{ order.sellPoint.city }})</span>
+      </div>
+      <div class="info-item text-color">
+        <mat-icon color="primary">inventory_2</mat-icon>
+        <span>{{ getTotalItemsCount() }} {{ (getTotalItemsCount() === 1 ? 'Admin.OrdersPage.OrderDialog.QuantityLabel' : 'Admin.OrdersPage.OrderDialog.MoviesLabel') | translate }}</span>
+      </div>
+    </div>
+    
+    <mat-divider></mat-divider>
+    
+    <div class="movies-preview">
+      @for (item of order.items; track item.movie.movieId) {
+        <div class="thumb-container">
+          <img [src]="item.movie.imagePath" [title]="item.movie.title" class="movie-thumb">
+          @if (item.quantity > 1) {
+            <span class="qty-badge">x{{ item.quantity }}</span>
+          }
+        </div>
+      }
+    </div>
+  </mat-card-content>
+
+  <mat-card-footer>
+    <div class="order-footer">
+      <span class="total-label text-color">{{ 'Admin.OrdersPage.Table.Total' | translate | uppercase }}</span>
+      <span class="total-price text-color">{{ order.totalAmount | currency:'EUR' }}</span>
+    </div>
+    <div class="actions-footer">
+      <button mat-button color="primary" (click)="handleEditOrder()">
+        {{ 'Admin.OrdersPage.Buttons.Update' | translate }}
+      </button>
+      <button mat-button color="warn" (click)="handleDeleteOrder()">
+        {{ 'Admin.OrdersPage.Buttons.Delete' | translate }}
+      </button>
+    </div>
+  </mat-card-footer>
+</mat-card>

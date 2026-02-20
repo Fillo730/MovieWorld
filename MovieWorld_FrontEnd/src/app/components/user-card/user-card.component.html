@@ -1,0 +1,39 @@
+<mat-card class="user-card card-border-theme background-color-custom">
+  <mat-card-header>
+    <div mat-card-avatar class="avatar-container">
+      <img [src]="user.imagePath" [alt]="user.name">
+    </div>
+    <mat-card-title class="text-color">{{ user.name }} {{ user.surname }}</mat-card-title>
+    <mat-card-subtitle class="text-color opacity-7">
+        {{ user.email }}
+    </mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content class="mt-3">
+    <div class="info-row mb-2">
+      <span class="label text-color font-bold">{{ "Admin.UsersPage.Table.Id" | translate }}:</span>
+      <span class="text-color"> #{{ user.userId }}</span>
+    </div>
+    <div class="info-row mb-3">
+      <span class="label text-color font-bold">{{ "Admin.UsersPage.Table.Registered" | translate }}:</span>
+      <span class="text-color"> {{ user.createdAt | date:'dd MMM yyyy' }}</span>
+    </div>
+
+    <div class="role-badge">
+      <mat-chip-set>
+        <mat-chip [class.admin-chip]="user.role == 1" class="text-color">
+          {{ (user.role == 1 ? "Admin.UsersPage.Table.RoleAdmin" : "Admin.UsersPage.Table.RoleUser") | translate }}
+        </mat-chip>
+      </mat-chip-set>
+    </div>
+  </mat-card-content>
+
+  <mat-card-actions align="end">
+    <button mat-button color="primary" (click)="handleUpdateUser()">
+        {{ "Admin.UsersPage.Buttons.Edit" | translate }}
+    </button>
+    <button mat-button color="warn" (click)="handleUserDeleted()">
+        {{ "Admin.UsersPage.Buttons.Delete" | translate }}
+    </button>
+  </mat-card-actions>
+</mat-card>

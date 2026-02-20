@@ -1,0 +1,25 @@
+<div>
+  <div class="display-horizontal-center background-color-custom-ligher gap-5 mb-3">
+    @for (sellPoint of sellPoints; track sellPoint.id) {
+      <sell-point-card 
+        [sellPoint]="sellPoint"
+        [isSelected]="selectedSellPoint?.id === sellPoint.id"
+        [isSelectable]="isSelectable"
+        [isDistanzaVisible]="isDistanceOnCardsVisible"
+        [searchOnMapsLabel]="searchOnMapsLabel"
+        (clickedSellPoint)="handleClickedSellPoint($event)"
+      ></sell-point-card>
+    }
+  </div>
+
+  @if (isPaginatorActive) {
+      <p-paginator
+      class="background-color-custom-ligher p-3"
+      (onPageChange)="onPageChange($event)" 
+      [first]="first" 
+      [rows]="rows" 
+      [totalRecords]="totalRecords" 
+      [rowsPerPageOptions]="paginatorElements"
+    />
+  }
+</div>

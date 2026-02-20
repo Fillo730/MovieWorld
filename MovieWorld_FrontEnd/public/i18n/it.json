@@ -1,0 +1,556 @@
+{
+  "Months": {
+    "1": "Gennaio",
+    "2": "Febbraio",
+    "3": "Marzo",
+    "4": "Aprile",
+    "5": "Maggio",
+    "6": "Giugno",
+    "7": "Luglio",
+    "8": "Agosto",
+    "9": "Settembre",
+    "10": "Ottobre",
+    "11": "Novembre",
+    "12": "Dicembre"
+  },
+  "Header": {
+    "Brand": "MovieWorld",
+    "HomeNavBar": "Home",
+    "CatalogNavBar": "Catalogo",
+    "SellPointsNavBar": "Punti Vendita",
+    "ProfileNavBar": "Profilo",
+    "OrdersNavBar": "I miei ordini",
+    "LoginNavBar": "Accedi",
+    "LogoutNavBar": "Esci",
+    "LogoutMessage": "Logout effettuato con successo"
+  },
+  "Footer": {
+    "HelpAndInfo": {
+      "Title": "Aiuto e informazioni",
+      "Help": "Aiuto",
+      "TrackOnline": "Traccia Online",
+      "Shipments": "Spedizioni",
+      "ReturnItem": "Resituisci Articolo",
+      "DamagedItem": "Articolo Damneggiato"
+    },
+    "SellPoints": {
+      "Title": "Punti Vendita",
+      "FindValidPoint": "Trova punto valido",
+      "BecomeAffiliate": "Diventa un nostro affiliato"
+    },
+    "ContactUs": {
+      "Title": "Contattaci",
+      "GoToSupport": "Vai al Supporto"
+    }
+  },
+  "YourOrders": {
+    "MainTitle": "I Miei Ordini",
+    "Loading": "Caricamento ordini in corso...",
+    "ErrorTitle": "Ops! Errore di caricamento",
+    "ErrorMessage": "Non è stato possibile caricare i tuoi ordini. Verifica la connessione o riprova.",
+    "RetryButton": "Riprova",
+    "NoOrdersTitle": "Nessun ordine trovato",
+    "NoOrdersMessage": "Sembra che tu non abbia ancora effettuato acquisti. Corri a dare un'occhiata al nostro catalogo film!",
+    "StatusLabel": "Stato ordine",
+    "DateLabel": "Data",
+    "TotalLabel": "Totale"
+  },
+  "Profile": {
+    "Title": "Ciao {{currentUser}}, questo è il tuo profilo",
+    "NameLabel": "Nome",
+    "SurnameLabel": "Cognome",
+    "EmailLabel": "Email",
+    "RoleLabel": "Ruolo",
+    "Admin": "Amministratore",
+    "User": "Utente Standard"
+  },
+  "MovieDetail": {
+    "WatchTrailer": "Guarda trailer",
+    "GoBack": "Torna al Catalogo",
+    "AddToCart": "Aggiungi al Carrello",
+    "RemoveFromCart": "Togli dal carrello",
+    "ErrorAddCart": "Impossibile completare l'operazione",
+    "ToastAdd": "Film aggiunto con successo al carrello",
+    "ToastRemove": "Film rimosso con successo dal carrello",
+    "Director": "Regista",
+    "MainCast": "Cast principale",
+    "Recommended": "Film che potrebbero piacerti"
+  },
+  "Home": {
+    "MainTitle": "Film Cult",
+    "EsploreCatalogTitle": "Esplora il nostro Catalogo",
+    "GoToCatalogButtonText": "Vai al Catalogo",
+    "CatalogDescription": "Nel nostro catalogo trovi una vasta selezione di film scelti con cura negli ultimi anni.<br/>In totale hai a disposizione <span class=\"catalog-number\">{{total}}</span> titoli da esplorare.",
+    "NewsSectionTitle": "Ultime Notizie",
+    "FindMoreButtonText": "Scopri di più",
+    "Loading": "Caricamento Home in corso...",
+    "ErrorTitle": "Ops! Errore di caricamento",
+    "ErrorMessage": "Non è stato possibile caricare la pagina principale. Verifica la connessione o riprova.",
+    "ErrorButtonLabel": "Riprova"
+  },
+  "Catalog": {
+    "MainTitle": "Catalogo",
+    "FindMoreButtonText": "Scopri di più",
+    "AddToTheCart": "Aggiungi al Carrello",
+    "RemoveFromTheCart": "Rimuovi dal carrello",
+    "DownloadExcell": "Scarica file excel",
+    "ToastAddToCart": "Elemento aggiunto al carrello con successo",
+    "ToastRemoveFromCart": "Elemento rimosso dal carrello con successo",
+    "FiltersTitle": "Filtri di Ricerca",
+    "FilterNameTitle": "Nome",
+    "FilterNamePlaceholder": "Cerca nome",
+    "FiltersPriceTitle": "Prezzo",
+    "FiltersGenreTitle": "Genere",
+    "FilterYearTitle": "Anno",
+    "FilterDirectorTitle": "Regista",
+    "FilterDirectorPlaceholder": "Cerca Regista",
+    "FilterActorTitle": "Attore",
+    "FilterActorPlaceholder": "Cerca Attore",
+    "FiltersResetButton": "Resetta Filtri",
+    "AllGenresLabel": "Tutti i generi",
+    "Loading": "Caricamento catalogo in corso...",
+    "ErrorTitle": "Ops! Errore di caricamento",
+    "ErrorMessage": "Non è stato possibile caricare i film. Verifica la connessione o riprova.",
+    "RetryButton": "Riprova",
+    "NoMoviesFound": "Nessun film trovato",
+    "NoMoviesFoundMessage": "Non ci sono film che corrispondono ai filtri selezionati.",
+    "FileExcelName": "Lista Film"
+  },
+  "SellPoints": {
+    "SellPointsTitle": "Punti Vendita",
+    "FiltersTitle": "Filtri di Ricerca",
+    "FilterCityTitle": "Città",
+    "FiltersAllCitiesLabel": "Tutte le città",
+    "FindOnMapsButtonText": "Vedi su Google Maps",
+    "NearestSellPointTitle": "Trova il punto vendita più vicino",
+    "NearestSellPointText": "Attiva la localizzazione per scoprire qual è il negozio più vicino alla tua posizione attuale.",
+    "NearestSellPointButtonText": "Trova il più vicino",
+    "NoPointsFound": "Nessun punto vendita trovato",
+    "NoPointsFoundMessage": "Non ci sono negozi che corrispondono ai filtri selezionati.",
+    "Loading": "Caricamento punti vendita in corso...",
+    "ErrorTitle": "Ops! Errore di caricamento",
+    "ErrorMessage": "Non è stato possibile caricare i punti vendita. Verifica la connessione o riprova.",
+    "RetryButton": "Riprova",
+    "FiltersResetButton": "Resetta Filtri",
+    "FileExcelName": "Punti Vendita"
+  },
+  "Cart": {
+    "MainTitle": "Il tuo Carrello",
+    "RemoveButtonText": "Rimuovi",
+    "ClearCartButtonText": "Svuota Carrello",
+    "SellPointsSectionTitle": "Punti Vendita",
+    "SellPointsSectionText": "Selezionare punto vendita per completare ordine",
+    "OrderByDistanceButtonText": "Ordina per Distanza",
+    "CompleteOrderButtonText": "Completa Ordine",
+    "TotalLabel": "Totale",
+    "QuantytyLabel": "Quantità:",
+    "ToastItemRemoved": "Film rimosso con successo",
+    "ToastCartEmpty": "Il carrello è vuoto",
+    "ToastOrderCompleted": "Ordine completato con successo",
+    "MainTitleWithGreetings": "Ciao {{value}}, questo è il tuo carrello",
+    "NoSellPointsTitle": "Nessun punto vendita disponibile",
+    "NoSellPointsMessage": "Impossibile trovare un punto vendita valido per il tuo ordine. Riprova più tardi.",
+    "BackToCatalog": "Torna al Catalogo",
+    "Loading": "Caricamento carrello in corso..."
+  },
+  "Login": {
+    "Title": "Accesso",
+    "Text": "Inserire email e password del proprio account.",
+    "EmailPlaceholder": "Email",
+    "PasswordPlaceholder": "Password",
+    "GoBackButtonText": "Indietro",
+    "GoToLoginButtonText": "Login",
+    "GoToSignUpButtonText": "Vai alla Registrazione",
+    "LoginSuccess": "Login effettuato con successo",
+    "LoginFailure": "Impossibile eseguire il login",
+    "Errors": {
+      "EmailRequired": "L'email è obbligatoria.",
+      "EmailInvalid": "Formato email non valido.",
+      "PasswordRequired": "La password è obbligatoria.",
+      "PasswordInvalid": "La password non rispetta i requisiti minimi.",
+      "NotValidCredentials": "Email o password non validi."
+    }
+  },
+  "SignUp": {
+    "Title": "Registrazione",
+    "Text": "Inserire i dati richiesti per creare un nuovo account.",
+    "NamePlaceholder": "Nome",
+    "SurnamePlaceholder": "Cognome",
+    "EmailPlaceholder": "Email",
+    "PasswordPlaceholder": "Password",
+    "ConfirmPasswordPlaceholder": "Conferma Password",
+    "GoBackButtonText": "Indietro",
+    "GoToSignUpButtonText": "Registrati",
+    "GoToLoginButtonText": "Vai al Login",
+    "SignupSuccess": "Registrazione eseguita con successo",
+    "SignupError": "Registrazione fallita",
+    "Errors": {
+      "NameRequired": "Nome richiesto.",
+      "NameInvalid": "Nome non valido.",
+      "SurnameRequired": "Cognome richiesto.",
+      "SurnameInvalid": "Cognome non valido.",
+      "EmailRequired": "Email richiesta.",
+      "EmailInvalid": "Formato email non valido.",
+      "PasswordRequired": "Password richiesta.",
+      "PasswordInvalid": "Password non conforme.",
+      "ConfirmPasswordRequired": "Conferma richiesta.",
+      "PasswordMismatch": "Le password non coincidono."
+    }
+  },
+  "Admin": {
+    "Layout": {
+      "DashboardLink": "Dashboard",
+      "UsersLink": "Utenti",
+      "SettingsLink": "Impostazioni",
+      "Movies": "Film",
+      "Cast": "Cast",
+      "News": "Notizie",
+      "Orders": "Ordini"
+    },
+    "Dashboard": {
+      "Sections": {
+        "UserManagement": "Gestione Utenti",
+        "CastManagement": "Gestione Cast",
+        "MovieManagement": "Gestione Film",
+        "NewsManagement": "Gestione News",
+        "OrdersManagment": "Gestione Ordini"
+      },
+      "Loading": {
+        "TitleError": "Ops! Errore di caricamento",
+        "MessageError": "Non è stato possibile caricare i dati della dashboard. Verifica la connessione o riprova.",
+        "LoadingMessage": "Caricamento dati dashboard in corso...",
+        "RetryButtonLabel": "Riprova"
+      },
+      "Labels": {
+        "Admins": "Amministratori",
+        "StandardUsers": "Utenti Standard",
+        "Actors": "Attori",
+        "Directors": "Registi",
+        "SubscriptionTrend": "Andamento Iscrizioni",
+        "MovieReleaseTrend": "Andamento Rilasci (Anni)",
+        "GenresDistribution": "Distribuzione per Genere",
+        "YearDistribution": "Distribuzione per Anno",
+        "Movie": "Totale film",
+        "CultMovie": "Totale film cult",
+        "News": "Totale Notizie",
+        "Order": "Totale ordini",
+        "OrderCompleted": "Totale ordini completati",
+        "GenresMoviesLabel": "Film per genere",
+        "UsersYearsLabel": "Utenti iscritti ogni anno",
+        "RevenueYearsLabel": "Incasso totale per anno (€)",
+        "TopSpenders": "Top utenti per spesa totale",
+        "UsersMonthThisYearLabel": "Utenti iscritti negli ultimi 6 mesi",
+        "OrdersPerOrderStateLabel": "Numero ordini per stato dell'ordine"
+      },
+      "Table": {
+        "User": "Utente",
+        "Revenue": "Spesa Totale",
+        "NoDataAvailable": "Nessun dato disponibile"
+      }
+    },
+    "MoviesPage": {
+      "Stats": {
+        "Total": "Totale Film",
+        "AveragePrice": "Prezzo Medio"
+      },
+      "Loading": "Caricamento film in corso...",
+      "ErrorTitle": "Ops! Errore di caricamento",
+      "ErrorMessage": "Non è stato possibile caricare i film. Verifica la connessione o riprova.",
+      "RetryButton": "Riprova",
+      "Empty": {
+        "Title": "Nessun film trovato",
+        "Subtitle": "Non ci sono film che corrispondono ai filtri selezionati.",
+        "Button": "Resetta Filtri"
+      },
+      "Filters": {
+        "Title": "Filtra Film",
+        "Name": "Titolo",
+        "NamePlaceholder": "Cerca per titolo...",
+        "Price": "Prezzo",
+        "Genre": "Genere",
+        "Year": "Anno",
+        "Director": "Regista",
+        "DirectorPlaceholder": "Nome regista...",
+        "Actor": "Attore",
+        "ActorPlaceholder": "Nome attore...",
+        "Reset": "Resetta Filtri"
+      },
+      "Buttons": {
+        "Edit": "Modifica",
+        "Delete": "Elimina",
+        "Add": "Aggiungi Film",
+        "Update": "Aggiorna Film",
+        "Cancel": "Annulla"
+      },
+      "Dialog": {
+        "AddTitle": "Aggiungi Nuovo Film",
+        "EditTitle": "Modifica Film",
+        "DeleteTitle": "Elimina Film",
+        "DeleteConfirm": "Sei sicuro di voler eliminare il film {{ name }}?",
+        "EditText": "Modifica i dettagli del film selezionato"
+      },
+      "MovieDialog": {
+        "Title": "Titolo Film",
+        "Genre": "Genere",
+        "Year": "Anno di Uscita",
+        "Price": "Prezzo (€)",
+        "Format": "Formato",
+        "Director": "Regista",
+        "Cast": "Cast / Attori",
+        "Story": "Trama",
+        "ImageUrl": "URL Immagine Copertina",
+        "IsCult": "Film Cult"
+      },
+      "Messages": {
+        "AddSuccess": "Film '{{ title }}' aggiunto con successo!",
+        "UpdateSuccess": "Film '{{ title }}' aggiornato con successo!",
+        "DeleteSuccess": "Film eliminato con successo!"
+      }
+    },
+    "CastPage": {
+      "Stats": {
+        "Total": "Totale Cast",
+        "Actors": "Attori",
+        "Directors": "Registi"
+      },
+      "Empty": {
+        "Title": "Nessun membro del cast trovato",
+        "Subtitle": "Non ci sono membri del cast che corrispondono ai filtri selezionati.",
+        "Button": "Resetta Filtri"
+      },
+      "Dialog": {
+        "AddTitle": "Aggiungi al Cast",
+        "EditTitle": "Modifica Persona",
+        "DeleteTitle": "Elimina dal Cast",
+        "DeleteConfirm": "Sei sicuro di voler eliminare <strong>{{name}}</strong>?"
+      },
+      "Messages": {
+        "AddSuccess": "{{name}} aggiunto con successo!",
+        "UpdateSuccess": "{{name}} modificato con successo!",
+        "ErrorUpdate": "Aggiornamento fallito",
+        "AddError": "Aggiunta fallita",
+        "ErrorDelete": "Rimozione fallita",
+        "DeleteSuccess": "Persona rimossa con successo",
+        "FiltersReset": "Filtri resettati"
+      },
+      "Buttons": {
+        "Update": "Modifica",
+        "Cancel": "Annulla",
+        "Delete": "Elimina",
+        "Add": "Aggiungi",
+        "Save": "Salva"
+      },
+      "Loading": "Caricamento cast in corso...",
+      "ErrorTitle": "Ops! Errore di caricamento",
+      "ErrorMessage": "Non è stato possibile caricare i membri del cast. Verifica la connessione o riprova.",
+      "RetryButton": "Riprova",
+      "CastDialog": {
+        "FullName": "Nome Completo",
+        "Role": "Ruolo",
+        "ImageUrl": "URL Immagine",
+        "PlaceholderUrl": "https://esempio.com/foto.jpg",
+        "Actor": "Attore",
+        "Director": "Regista"
+      },
+      "CastFilters": {
+        "Title": "Filtri Cast",
+        "SearchName": "Cerca nome",
+        "Role": "Ruolo",
+        "AllRoles": "Tutti i ruoli",
+        "Actor": "Attore",
+        "Director": "Regista",
+        "Reset": "Resetta Filtri"
+      },
+      "CastCard": {
+        "EditButtonLabel": "Modifica",
+        "DeleteButtonLabel": "Elimina"
+      }
+    },
+    "UsersPage": {
+      "Stats": {
+        "Total": "Totale Utenti",
+        "Admin": "Amministratori",
+        "Standard": "Utenti Standard",
+        "OrdersPerUser": "Ordini per Utente",
+        "InactiveUsers": "Utenti Inattivi ultimi {{count}} mesi"
+      },
+      "Loading": "Caricamento utenti in corso...",
+      "ErrorTitle": "Ops! Errore di caricamento",
+      "ErrorMessage": "Non è stato possibile caricare la lista utenti. Verifica la connessione o riprova.",
+      "RetryButton": "Riprova",
+      "Filters": {
+        "Title": "Filtri Utenti",
+        "Placeholder": "Cerca nome o email...",
+        "Year": "Anno",
+        "Role": "Ruolo",
+        "All": "Tutti",
+        "Name": "Nome e Email", 
+        "Reset": "Resetta Filtri"
+      },
+      "Dialog": {
+        "AddTitle": "Crea Nuovo Utente",
+        "EditTitle": "Modifica Utente",
+        "DeleteTitle": "Elimina Utente",
+        "DeleteConfirm": "Sei sicuro di voler eliminare l'utente <strong>{{name}}</strong>?<br/>L'operazione non può essere annullata.",
+        "Labels": {
+          "Name": "Nome",
+          "Surname": "Cognome",
+          "Email": "Email",
+          "IsAdmin": "Amministratore",
+          "Role": "Ruolo Utente",
+          "ImageUrl": "URL Immagine"
+        }
+      },
+      "Messages": {
+        "AddSuccess": "Utente creato con successo!",
+        "UpdateSuccess": "Utente aggiornato con successo!",
+        "DeleteSuccess": "Utente eliminato con successo!",
+        "FiltersReset": "Filtri resettati"
+      },
+      "Buttons": {
+        "Edit": "Modifica",
+        "Delete": "Elimina",
+        "Cancel": "Annulla",
+        "Create": "Crea",
+        "Reset": "Resetta Filtri"
+      },
+      "Empty": {
+        "Title": "Nessun utente trovato",
+        "Subtitle": "Non ci sono utenti che corrispondono ai filtri selezionati.",
+        "Button": "Resetta Filtri"
+      },
+      "Table": {
+        "Id": "ID",
+        "Registered": "Iscrizione",
+        "RoleAdmin": "Amministratore",
+        "RoleUser": "Utente Standard"
+      }
+    },
+    "OrdersPage": {
+      "Stats": {
+        "TotalOrders": "Totale Ordini",
+        "CompletedOrders": "Ordini Consegnati",
+        "TotalRevenue": "Incasso Totale",
+        "FilteredRevenue": "Incasso Filtrato"
+      },
+      "Loading": "Caricamento ordini in corso...",
+      "ErrorTitle": "Ops! Errore di caricamento",
+      "ErrorMessage": "Non è stato possibile caricare gli ordini. Verifica la connessione o riprova.",
+      "RetryButton": "Riprova",
+      "Empty": {
+        "Title": "Nessun ordine trovato",
+        "Subtitle": "Non ci sono ordini corrispondenti ai filtri selezionati.",
+        "Button": "Resetta Filtri"
+      },
+      "Filters": {
+        "MainTitle": "Filtri Ordini",
+        "Year": "Anno",
+        "YearPlaceholder": "Es: 2024",
+        "State": "Stato Ordine",
+        "MoviesNumber": "Numero Film",
+        "PriceRange": "Prezzo",
+        "Reset": "Resetta Filtri",
+        "All": "Tutti",
+        "Pending": "In attesa",
+        "Completed": "Completato",
+        "Shipped": "Spedito",
+        "Cancelled": "Annullato"
+      },
+      "Buttons": {
+        "Create": "Crea",
+        "Update": "Modifica",
+        "Delete": "Elimina",
+        "Cancel": "Annulla"
+      },
+      "Dialog": {
+        "AddTitle": "Crea Nuovo Ordine",
+        "AddText": "Inserisci i dati per creare un ordine manualmente.",
+        "EditTitle": "Modifica Ordine",
+        "EditText": "Aggiorna lo stato o l'importo dell'ordine.",
+        "DeleteTitle": "Elimina Ordine",
+        "DeleteConfirm": "Sei sicuro di voler eliminare l'ordine <strong>#{{id}}</strong>?"
+      },
+      "OrderDialog": {
+        "UserIdLabel": "Utente",
+        "SellPointLabel": "Punto Vendita",
+        "MoviesLabel": "Film Ordinati",
+        "QuantityLabel": "Articolo",
+        "StatusLabel": "Stato della Transazione",
+        "AmountLabel": "Importo Totale (€)",
+        "UserIdPlaceholder": "Inserisci l'ID dell'utente...",
+        "AmountPlaceholder": "0.00"
+      },
+      "Messages": {
+        "AddSuccess": "Ordine creato con successo!",
+        "UpdateSuccess": "Ordine aggiornato con successo!",
+        "DeleteSuccess": "Ordine eliminato con successo!",
+        "FiltersReset": "Filtri resettati"
+      },
+      "Table": {
+        "Id": "ID Ordine",
+        "Date": "Data",
+        "Status": "Stato",
+        "Total": "Totale",
+        "Actions": "Azioni"
+      }
+    },
+    "NewsPage": {
+      "Stats": {
+        "Total": "Totale Notizie",
+        "Recent": "Notizie Recenti"
+      },
+      "Filters": {
+        "Title": "Filtri Notizie",
+        "SearchLabel": "Cerca nel titolo",
+        "Placeholder": "Inserisci parola chiave...",
+        "MovieLabel": "Film Correlato",
+        "MoviePlaceholder": "Cerca per titolo film...",
+        "ActorLabel": "Attore Correlato",
+        "ActorPlaceholder": "Cerca per nome attore...",
+        "Year": "Anno",
+        "All": "Tutti gli anni",
+        "Reset": "Resetta Filtri"
+      },
+      "Dialog": {
+        "AddTitle": "Pubblica Nuova Notizia",
+        "EditTitle": "Modifica Notizia",
+        "DeleteTitle": "Elimina Notizia",
+        "DeleteConfirm": "Sei sicuro di voler eliminare la notizia <strong>{{title}}</strong>?"
+      },
+      "NewsDialog": {
+        "TitleLabel": "Titolo Notizia",
+        "TitlePlaceholder": "Inserisci titolo...",
+        "ImageLabel": "URL Immagine",
+        "ContentLabel": "Contenuto Notizia",
+        "MoviesLabel": "Film Correlati",
+        "ActorsLabel": "Attori/Cast Correlati",
+        "Loading": "Ricerca in corso..."
+      },
+      "Messages": {
+        "AddSuccess": "Notizia pubblicata con successo!",
+        "UpdateSuccess": "Notizia aggiornata con successo!",
+        "DeleteSuccess": "Notizia rimossa con successo!",
+        "FiltersReset": "Filtri resettati",
+        "ErrorUpdate": "Aggiornamento fallito",
+        "AddError" : "Aggiunta notizia fallita",
+        "DeleteError": "Eliminazione notizia fallita"
+      },
+      "Buttons": {
+        "Create": "Pubblica",
+        "Edit": "Modifica",
+        "Delete": "Elimina",
+        "Cancel": "Annulla",
+        "Save": "Salva"
+      },
+      "Loading": "Caricamento notizie in corso...",
+      "ErrorTitle": "Ops! Errore di caricamento",
+      "ErrorMessage": "Non è stato possibile caricare le notizie. Verifica la connessione o riprova.",
+      "RetryButton": "Riprova",
+      "Empty": {
+        "Title": "Nessuna notizia trovata",
+        "Subtitle": "Non ci sono notizie che corrispondono ai filtri selezionati.",
+        "Button": "Resetta Filtri"
+      }
+    }
+  }
+}

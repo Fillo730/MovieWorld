@@ -1,0 +1,48 @@
+<p-dialog
+  [modal]="true"
+  [(visible)]="isVisible"
+  (visibleChange)="handleCloseModal()"
+  showHeader="false"
+  contentStyleClass="background-color-custom text-color">
+  <div class="modal-container ">
+
+    <h2 class="p-3">{{ news.title }}</h2>
+
+    <img [src]="news.imagePath" alt="news image" class="w-full rounded-lg modal-image p-3" />
+
+    <p class="text-sm text-gray-500">
+      <strong>Data:</strong> {{ news.date }}
+    </p>
+
+    <p class="text-base text-gray-800 leading-relaxed">
+      {{ news.text }}
+    </p>
+
+    @if(news.relatedActors.length != 0) {
+      <h4>Attori correlati</h4>
+      <div class="modal-persons-container">
+          @for (person of news.relatedActors; track $index) {
+              <image-title-card-component [name]="person.fullName" [imagePath]="person.imagePath"></image-title-card-component>
+          }
+      </div>
+    }
+
+    @if(news.relatedMovies.length != 0) {
+      <h4 class="mt-4">Film correlati</h4>
+    <div class="modal-persons-container">
+        @for (movie of news.relatedMovies; track $index) {
+            <image-title-card-component [name]="movie.title" [imagePath]="movie.imagePath ?? ''" [isClicable]="true" [movieClicked]="movie" (cardClicked)="handleMovieClick($event)"></image-title-card-component>
+        }
+    </div>
+    }
+
+  </div>
+
+  <div class="flex justify-end gap-2 mt-4">
+    <p-button
+      label="Close"
+      [severity]="handleButtonTheme()"
+      (click)="handleCloseModal()"
+    />
+  </div>
+</p-dialog>

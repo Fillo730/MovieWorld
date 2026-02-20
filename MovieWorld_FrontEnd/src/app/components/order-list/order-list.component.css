@@ -1,0 +1,6 @@
+.orders-list {
+    display: flex;
+    flex: row;
+    flex-wrap: wrap;
+    justify-content: start;
+}

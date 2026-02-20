@@ -1,0 +1,69 @@
+.movie-card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 350px;
+    height: 780px;
+}
+
+.movie-image {
+    width: 100%;
+    height: 450px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.movie-body {
+    flex-grow: 1;
+}
+
+.movie-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.movie-title {
+    font-size: 1.4rem;
+    margin: 0;
+}
+
+.movie-price {
+    font-size: 1rem;
+}
+
+.movie-genre {
+    font-size: 1.1rem;
+    color: #3e56f5;
+}
+
+.movie-story {
+    margin-top: 0.5rem;
+    font-size: 0.95rem;
+    line-height: 1.3rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+    -webkit-box-orient: vertical;
+}
+
+.movie-quantity {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.movie-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+@media (max-width: 412px) {
+    .movie-footer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+}

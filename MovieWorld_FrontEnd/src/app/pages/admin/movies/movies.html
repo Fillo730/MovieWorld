@@ -1,0 +1,81 @@
+<div class="admin-container">
+  <div class="header-actions">
+    @if (!hasError && !(isLoading && movies.length === 0)) {
+      <movies-filters-component
+        [filters]="filters"
+        [genres]="genres"
+        [filtersTitle]="'Admin.MoviesPage.Filters.Title' | translate"
+        [nameTitle]="'Admin.MoviesPage.Filters.Name' | translate"
+        [namePlaceholder]="'Admin.MoviesPage.Filters.NamePlaceholder' | translate"
+        [priceTitle]="'Admin.MoviesPage.Filters.Price' | translate"
+        [genreTitle]="'Admin.MoviesPage.Filters.Genre' | translate"
+        [yearTitle]="'Admin.MoviesPage.Filters.Year' | translate"
+        [directorTitle]="'Admin.MoviesPage.Filters.Director' | translate"
+        [directorPlaceholder]="'Admin.MoviesPage.Filters.DirectorPlaceholder' | translate"
+        [actorTitle]="'Admin.MoviesPage.Filters.Actor' | translate"
+        [actorPlaceholder]="'Admin.MoviesPage.Filters.ActorPlaceholder' | translate"
+        [resetLabel]="'Admin.MoviesPage.Filters.Reset' | translate"
+        (filtersChanged)="applyFilters()"
+        (filtersReset)="resetFilters()">
+      </movies-filters-component>
+
+      <div class="stats-chips">
+        <mat-chip-set>
+          <mat-chip>
+            {{ 'Admin.MoviesPage.Stats.Total' | translate }}: {{ countMovies }}
+          </mat-chip>
+        </mat-chip-set>
+      </div>
+
+      <button mat-fab color="accent" class="fab-add" (click)="addMovie()">
+        <mat-icon>add</mat-icon>
+      </button>
+    }
+  </div>
+
+  @if (isLoading && movies.length === 0) {
+    <state-handler-component 
+      type="loading" 
+      message="Admin.MoviesPage.Loading">
+    </state-handler-component>
+  }
+  @else if (hasError) {
+    <state-handler-component 
+      type="error" 
+      title="Admin.MoviesPage.ErrorTitle" 
+      message="Admin.MoviesPage.ErrorMessage"
+      buttonLabel="Admin.MoviesPage.RetryButton"
+      (action)="loadMovies()">
+    </state-handler-component>
+  }
+  @else {
+    <div class="grow">
+      @if (movies.length === 0) {
+        <div class="d-flex align-items-center justify-content-center py-5">
+          <state-handler-component 
+            type="empty"
+            title="Admin.MoviesPage.Empty.Title"
+            message="Admin.MoviesPage.Empty.Subtitle"
+            buttonLabel="Admin.MoviesPage.Empty.Button"
+            (action)="resetFilters()">
+          </state-handler-component>
+        </div>
+      } 
+      @else {
+        <movies-list-component
+        [showMoviesNotCentered]="true"
+          [movies]="movies"
+          [totalRecords]="totalRecords"
+          [rows]="rows"
+          [first]="first"
+          [castServicesVisible]="false"
+          [modifyButtonLabel]="'Admin.MoviesPage.Buttons.Edit' | translate"
+          [deleteButtonLabel]="'Admin.MoviesPage.Buttons.Delete' | translate"
+          (onDeleteMovie)="deleteMovie($event)"
+          (onEditMovie)="updateMovie($event)"
+          (onPageChange)="handlePageChange($event)">
+        </movies-list-component>
+      }
+    </div>
+  }
+</div>

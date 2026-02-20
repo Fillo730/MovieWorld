@@ -1,0 +1,135 @@
+<div class="d-flex flex-column justify-content-center align-items-center occupy-all-screen login-background p-3">
+
+    <div class="login-card text-white">
+
+        <h1 class="text-4xl mb-4 text-center">
+            <strong>{{ 'SignUp.Title' | translate }}</strong>
+        </h1>
+
+        <p class="text-center mb-3" [innerHTML]="'SignUp.Text' | translate"></p>
+
+        <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" 
+              class="d-flex flex-column justify-content-center align-items-center gap-4 w-100">
+
+            <div class="flex flex-col w-100">
+                <input pInputText type="text"
+                       [placeholder]="'SignUp.NamePlaceholder' | translate"
+                       formControlName="firstName"
+                       [invalid]="isInvalid('firstName')" 
+                       class="p-inputtext-lg w-100" />
+
+                @if (isInvalid('name')) {
+                    @if (signupForm.get('firstName')?.errors?.['required']) {
+                        <p-message severity="error" size="small">
+                            {{ 'SignUp.Errors.NameRequired' | translate }}
+                        </p-message>
+                    }
+                    @if (signupForm.get('firstName')?.errors?.['nameInvalid']) {
+                        <p-message severity="error" size="small">
+                            {{ 'SignUp.Errors.NameInvalid' | translate }}
+                        </p-message>
+                    }
+                }
+            </div>
+
+            <div class="flex flex-col w-100">
+                <input pInputText type="text"
+                       [placeholder]="'SignUp.SurnamePlaceholder' | translate"
+                       formControlName="lastName"
+                       [invalid]="isInvalid('lastName')" 
+                       class="p-inputtext-lg w-100" />
+
+                @if (isInvalid('lastName')) {
+                    @if (signupForm.get('lastName')?.errors?.['required']) {
+                        <p-message severity="error" size="small">
+                            {{ 'SignUp.Errors.SurnameRequired' | translate }}
+                        </p-message>
+                    }
+                    @if (signupForm.get('lastName')?.errors?.['nameInvalid']) {
+                        <p-message severity="error" size="small">
+                            {{ 'SignUp.Errors.SurnameInvalid' | translate }}
+                        </p-message>
+                    }
+                }
+            </div>
+
+            <div class="flex flex-col w-100">
+                <input pInputText type="email"
+                       [placeholder]="'SignUp.EmailPlaceholder' | translate"
+                       formControlName="email"
+                       [invalid]="isInvalid('email')" 
+                       class="p-inputtext-lg w-100" />
+
+                @if (isInvalid('email')) {
+                    @if (signupForm.get('email')?.errors?.['required']) {
+                        <p-message severity="error" size="small">
+                            {{ 'SignUp.Errors.EmailRequired' | translate }}
+                        </p-message>
+                    }
+                    @if (signupForm.get('email')?.errors?.['emailInvalid']) {
+                        <p-message severity="error" size="small">
+                            {{ 'SignUp.Errors.EmailInvalid' | translate }}
+                        </p-message>
+                    }
+                }
+            </div>
+
+            <div class="flex flex-col w-100">
+                <input pInputText type="password"
+                       [placeholder]="'SignUp.PasswordPlaceholder' | translate"
+                       formControlName="password"
+                       [invalid]="isInvalid('password')" 
+                       class="p-inputtext-lg w-100" />
+
+                @if (isInvalid('password')) {
+                    @if (signupForm.get('password')?.errors?.['required']) {
+                        <p-message severity="error" size="small">
+                            {{ 'SignUp.Errors.PasswordRequired' | translate }}
+                        </p-message>
+                    }
+                    @if (signupForm.get('password')?.errors?.['passwordInvalid']) {
+                        <p-message severity="error" size="small">
+                            {{ 'SignUp.Errors.PasswordInvalid' | translate }}
+                        </p-message>
+                    }
+                }
+            </div>
+
+            <div class="flex flex-col w-100">
+                <input pInputText type="password"
+                       [placeholder]="'SignUp.ConfirmPasswordPlaceholder' | translate"
+                       formControlName="confirmPassword"
+                       [invalid]="isInvalid('confirmPassword')" 
+                       class="p-inputtext-lg w-100" />
+
+                @if (isInvalid('confirmPassword')) {
+                    @if (signupForm.get('confirmPassword')?.errors?.['required']) {
+                        <p-message severity="error" size="small">
+                            {{ 'SignUp.Errors.ConfirmPasswordRequired' | translate }}
+                        </p-message>
+                    }
+                    @if (signupForm.get('confirmPassword')?.errors?.['passwordMismatch']) {
+                        <p-message severity="error" size="small">
+                            {{ 'SignUp.Errors.PasswordMismatch' | translate }}
+                        </p-message>
+                    }
+                }
+            </div>
+
+            <div class="display-horizontal-center gap-5 mt-4">
+                <button pButton severity="success" (click)="handleGoBack()" class="p-button-lg">
+                    <span pButtonLabel>{{ 'SignUp.GoBackButtonText' | translate }}</span>
+                </button>
+
+                <button pButton type="submit" severity="success" class="p-button-lg" [loading]="isLoading">
+                    <span pButtonLabel>{{ 'SignUp.GoToSignUpButtonText' | translate }}</span>
+                </button>
+            </div>
+
+            <button pButton severity="secondary" (click)="handleGoLogin()" class="p-button-lg mt-2">
+                <span pButtonLabel>{{ 'SignUp.GoToLoginButtonText' | translate }}</span>
+            </button>
+
+        </form>
+    </div>
+</div>

@@ -1,0 +1,24 @@
+<div class="list-group-item cart-item card-border-theme background-color-custom-ligher text-color">
+
+  <div class="cart-item-left">
+      <img [src]="movie.imagePath" class="cart-item-img">
+      <div>
+          <h5 class="mb-1">{{ movie.title }}</h5>
+          <p class="m-0 genre-text">
+            @for (genre of movie.genres; track genre.id; let last = $last) {
+                {{ genre.name }}{{ !last ? ', ' : '' }}
+            }
+        </p>
+      </div>
+  </div>
+
+  <div class="cart-item-right">
+      <div class="fw-bold mb-2">{{ movie.cost| currency: 'EUR':'symbol'}}</div>
+      <div class="fw-bold mb-2">{{ quantityLabel }} {{ quantity }}</div>
+
+      <i class="pi pi-trash cursor-pointer trash-icon"
+         (click)="handleRemoveItem(movie)">
+      </i>
+  </div>
+
+</div>

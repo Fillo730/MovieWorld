@@ -1,0 +1,100 @@
+<header-component></header-component>
+
+<div class="header-row background-color-custom-ligher text-color p-3">
+    <h1>{{ 'SellPoints.SellPointsTitle' | translate }}</h1>
+    
+    @if (!error && !(isLoading && sellPoints.length === 0)) {
+        <div class="buttons-container d-flex gap-2">
+            <p-button
+                label="{{ 'SellPoints.FiltersTitle' | translate }}"
+                [severity]="getButtonTheme()"
+                data-bs-toggle="collapse"
+                data-bs-target="#sellPointsCollapse"
+                aria-expanded="false"
+                aria-controls="sellPointsCollapse">
+            </p-button>
+
+            <p-button
+                label="{{ 'Catalog.DownloadExcell' | translate }}"
+                [loading]="isLoadingButton"
+                [severity]="getDownloadButtonTheme()"
+                (onClick)="downloadExcel()">
+            </p-button>
+        </div>
+    }
+</div>
+
+@if (isLoading && sellPoints.length === 0) {
+    <state-handler-component 
+        type="loading" 
+        message="SellPoints.Loading">
+    </state-handler-component>
+}
+@else if (error) {
+    <state-handler-component 
+        type="error" 
+        title="SellPoints.ErrorTitle" 
+        message="SellPoints.ErrorMessage"
+        buttonLabel="SellPoints.RetryButton"
+        [buttonSeverity]="getButtonTheme()"
+        (action)="loadData()">
+    </state-handler-component>
+}
+@else {
+    <div class="sell-points-container background-color-custom-ligher p-4 d-flex gap-5">
+        
+        <div class="filters-sidebar">
+            <div class="collapse p-fluid" id="sellPointsCollapse">
+                <sell-points-filter-component
+                    [filters]="filters"
+                    (filtersChanged)="onFiltersChanged()"
+                    [mainTitle]="'SellPoints.FiltersTitle' | translate"
+                    [filterCityLabel]="'SellPoints.FilterCityTitle' | translate"
+                    [allCitiesLabel]="'SellPoints.FiltersAllCitiesLabel' | translate">
+                </sell-points-filter-component>
+            </div>
+        </div>
+
+        <div class="grow d-flex flex-column">
+            @if (sellPoints.length === 0) {
+                <div class="d-flex align-items-center justify-content-center py-5" style="min-height: 400px;">
+                    <state-handler-component 
+                        type="empty"
+                        title="SellPoints.NoPointsFound"
+                        message="SellPoints.NoPointsFoundMessage"
+                        buttonLabel="SellPoints.FiltersResetButton"
+                        buttonIcon="pi pi-filter-slash"
+                        [buttonSeverity]="getButtonTheme()"
+                        (action)="handleResetFilters()">
+                    </state-handler-component>
+                </div>
+            } 
+            @else {
+                <sell-points-list-component 
+                    [sellPoints]="sellPoints"
+                    [totalRecords]="totalCount"
+                    [rows]="pageSize"
+                    (pageChanged)="onPageChanged($event)"
+                    [isSelectable]="false"
+                    [isDistanceOnCardsVisible]="false"
+                    [isPaginatorActive]="true"
+                    [paginatorElements]="[10,15]"
+                    [searchOnMapsLabel]="'SellPoints.FindOnMapsButtonText' | translate">
+                </sell-points-list-component>
+            }
+        </div>
+    </div>
+
+    @if (sellPoints.length > 0) {
+        <div class="display-vertical-center background-color-custom-ligher text-color p-4">
+            <nearest-sell-finder-component
+                [mainTitle]="'SellPoints.NearestSellPointTitle' | translate"
+                [text]="'SellPoints.NearestSellPointText' | translate"
+                [buttonLabel]="'SellPoints.NearestSellPointButtonText' | translate"
+                [searchOnMapPointsLabel]="'SellPoints.FindOnMapsButtonText' | translate">
+            </nearest-sell-finder-component>
+        </div>
+    }
+}
+
+<footer-component></footer-component>
