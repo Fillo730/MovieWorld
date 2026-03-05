@@ -28,11 +28,11 @@ public class OrdersController(IOrdersService ordersService) : BaseController
 
     [Authorize]
     [HttpGet("user")]
-    public async Task<IActionResult> GetAllUsersOrdersAsync([FromQuery] OrdersFilterDto filters, [FromQuery] int userId, [FromQuery] int pageIndex = 1, [FromQuery] int pageSize = 10, [FromQuery] string? lang = null)
+    public async Task<IActionResult> GetAllUsersOrdersAsync([FromQuery] OrdersFilterDto filters, [FromQuery] int pageIndex = 1, [FromQuery] int pageSize = 10, [FromQuery] string? lang = null)
     {
         try
         {
-            var result = await _ordersService.GetUserOrdersAsync(userId, pageIndex, pageSize, filters, GetCurrentLanguage(lang));
+            var result = await _ordersService.GetUserOrdersAsync(GetUserIdFromToken(), pageIndex, pageSize, filters, GetCurrentLanguage(lang));
 
             return Ok(ApiResponse<PagedResult<OrderDto>>.CreateSuccessResponse(result));
         }

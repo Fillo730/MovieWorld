@@ -1,28 +1,34 @@
-import { FormsModule } from '@angular/forms';
-import { Component, OnInit, OnDestroy, inject } from '@angular/core';
+//Angular
+import { Component, OnInit, inject, computed, signal, effect } from '@angular/core';
 import { Router } from '@angular/router';
 import { CurrencyPipe } from '@angular/common';
-import { Subscription } from 'rxjs';
+import { FormsModule } from '@angular/forms';
+
+//PrimeNG & UI
 import { ButtonModule } from 'primeng/button';
 import { ListboxModule } from 'primeng/listbox';
+
+//Services
+import { CartService } from '../../services/cart.service';
+import { ToastService } from '../../services/toast.service';
+import { ThemeService } from '../../services/theme.service';
+import { AuthService } from '../../services/auth.service';
+import { LanguageService } from '../../services/language.service';
+import { SellPointsService } from '../../services/sell-points.service';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+
+//Models & Utils
+import { Movie } from '../../models/Movie.model';
+import { SellPoint } from '../../models/SellPoint.model';
+import { UserCreateOrderRequest } from '../../models/UserCreateOrderRequest.model';
+import { getLatLngUser } from '../../utils/findDidstanceMaps';
+import { getButtonTypeBasedOnTheme } from '../../utils/themeFunctions';
+
+//Components
 import { SellPointsListComponent } from '../../components/sell-points-list/sell-points-list.component';
 import { Footer } from '../../components/footer/footer.component';
 import { Header } from '../../components/header/header.component';
 import { CartItemComponent } from '../../components/cart-item/cart-item.component';
-import { TranslatePipe, TranslateService } from '@ngx-translate/core';
-import { CartService } from '../../services/cart.service';
-import { ToastService } from '../../services/toast.service';
-import { ThemeService } from '../../services/theme.service';
-import { AuthService } from '../../services/auth-service.service';
-import { getButtonTypeBasedOnTheme } from '../../utils/themeFunctions';
-import { Movie } from '../../models/Movie.model';
-import { SellPoint } from '../../models/SellPoint.model';
-import { getLatLngUser } from '../../utils/findDidstanceMaps';
-import { LanguageService } from '../../services/language.service';
-import { SellPointsService } from '../../services/sell-points.service';
-import { Order, OrderItem } from '../../models/Order.model';
-import { OrdersService } from '../../services/orders.service';
-import { UserCreateOrderRequest } from '../../models/UserCreateOrderRequest.model';
 import { StateHandlerComponent } from '../../components/state-handler/state-handler.component';
 
 @Component({
@@ -35,102 +41,83 @@ import { StateHandlerComponent } from '../../components/state-handler/state-hand
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.css'
 })
-export class Cart implements OnInit, OnDestroy {
+export class Cart implements OnInit {
   private readonly router = inject(Router);
-  private readonly authService = inject(AuthService);
-  private readonly cartService = inject(CartService);
+  public readonly authService = inject(AuthService);
+  public readonly cartService = inject(CartService);
   private readonly sellPointsService = inject(SellPointsService);
   private readonly themeService = inject(ThemeService);
   private readonly toastService = inject(ToastService);
   private readonly translate = inject(TranslateService);
-  private readonly languageService = inject(LanguageService);
+  public readonly languageService = inject(LanguageService);
 
-  sellPoints: SellPoint[] = [];
-  total: number = 0;
-  selectedSellPoint!: SellPoint;
-  moviesInTheCart: OrderItem[] = [];
-  areSellPointsOrdered: boolean = false;
-  totalRecords: number = 0;
-  rows: number = 6;
-  first: number = 0;
-
-  public lang = this.languageService.currentLanguage;
-
-  isLoading: boolean = true;
-  error: boolean = false;
-  distanceCalculationLoading: boolean = false;
+  sellPoints = signal<SellPoint[]>([]);
+  totalRecords = signal(0);
+  isLoading = signal(true);
+  error = signal(false);
+  distanceCalculationLoading = signal(false);
   
-  private lastLat?: number;
+  rows = 6;
+  first = 0;
+  public lastLat?: number;
   private lastLng?: number;
-  private cartSubscription!: Subscription;
 
-  ngOnInit() {
-    this.initCart();
-  }
+  selectedSellPoint!: SellPoint;
 
-  initCart() {
-    this.isLoading = true;
-    this.error = false;
-    
-    this.cartSubscription = this.cartService.cart$.subscribe({
-      next: (cart) => {
-        if (cart) {
-          this.moviesInTheCart = cart.items.map(item => ({...item, price: item.movie.cost ?? 0})) as OrderItem[];
-          this.total = cart.totalPrice ?? 0;
-          
-          if (cart.items.length === 0 && this.router.url === '/cart') {
-            this.router.navigate(['/catalog']);
-            return;
-          }
+  public readonly moviesInTheCart = computed(() => 
+    this.cartService.cart()?.items.map(item => ({
+      ...item, 
+      price: item.movie.cost ?? 0
+    })) ?? []
+  );
 
-          if (cart.items.length > 0) {
-            this.loadSellPoints();
-          } else {
-            this.isLoading = false;
-          }
-        }
-      },
-      error: () => {
-        this.error = true;
-        this.isLoading = false;
+  public readonly moviesIds = computed<number[]>(() => {
+    return this.moviesInTheCart().map(item => item.movie.movieId);
+  });
+
+  public readonly cartTotal = this.cartService.totalPrice;
+
+  constructor() {
+    effect(() => {
+      if (this.cartService.isEmpty() && this.router.url === '/cart') {
+        this.goToCatalog();
       }
     });
+  }
+
+  ngOnInit() {
+    this.loadSellPoints();
   }
 
   loadSellPoints(userLat?: number, userLng?: number) {
     if (userLat !== undefined && userLng !== undefined) {
       this.lastLat = userLat;
       this.lastLng = userLng;
-      this.areSellPointsOrdered = true;
     }
 
-    const movieIds = this.cartService.getMovieIds();
+    this.isLoading.set(true);
     const pageIndex = Math.floor(this.first / this.rows);
 
     this.sellPointsService.getSellPointsByMovies(
-      pageIndex, this.rows, this.lang(), movieIds, this.lastLat, this.lastLng
+      pageIndex, this.rows, this.moviesIds(), this.lastLat, this.lastLng
     ).subscribe({
       next: (response) => {
-        if (response.success) {
-          this.sellPoints = response.data.items;
-          this.totalRecords = response.data.totalCount;
-          this.error = false;
-        } else {
-          this.error = true;
-        }
-        this.isLoading = false;
-        this.distanceCalculationLoading = false;
+        this.sellPoints.set(response.data.items);
+        this.totalRecords.set(response.data.totalCount);
+        this.error.set(false);
+        this.isLoading.set(false);
+        this.distanceCalculationLoading.set(false);
       },
       error: () => {
-        this.error = true;
-        this.isLoading = false;
-        this.distanceCalculationLoading = false;
+        this.error.set(true);
+        this.isLoading.set(false);
+        this.distanceCalculationLoading.set(false);
       }
     });
   }
 
   handleOrderByDistance() {
-    this.distanceCalculationLoading = true;
+    this.distanceCalculationLoading.set(true);
     getLatLngUser()
       .then(pos => {
         this.first = 0;
@@ -138,7 +125,7 @@ export class Cart implements OnInit, OnDestroy {
       })
       .catch(() => {
         this.toastService.error(this.translate.instant('Cart.LocationError'));
-        this.distanceCalculationLoading = false;
+        this.distanceCalculationLoading.set(false);
       });
   }
 
@@ -152,19 +139,21 @@ export class Cart implements OnInit, OnDestroy {
     this.cartService.clearCart().subscribe(res => {
       if (res.success) {
         this.toastService.success(this.translate.instant('Cart.ToastCartEmpty'));
-        this.router.navigate(['/catalog']);
+        this.goToCatalog();
       }
     });
   }
 
   handleCompleteOrder() {
+    if (!this.selectedSellPoint) return;
+
     const request: UserCreateOrderRequest = {
       orderStateId: 1,
       sellPointId: this.selectedSellPoint.id,
-      items: this.moviesInTheCart
+      items: this.moviesInTheCart()
     };
 
-    this.cartService.addUserOrder(request, this.lang()).subscribe(res => {
+    this.cartService.addUserOrder(request).subscribe(res => {
       if (res.success) {
         this.cartService.clearCart().subscribe(() => {
           this.toastService.success(this.translate.instant('Cart.ToastOrderCompleted'));
@@ -180,6 +169,7 @@ export class Cart implements OnInit, OnDestroy {
     this.cartService.removeFromCart(movie.movieId).subscribe(res => {
       if (res.success) {
         this.toastService.success(this.translate.instant('Cart.ToastItemRemoved'));
+        this.loadSellPoints(); 
       }
     });
   }
@@ -192,17 +182,7 @@ export class Cart implements OnInit, OnDestroy {
     this.selectedSellPoint = sellPoint;
   }
 
-  handleButtonTheme() {
+  get buttonTheme() {
     return getButtonTypeBasedOnTheme(this.themeService.isDark());
-  }
-
-  getUserName() {
-    return this.authService.getUserName();
-  }
-
-  ngOnDestroy() {
-    if (this.cartSubscription) {
-      this.cartSubscription.unsubscribe();
-    }
   }
 }

@@ -14,7 +14,7 @@ import { LanguageService } from '../../services/language.service';
 import { Movie } from '../../models/Movie.model';
 import { scrollToTop } from '../../utils/windowFunctions';
 import { goToMovieDetail } from '../../utils/navigationFunctions';
-import { AuthService } from '../../services/auth-service.service';
+import { AuthService } from '../../services/auth.service';
 import { getButtonTypeBasedOnTheme } from '../../utils/themeFunctions';
 import { ThemeService } from '../../services/theme.service';
 
@@ -64,7 +64,7 @@ export class MovieDetail implements OnInit {
         this.isLoading = true;
         this.error = false;
 
-        this.movieService.getMovieById(id, this.lang()).subscribe({
+        this.movieService.getMovieById(id).subscribe({
           next: (dbMovie) => {
             if (dbMovie) {
               this.movie = dbMovie;
@@ -84,7 +84,7 @@ export class MovieDetail implements OnInit {
   }
 
   loadRelatedMovies(id: number, lang: string) {
-    this.movieService.getMoviesWithSameGenre(id, lang, 5).subscribe({
+    this.movieService.getMoviesWithSameGenre(id, 5).subscribe({
       next: (dbMovies) => {
         this.moviesWithSameGenre = dbMovies;
       }

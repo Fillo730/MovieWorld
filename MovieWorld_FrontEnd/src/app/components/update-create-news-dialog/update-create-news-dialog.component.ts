@@ -13,7 +13,7 @@ import { debounceTime, filter, finalize, switchMap, tap } from 'rxjs/operators';
 
 import { News } from '../../models/News.model';
 import { MovieService } from '../../services/movie.service';
-import { PersonService } from '../../services/personService.service';
+import { PersonService } from '../../services/persons.service';
 import { LanguageService } from '../../services/language.service';
 import { Movie } from '../../models/Movie.model';
 import { Person } from '../../models/Person.model';
@@ -61,7 +61,7 @@ export class UpdateCreateNewsDialogComponent implements OnInit {
       filter(val => typeof val === 'string' && val.length >= 2),
       debounceTime(400),
       tap(() => this.isLoading = true),
-      switchMap(query => this.movieService.getMoviesByQuery(8, query, this.lang()).pipe(
+      switchMap(query => this.movieService.getMoviesByQuery(8, query).pipe(
         finalize(() => this.isLoading = false)
       ))
     ).subscribe(res => {

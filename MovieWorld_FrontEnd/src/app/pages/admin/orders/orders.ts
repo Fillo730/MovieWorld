@@ -63,7 +63,7 @@ export class OrdersComponent implements OnInit {
   }
 
   loadStates() {
-    this.ordersService.getOrderStates(this.lang()).subscribe(response => {
+    this.ordersService.getOrderStates().subscribe(response => {
       if(response.success) {
         this.orderStates = response.data;
       }
@@ -75,7 +75,7 @@ export class OrdersComponent implements OnInit {
     this.hasError = false;
     const pageIndex = Math.floor(this.first / this.rows);
     
-    this.ordersService.getOrders(pageIndex, this.rows, this.filters, this.lang()).subscribe({
+    this.ordersService.getOrders(pageIndex, this.rows, this.filters).subscribe({
       next: (response) => {
         if(response.success) {
           this.orders = response.data.items;
@@ -142,7 +142,7 @@ export class OrdersComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.ordersService.addOrder(result, this.lang()).subscribe(response => {
+        this.ordersService.addOrder(result).subscribe(response => {
           if(response.success) {
             this.toastService.success(this.translate.instant('Admin.OrdersPage.Messages.AddSuccess'));
             this.loadOrders();
@@ -173,7 +173,7 @@ export class OrdersComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.ordersService.updateOrder(result, this.lang()).subscribe(response => {
+        this.ordersService.updateOrder(result).subscribe(response => {
           if(response.success) {
             this.toastService.success(this.translate.instant('Admin.OrdersPage.Messages.UpdateSuccess'));
             this.loadOrders();

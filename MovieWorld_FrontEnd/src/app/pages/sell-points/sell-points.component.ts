@@ -59,7 +59,7 @@ export class SellPoints implements OnInit {
     this.isLoading = true;
     this.error = false;
 
-    this.sellPointsService.getSellPoints(this.pageIndex, this.pageSize, this.lang(), this.filters).subscribe({
+    this.sellPointsService.getSellPoints(this.pageIndex, this.pageSize, this.filters).subscribe({
       next: (response) => {
         if(response.success) {
           this.sellPoints = response.data.items;
@@ -79,7 +79,7 @@ export class SellPoints implements OnInit {
 
   downloadExcel() {
     this.isLoadingButton = true;
-    this.sellPointsService.exportToExcel(this.filters, this.lang()).subscribe(blob => {
+    this.sellPointsService.exportToExcel(this.filters).subscribe(blob => {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;

@@ -18,7 +18,7 @@ import { LanguageService } from '../../services/language.service';
 import { emailValidator, passwordValidatorLogin, nameValidator, surnameValidator} from '../../utils/authChecks';
 import { RegisterRequest } from '../../models/RegisterRequest.model';
 import { ToastService } from '../../services/toast.service';
-import { AuthService } from '../../services/auth-service.service';
+import { AuthService } from '../../services/auth.service';
 import { pipe } from 'rxjs';
 
 @Component({

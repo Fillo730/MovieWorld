@@ -1,9 +1,9 @@
 //Angular
 import { Inject, Injectable, PLATFORM_ID } from "@angular/core";
+import { isPlatformBrowser } from "@angular/common";
 
 //Utils
 import { StorageKey } from "../constants/storageKeys";
-import { isPlatformBrowser } from "@angular/common";
 
 @Injectable({
     providedIn: 'root'
@@ -20,7 +20,7 @@ export class StorageService {
         return this.isBrowser && !!window.localStorage;
     }
 
-    setItem(key : StorageKey, value : any) : void {
+    public setItem(key : StorageKey, value : any) : void {
         if(!this.isValid) return;
 
         try
@@ -33,7 +33,7 @@ export class StorageService {
         }
     }
 
-    getItem<T>(key : StorageKey) : T | null {
+    public getItem<T>(key : StorageKey) : T | null {
         if(!this.isValid) return null;
 
         const data = localStorage.getItem(key);
@@ -45,5 +45,11 @@ export class StorageService {
         } catch(e) {
             return data as unknown as T;
         }
+    }
+
+    public removeItem(key : StorageKey) : void {
+        if(!this.isValid) return;
+
+        localStorage.removeItem(key);
     }
 }

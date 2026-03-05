@@ -17,7 +17,7 @@ import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 //Services
 import { CartService } from '../../services/cart.service';
 import { LanguageSelectorComponent } from "../language-selector/language-selector.component";
-import { AuthService } from '../../services/auth-service.service';
+import { AuthService } from '../../services/auth.service';
 import { DEFAULT_AVATAR } from '../../utils/validURLPath';
 import { ToastService } from '../../services/toast.service';
 
@@ -49,7 +49,7 @@ export class Header {
   }
 
   getCartNumberOfItems() {
-    return this.cartService.getNumberOfItems();
+    return this.cartService.itemsCount();
   }
 
   handleGoToCart() {
@@ -66,6 +66,6 @@ export class Header {
   }
 
   getProfileImage() {
-    return this.authService.getImagePath() ?? DEFAULT_AVATAR;
+    return this.authService.imagePath() ?? DEFAULT_AVATAR;
   }
 }

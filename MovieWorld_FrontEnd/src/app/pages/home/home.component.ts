@@ -65,7 +65,7 @@ export class Home implements OnInit {
     this.isLoading = true;
     this.error = false;
 
-    this.movieService.getCultMovies(this.lang(), 8).subscribe({
+    this.movieService.getCultMovies(8).subscribe({
       next: (moviesFromDb) => {
         this.cultMovies = moviesFromDb;
         this.imagesForCarosel = this.cultMovies.map(movie => movie.imagePath ?? "");
@@ -93,7 +93,7 @@ export class Home implements OnInit {
 
   loadNews() {
     const pageIndex = Math.floor(this.first / this.rows);
-    this.newsService.getNews(pageIndex, this.rows, DEFAULT_NEWS_FILTER, this.lang()).subscribe(response => {
+    this.newsService.getNews(pageIndex, this.rows, DEFAULT_NEWS_FILTER).subscribe(response => {
       if(response.success) {
         this.newsList = response.data.items;
         this.totalRecords = response.data.totalCount;

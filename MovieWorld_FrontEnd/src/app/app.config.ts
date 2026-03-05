@@ -13,7 +13,11 @@ import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 // PrimeNG Toast
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+
+//Interceptors
 import { authInterceptor } from './interceptor/authInterception.interceptor';
+import { langInterceptor } from './interceptor/lang.interceptor';
+import { LANGUAGES } from './models/types/Language.model';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -26,11 +30,11 @@ export const appConfig: ApplicationConfig = {
     }),
 
     provideHttpClient(
-      withInterceptors([authInterceptor])
+      withInterceptors([authInterceptor, langInterceptor])
     ),
     provideTranslateService({
-      loader: provideTranslateHttpLoader({ prefix: './i18n/', suffix: '.json' }),
-      fallbackLang: 'it'
+      loader: provideTranslateHttpLoader({ prefix: '/i18n/', suffix: '.json' }),
+      fallbackLang: LANGUAGES.ITALIANO
     }),
 
     importProvidersFrom(ToastModule),

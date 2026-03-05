@@ -29,7 +29,7 @@ export class SellPointsFilterComponent implements OnInit {
 
   ngOnInit() {
     
-    this.sellPointsService.getCities(this.lang()).subscribe(response => {
+    this.sellPointsService.getCities().subscribe(response => {
       if(response.success) {
         this.availableCities = response.data;
       } else {

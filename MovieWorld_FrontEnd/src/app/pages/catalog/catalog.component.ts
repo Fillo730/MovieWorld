@@ -12,7 +12,7 @@ import { getButtonTypeBasedOnTheme } from '../../utils/themeFunctions';
 import { Movie } from '../../models/Movie.model';
 import { DEFAULT_MOVIES_FILTERS, MovieFilter } from '../../models/filters/MovieFilter.model';
 import { Genre } from '../../models/Genre.model';
-import { AuthService } from '../../services/auth-service.service';
+import { AuthService } from '../../services/auth.service';
 import { StateHandlerComponent } from '../../components/state-handler/state-handler.component';
 import { throwToolbarMixedModesError } from '@angular/material/toolbar';
 import { CartService } from '../../services/cart.service';
@@ -71,7 +71,7 @@ export class Catalog implements OnInit {
 
     const pageIndex = Math.floor(this.first / this.rows);
 
-    this.movieService.getMovies(pageIndex, this.rows, this.lang(), this.filters).subscribe({
+    this.movieService.getMovies(pageIndex, this.rows, this.filters).subscribe({
       next: (response) => {
         if (response.success) {
           this.movies = response.data.items;
@@ -91,7 +91,7 @@ export class Catalog implements OnInit {
   }
 
   loadGenres() {
-    this.movieService.getGenres(this.lang()).subscribe(response => {
+    this.movieService.getGenres().subscribe(response => {
       if (response.success) {
         this.genres = response.data;
       }
@@ -100,7 +100,7 @@ export class Catalog implements OnInit {
 
   downloadExcel() {
     this.isLoadingButton = true;
-    this.movieService.exportToExcel(this.filters, this.lang()).subscribe(blob => {
+    this.movieService.exportToExcel(this.filters).subscribe(blob => {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;

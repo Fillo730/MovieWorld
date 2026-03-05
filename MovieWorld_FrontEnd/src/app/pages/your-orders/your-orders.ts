@@ -10,7 +10,7 @@ import { StateHandlerComponent } from "../../components/state-handler/state-hand
 //Services
 import { OrdersService } from "../../services/orders.service";
 import { LanguageService } from "../../services/language.service";
-import { AuthService } from "../../services/auth-service.service";
+import { AuthService } from "../../services/auth.service";
 import { ThemeService } from "../../services/theme.service";
 
 //Models
@@ -55,13 +55,11 @@ export class YourOrders {
   }
 
   loadOrders() {
-    const id = this.authService.getId();
-    if (id == undefined) return;
 
     this.isLoading.set(true);
     this.error.set(false);
 
-    this.ordersService.getUsersOrders(this.pageIndex(), this.rows(), DEFAULT_ORDERS_FILTER, this.lang(), id).pipe(
+    this.ordersService.getUsersOrders(this.pageIndex(), this.rows(), DEFAULT_ORDERS_FILTER).pipe(
       finalize(() => this.isLoading.set(false))
     ).subscribe({
       next: (response) => {

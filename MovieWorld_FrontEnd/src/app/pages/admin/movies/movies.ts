@@ -73,7 +73,7 @@ export class MoviesAdmimComponent implements OnInit {
     this.hasError = false;
     const pageIndex = Math.floor(this.first / this.rows);
 
-    this.movieService.getMovies(pageIndex, this.rows, this.lang(), this.filters).subscribe({
+    this.movieService.getMovies(pageIndex, this.rows, this.filters).subscribe({
       next: (response) => {
         if (response.success && response.data) {
           this.movies = response.data.items;
@@ -99,7 +99,7 @@ export class MoviesAdmimComponent implements OnInit {
   }
 
   loadGenres() {
-    this.movieService.getGenres(this.lang()).subscribe(response => {
+    this.movieService.getGenres().subscribe(response => {
       if (response.success) this.genres = response.data;
     });
   }
@@ -171,7 +171,7 @@ export class MoviesAdmimComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.movieService.updateMovie(result, movieId, this.lang()).subscribe(response => {
+        this.movieService.updateMovie(result, movieId).subscribe(response => {
           if (response.success) {
             this.loadMovies();
             this.toastService.success(this.translate.instant('Admin.MoviesPage.Messages.UpdateSuccess', { title: result.title }));
@@ -197,7 +197,7 @@ export class MoviesAdmimComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.movieService.createMovie(result, this.lang()).subscribe(response => {
+        this.movieService.createMovie(result).subscribe(response => {
           if (response.success) {
             this.loadMovies();
             this.toastService.success(this.translate.instant('Admin.MoviesPage.Messages.AddSuccess', { title: result.title }));

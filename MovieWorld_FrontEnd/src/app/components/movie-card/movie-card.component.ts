@@ -8,7 +8,7 @@ import { goToMovieDetail } from '../../utils/navigationFunctions';
 import { ThemeService } from '../../services/theme.service';
 import { Movie } from '../../models/Movie.model';
 import { CartItem } from '../../models/CartItem.model';
-import { AuthService } from '../../services/auth-service.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'movie-card-component',

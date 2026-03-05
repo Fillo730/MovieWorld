@@ -5,7 +5,7 @@ import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { ChartConfiguration } from 'chart.js';
 import { UserService } from '../../../services/user-service.server';
-import { PersonService } from '../../../services/personService.service';
+import { PersonService } from '../../../services/persons.service';
 import { DashboardCardComponent } from '../../../components/dashboard-card/dashboard-card.component';
 import { MovieService } from '../../../services/movie.service';
 import { OrdersService } from '../../../services/orders.service';
@@ -91,7 +91,7 @@ export class DashboardAdminComponent implements OnInit {
     effect(() => {
       this.themeService.isDark();
 
-      const textColor = this.themeService.getChartTextColor();
+      const textColor = this.themeService.chartTextColor();
       const isDark = this.themeService.isDark();
       this.pieChartOptions = ChartOptionsMapper.updatePieTheme(this.pieChartOptions, textColor);
       this.barChartOptions = ChartOptionsMapper.updateBarLineScalesTheme(this.barChartOptions, textColor, isDark);

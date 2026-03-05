@@ -1,107 +1,85 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+//Angular
+import { inject, Injectable, signal, computed } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+
+//rxjs
+import { Observable, tap } from 'rxjs';
+
+//Models
 import { Cart, CartItem } from '../models/Cart.model';
 import { Movie } from '../models/Movie.model';
 import { ApiResponse } from '../models/ApiResponse.model';
-import { DEFAULT_LANGUAGE } from '../constants/DefaultLanguage';
 import { UserCreateOrderRequest } from '../models/UserCreateOrderRequest.model';
 import { Order } from '../models/Order.model';
+
+//Constants
+import { getApiUrl } from '../constants/app.config';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CartService {
-  private readonly apiUrl = 'https://localhost:7163/api/cart';
-  private cartSubject = new BehaviorSubject<Cart | null>(null);
-  cart$ = this.cartSubject.asObservable();
+  private readonly http = inject(HttpClient);
+  private readonly apiUrl = getApiUrl("CART");
 
-  constructor(private http: HttpClient) {}
+  private readonly _cart = signal<Cart | null>(null);
 
-  refreshCart(lang: string = DEFAULT_LANGUAGE): Observable<ApiResponse<Cart>> {
-    const params = new HttpParams().set('lang', lang);
-    
-    return this.http.get<ApiResponse<Cart>>(this.apiUrl, { params }).pipe(
+  public readonly cart = this._cart.asReadonly();
+  
+  public readonly itemsCount = computed(() => this._cart()?.items?.length ?? 0);
+  
+  public readonly totalPrice = computed(() => this._cart()?.totalPrice ?? 0);
+  
+  public readonly isEmpty = computed(() => (this._cart()?.items?.length ?? 0) === 0);
+
+  public refreshCart(): Observable<ApiResponse<Cart>> {
+    return this.http.get<ApiResponse<Cart>>(this.apiUrl).pipe(
       tap((response) => {
         if (response.success) {
-          this.cartSubject.next(response.data);
+          this._cart.set(response.data);
         }
       })
     );
   }
 
-  addToCart(movie: Movie, quantity: number = 1, lang: string = DEFAULT_LANGUAGE): Observable<ApiResponse<Cart>> {
-    const params = new HttpParams().set('lang', lang);
+  public addToCart(movie: Movie, quantity: number = 1): Observable<ApiResponse<Cart>> {
     const body = { movieId: movie.movieId, quantity };
-
-    return this.http.post<ApiResponse<Cart>>(`${this.apiUrl}/add`, body, { params }).pipe(
+    return this.http.post<ApiResponse<Cart>>(`${this.apiUrl}/add`, body).pipe(
       tap((response) => {
-        if (response.success) {
-          this.cartSubject.next(response.data);
-        }
+        if (response.success) this._cart.set(response.data);
       })
     );
   }
 
-  removeFromCart(movieId: number, lang: string = DEFAULT_LANGUAGE): Observable<ApiResponse<Cart>> {
-    const params = new HttpParams().set('lang', lang);
-
-    return this.http.delete<ApiResponse<Cart>>(`${this.apiUrl}/remove/${movieId}`, { params }).pipe(
+  public removeFromCart(movieId: number): Observable<ApiResponse<Cart>> {
+    return this.http.delete<ApiResponse<Cart>>(`${this.apiUrl}/remove/${movieId}`).pipe(
       tap((response) => {
-        if (response.success) {
-          this.cartSubject.next(response.data);
-        }
+        if (response.success) this._cart.set(response.data);
       })
     );
   }
 
-  clearCart(lang: string = DEFAULT_LANGUAGE): Observable<ApiResponse<Cart>> {
-    const params = new HttpParams().set('lang', lang);
-
-    return this.http.delete<ApiResponse<Cart>>(`${this.apiUrl}/clear`, { params }).pipe(
+  public clearCart(): Observable<ApiResponse<Cart>> {
+    return this.http.delete<ApiResponse<Cart>>(`${this.apiUrl}/clear`).pipe(
       tap((response) => {
-        if (response.success) {
-          this.cartSubject.next(response.data);
-        }
+        if (response.success) this._cart.set(response.data);
       })
     );
   }
 
-  addUserOrder(request : UserCreateOrderRequest ,lang : string = DEFAULT_LANGUAGE) : Observable<ApiResponse<Order>> {
-    const params = new HttpParams().set('lang',lang);
-    return this.http.post<ApiResponse<Order>>(`${this.apiUrl}/order`, request, { params });
+  public addUserOrder(request: UserCreateOrderRequest): Observable<ApiResponse<Order>> {
+    return this.http.post<ApiResponse<Order>>(`${this.apiUrl}/order`, request);
   }
 
-  getMovieIds() : number[] {
-    const cart = this.cartSubject.value;
-    return cart?.items?.map(item => item.movie.movieId) ?? [];
+  public isInTheCart(movieId: number): boolean {
+    return this._cart()?.items?.some(item => item.movie.movieId === movieId) ?? false;
   }
 
-  getCartItems(): CartItem[] {
-    return this.cartSubject.value?.items ?? [];
+  public getQuantityForMovie(movieId: number): number {
+    return this._cart()?.items?.find(item => item.movie.movieId === movieId)?.quantity ?? 0;
   }
 
-  isEmpty(): boolean {
-    return !this.cartSubject.value || (this.cartSubject.value.items?.length ?? 0) === 0;
-  }
-
-  getNumberOfItems(): number {
-    return this.cartSubject.value?.items?.length ?? 0;
-  }
-
-  getTotal(): number {
-    return this.cartSubject.value?.totalPrice ?? 0;
-  }
-
-  isInTheCart(movieId: number): boolean {
-    return this.cartSubject.value?.items?.some(item => item.movie.movieId === movieId) ?? false;
-  }
-
-  getQuantityForMovie(movieId: number): number {
-    return this.cartSubject.value?.items?.find(item => item.movie.movieId === movieId)?.quantity ?? 0;
-  }
-
-  clearLocalCart(): void {
-    this.cartSubject.next(null);
+  public clearLocalCart(): void {
+    this._cart.set(null);
   }
 }

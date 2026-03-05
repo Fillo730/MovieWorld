@@ -15,7 +15,7 @@ import { debounceTime, filter, finalize, switchMap, tap } from 'rxjs/operators';
 
 import { Person } from '../../models/Person.model';
 import { DEFAULT_MOVIE } from '../../utils/validURLPath';
-import { PersonService } from '../../services/personService.service';
+import { PersonService } from '../../services/persons.service';
 import { Genre } from '../../models/Genre.model';
 import { Movie } from '../../models/Movie.model';
 import { Format } from '../../models/Format.model';

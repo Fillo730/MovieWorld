@@ -10,7 +10,7 @@ import { UpdateCreateCastDialogComponent } from '../../../components/update-crea
 import { CastFiltersComponent } from '../../../components/cast-filters/cast-filters.component';
 import { CastListComponent } from "../../../components/cast-list/cast-list.component";
 import { ToastService } from '../../../services/toast.service';
-import { PersonService } from '../../../services/personService.service';
+import { PersonService } from '../../../services/persons.service';
 import { Person, Role } from '../../../models/Person.model';
 import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/language.service';
@@ -54,7 +54,7 @@ export class CastAdminComponent implements OnInit {
     this.isLoading = true;
     this.error = false;
     
-    this.personService.getPersons(this.pageIndex, this.pageSize, this.lang(), this.filters).subscribe({
+    this.personService.getPersons(this.pageIndex, this.pageSize, this.filters).subscribe({
       next: (response) => {
         if (response.success && response.data) {
           this.filteredCast = response.data.items || [];

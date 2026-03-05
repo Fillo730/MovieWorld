@@ -1,50 +1,63 @@
-import { Injectable, inject } from '@angular/core';
+//Angular
+import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
+
+//rxjs
 import { Observable } from 'rxjs';
+
+//Models
 import { News } from '../models/News.model';
 import { ApiResponse } from '../models/ApiResponse.model';
 import { PagedResult } from '../models/PagedResult';
-import { DEFAULT_LANGUAGE } from '../constants/DefaultLanguage';
 import { NewsFilter } from '../models/filters/NewsFilter';
+
+//Constants
+import { getApiUrl } from '../constants/app.config';
 
 @Injectable({ providedIn: 'root' })
 export class NewsService {
-  private http = inject(HttpClient);
-  private apiUrl = 'https://localhost:7163/api/news';
+  private readonly http = inject(HttpClient);
+  private readonly apiUrl = getApiUrl("NEWS");
 
-  getNews(pageIndex: number, pageSize: number, filters: NewsFilter, lang: string = DEFAULT_LANGUAGE): Observable<ApiResponse<PagedResult<News>>> {
-    let params = new HttpParams()
-      .set('pageIndex', pageIndex.toString())
-      .set('pageSize', pageSize.toString())
-      .set('lang', lang);
+  public getNews(pageIndex: number, pageSize: number, filters: NewsFilter): Observable<ApiResponse<PagedResult<News>>> {
+    let params = new HttpParams();
+    params = this.applyPagingParams(params, pageIndex, pageSize);
+    params = this.applyFilters(params, filters);
 
-    if (filters.query) params = params.set('query', filters.query);
-    if (filters.movieQuery) params = params.set('movieQuery', filters.movieQuery);
-    if (filters.actorQuery) params = params.set('actorQuery', filters.actorQuery);
-    
-    if (filters.year && filters.year > 0) {
-      params = params.set('year', filters.year.toString());
+    return this.http.get<ApiResponse<PagedResult<News>>>(this.apiUrl, { params });
   }
 
-  return this.http.get<ApiResponse<PagedResult<News>>>(this.apiUrl, { params });
-}
-
-  getCount() : Observable<ApiResponse<number>> {
+  public getCount(): Observable<ApiResponse<number>> {
     return this.http.get<ApiResponse<number>>(`${this.apiUrl}/count`);
   }
 
-  deleteNews(id : number, lang : string = DEFAULT_LANGUAGE) : Observable<ApiResponse<News>> {
-    let params = new HttpParams().set('lang', lang);
-    return this.http.delete<ApiResponse<News>>(`${this.apiUrl}/${id}`, { params });
+  public deleteNews(id: number): Observable<ApiResponse<News>> {
+    return this.http.delete<ApiResponse<News>>(`${this.apiUrl}/${id}`);
   }
 
-  createNews(news : News, lang: string = DEFAULT_LANGUAGE) : Observable<ApiResponse<News>> {
-    const params = new HttpParams().set('lang', lang);
-    return this.http.post<ApiResponse<News>>(this.apiUrl, news, { params });
+  public createNews(news: News): Observable<ApiResponse<News>> {
+    return this.http.post<ApiResponse<News>>(this.apiUrl, news);
   }
 
-  updateNews(news : News, lang: string = DEFAULT_LANGUAGE) : Observable<ApiResponse<News>> {
-    const params = new HttpParams().set('lang', lang);
-    return this.http.put<ApiResponse<News>>(this.apiUrl, news, { params });
+  public updateNews(news: News): Observable<ApiResponse<News>> {
+    return this.http.put<ApiResponse<News>>(this.apiUrl, news);
+  }
+
+  private applyPagingParams(params: HttpParams, pageIndex: number, pageSize: number): HttpParams {
+    return params
+      .set('pageIndex', pageIndex.toString())
+      .set('pageSize', pageSize.toString());
+  }
+
+  private applyFilters(params: HttpParams, filters?: NewsFilter): HttpParams {
+    if (filters) {
+      if (filters.query) params = params.set('query', filters.query);
+      if (filters.movieQuery) params = params.set('movieQuery', filters.movieQuery);
+      if (filters.actorQuery) params = params.set('actorQuery', filters.actorQuery);
+      if (filters.year && filters.year > 0) {
+        params = params.set('year', filters.year.toString());
+      }
+    }
+    return params;
   }
 }

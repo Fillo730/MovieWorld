@@ -48,7 +48,7 @@ export class NearestSellFinderComponent {
         const lng = position.coords.longitude;
         const limit = 5;
 
-        this.sellPointsService.getNearest(lat, lng, limit, this.lang()).subscribe({
+        this.sellPointsService.getNearest(lat, lng, limit).subscribe({
           next: (response) => {
             if (response.success) {
               this.closest = response.data;

@@ -11,7 +11,7 @@ import { MessageService } from 'primeng/api';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
 import { LanguageService } from '../../services/language.service';
-import { AuthService } from '../../services/auth-service.service';
+import { AuthService } from '../../services/auth.service';
 
 import { emailValidator, passwordValidatorLogin } from '../../utils/authChecks';
 import { ToastService } from '../../services/toast.service';

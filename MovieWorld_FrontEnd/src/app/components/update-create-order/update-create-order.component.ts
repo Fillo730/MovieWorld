@@ -97,7 +97,7 @@ export class UpdateCreateOrderComponent implements OnInit {
       filter(val => typeof val === 'string' && val.length >= 2),
       debounceTime(400),
       tap(() => this.isLoading = true),
-      switchMap(query => this.movieService.getMoviesByQuery(8, query, this.lang()).pipe(
+      switchMap(query => this.movieService.getMoviesByQuery(8, query).pipe(
         finalize(() => this.isLoading = false)
       ))
     ).subscribe(res => {
@@ -108,7 +108,7 @@ export class UpdateCreateOrderComponent implements OnInit {
       filter(val => typeof val === 'string' && val.length >= 2),
       debounceTime(400),
       tap(() => this.isLoading = true),
-      switchMap(query => this.sellPointsService.getSellPointsByQuery(8, query, this.lang()).pipe(
+      switchMap(query => this.sellPointsService.getSellPointsByQuery(8, query).pipe(
         finalize(() => this.isLoading = false)
       ))
     ).subscribe(res => {

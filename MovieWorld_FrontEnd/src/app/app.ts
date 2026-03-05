@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ToastModule } from 'primeng/toast';
-import { AuthService } from './services/auth-service.service';
+import { AuthService } from './services/auth.service';
 import { CartService } from './services/cart.service';
 
 @Component({

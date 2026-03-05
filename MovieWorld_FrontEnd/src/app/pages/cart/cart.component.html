@@ -2,28 +2,28 @@
 
 <div class="cart-container background-color-custom-ligher text-color">
   
-  @if (isLoading) {
+  @if (isLoading()) {
     <div class="p-5">
       <state-handler-component type="loading" message="Cart.Loading"></state-handler-component>
     </div>
   } 
-  @else if (error) {
+  @else if (error()) {
     <div class="p-5">
       <state-handler-component 
         type="error" 
         title="Cart.ErrorTitle" 
         message="Cart.ErrorMessage"
         buttonLabel="Cart.RetryButton"
-        [buttonSeverity]="handleButtonTheme()"
-        (action)="initCart()">
+        [buttonSeverity]="buttonTheme"
+        (action)="loadSellPoints()">
       </state-handler-component>
     </div>
   } 
   @else {
-    <h1 class="p-4">{{ 'Cart.MainTitleWithGreetings' | translate: {value: getUserName()} }}</h1>
+    <h1 class="p-4">{{ 'Cart.MainTitleWithGreetings' | translate: {value: authService.name()} }}</h1>
 
     <div class="list-group mb-4 cart-list">
-      @for (cartItem of moviesInTheCart; track cartItem.movie.movieId) {
+      @for (cartItem of moviesInTheCart(); track cartItem.movie.movieId) {
         <cart-item-component 
           [movie]="cartItem.movie" 
           [quantity]="cartItem.quantity"
@@ -37,11 +37,11 @@
     <div class="recap-container">
       <p-button 
         [label]="'Cart.ClearCartButtonText' | translate" 
-        [severity]="handleButtonTheme()" 
+        [severity]="buttonTheme" 
         (onClick)="handleClearCart()"/>
         
       <h3 class="fw-bold m-0">
-        {{ 'Cart.TotalLabel' | translate }}: {{ total | currency:'EUR':'symbol' }}
+        {{ 'Cart.TotalLabel' | translate }}: {{ cartTotal() | currency:'EUR':'symbol' }}
       </h3>
     </div>
 
@@ -53,30 +53,29 @@
 
       <p-button 
         [label]="'Cart.OrderByDistanceButtonText' | translate"
-        [loading]="distanceCalculationLoading"
-        [severity]="handleButtonTheme()"
+        [loading]="distanceCalculationLoading()"
+        [severity]="buttonTheme"
         (onClick)="handleOrderByDistance()"/>
     </div>
 
     <div class="cart-list">
-      @if (sellPoints.length === 0) {
+      @if (sellPoints().length === 0) {
         <state-handler-component 
           type="empty"
           [title]="'Cart.NoSellPointsTitle' | translate"
           [message]="'Cart.NoSellPointsMessage' | translate"
           [buttonLabel]="'Cart.BackToCatalog' | translate"
-          (action)="goToCatalog()"
-          >
+          (action)="goToCatalog()">
         </state-handler-component>
       } @else {
         <sell-points-list-component 
-          [sellPoints]="sellPoints"
+          [sellPoints]="sellPoints()"
           [first]="first"
           [rows]="rows"
-          [totalRecords]="totalRecords"
+          [totalRecords]="totalRecords()"
           [isPaginatorActive]="true"
           [isSelectable]="true"
-          [isDistanceOnCardsVisible]="areSellPointsOrdered"
+          [isDistanceOnCardsVisible]="lastLat !== undefined"
           [paginatorElements]="[3,6]"
           [searchOnMapsLabel]="'SellPoints.FindOnMapsButtonText' | translate"
           (clickedSellPoint)="handleClickedSellPoint($event)"
@@ -84,11 +83,12 @@
         </sell-points-list-component>
       }
     </div>
-    @if(sellPoints.length !== 0) {
+
+    @if(sellPoints().length !== 0) {
       <div class="d-flex justify-content-end mt-4 mb-4">
           <p-button 
             [label]="'Cart.CompleteOrderButtonText' | translate"
-            [severity]="handleButtonTheme()" 
+            [severity]="buttonTheme" 
             [disabled]="!selectedSellPoint" 
             (onClick)="handleCompleteOrder()"/>
         </div>

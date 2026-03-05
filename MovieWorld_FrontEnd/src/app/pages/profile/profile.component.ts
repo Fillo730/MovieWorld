@@ -1,7 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
-import { TranslatePipe } from '@ngx-translate/core';
 
 import { AvatarModule } from 'primeng/avatar';
 import { ButtonModule } from 'primeng/button';
@@ -12,7 +11,7 @@ import { ChipModule } from 'primeng/chip';
 
 import { Header } from '../../components/header/header.component';
 import { Footer } from '../../components/footer/footer.component';
-import { AuthService } from '../../services/auth-service.service';
+import { AuthService } from '../../services/auth.service';
 
 import { getButtonTypeBasedOnTheme } from '../../utils/themeFunctions';
 import { ThemeService } from '../../services/theme.service';
@@ -24,7 +23,6 @@ import { ThemeService } from '../../services/theme.service';
     CommonModule,
     Header,
     Footer,
-    TranslatePipe,
     AvatarModule,
     ButtonModule,
     DividerModule,

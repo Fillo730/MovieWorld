@@ -1,51 +1,50 @@
-import { Injectable } from '@angular/core';
+//Angular
+import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
+
+//rxjs
 import { Observable } from 'rxjs';
+
+//Models
 import { SellPoint } from '../models/SellPoint.model';
-import { DEFAULT_LANGUAGE } from '../constants/DefaultLanguage';
 import { ApiResponse } from '../models/ApiResponse.model';
 import { SellPointsFilter } from '../models/filters/SellPointsFilter.model';
 import { PagedResult } from '../models/PagedResult';
+
+//Constants
+import { getApiUrl } from '../constants/app.config';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SellPointsService {
-  private api_url = "https://localhost:7163/api/sellpoints";
+  private readonly http = inject(HttpClient);
+  private readonly api_url = getApiUrl("SELL_POINTS");
 
-  constructor(private http: HttpClient) {}
-
-  getSellPoints(pageIndex: number, pageSize: number, lang: string = DEFAULT_LANGUAGE, filters?: SellPointsFilter): Observable<ApiResponse<PagedResult<SellPoint>>> {
-    let params = new HttpParams()
-      .set("lang", lang)
-      .set("pageIndex", pageIndex.toString())
-      .set("pageSize", pageSize.toString());
-
+  public getSellPoints(pageIndex: number, pageSize: number, filters?: SellPointsFilter): Observable<ApiResponse<PagedResult<SellPoint>>> {
+    let params = new HttpParams();
+    params = this.applyPagingParams(params, pageIndex, pageSize);
     params = this.applyFilters(params, filters);
 
     return this.http.get<ApiResponse<PagedResult<SellPoint>>>(this.api_url, { params });
   }
 
-  getCities(lang: string = DEFAULT_LANGUAGE): Observable<ApiResponse<string[]>> {
-    let params = new HttpParams().set("lang", lang);
-    return this.http.get<ApiResponse<string[]>>(`${this.api_url}/cities`, { params });
+  public getCities(): Observable<ApiResponse<string[]>> {
+    return this.http.get<ApiResponse<string[]>>(`${this.api_url}/cities`);
   }
 
-  getNearest(lat: number, lng: number, limit: number = 3, lang: string = DEFAULT_LANGUAGE): Observable<ApiResponse<SellPoint[]>> {
+  public getNearest(lat: number, lng: number, limit: number = 3): Observable<ApiResponse<SellPoint[]>> {
     const params = new HttpParams()
       .set("userLat", lat.toString())
       .set("userLng", lng.toString())
-      .set("limit", limit.toString())
-      .set("lang", lang);
+      .set("limit", limit.toString());
 
     return this.http.get<ApiResponse<SellPoint[]>>(`${this.api_url}/nearest`, { params });
   }
 
-  getSellPointsByMovies(pageIndex: number, pageSize: number, lang: string = DEFAULT_LANGUAGE, movieIds: number[], latUser?: number, lngUser?: number): Observable<ApiResponse<PagedResult<SellPoint>>> {
-    let params = new HttpParams()
-      .set("lang", lang)
-      .set("pageIndex", pageIndex.toString())
-      .set("pageSize", pageSize.toString());
+  public getSellPointsByMovies(pageIndex: number, pageSize: number, movieIds: number[], latUser?: number, lngUser?: number): Observable<ApiResponse<PagedResult<SellPoint>>> {
+    let params = new HttpParams();
+    params = this.applyPagingParams(params, pageIndex, pageSize);
 
     if (movieIds?.length > 0) {
       movieIds.forEach(id => {
@@ -60,19 +59,24 @@ export class SellPointsService {
     return this.http.get<ApiResponse<PagedResult<SellPoint>>>(`${this.api_url}/bymovies`, { params });
   }
 
-  getSellPointsByQuery(limit: number, query: string, lang: string = DEFAULT_LANGUAGE): Observable<ApiResponse<SellPoint[]>> {
-    const params = new HttpParams().set('limit', limit).set('query', query).set('lang', lang);
+  public getSellPointsByQuery(limit: number, query: string): Observable<ApiResponse<SellPoint[]>> {
+    const params = new HttpParams().set('limit', limit).set('query', query);
     return this.http.get<ApiResponse<SellPoint[]>>(`${this.api_url}/search`, { params });
   }
 
-  exportToExcel(filters: SellPointsFilter, lang: string = DEFAULT_LANGUAGE): Observable<Blob> {
-    let params = new HttpParams().set('lang', lang);
-    params = this.applyFilters(params, filters);
+  public exportToExcel(filters: SellPointsFilter): Observable<Blob> {
+    let params = this.applyFilters(new HttpParams(), filters);
 
     return this.http.get(`${this.api_url}/export`, { 
       params, 
       responseType: 'blob' 
     });
+  }
+
+  private applyPagingParams(params: HttpParams, pageIndex: number, pageSize: number): HttpParams {
+    return params
+      .set('pageIndex', pageIndex.toString())
+      .set('pageSize', pageSize.toString());
   }
 
   private applyFilters(params: HttpParams, filters?: SellPointsFilter): HttpParams {

@@ -1,37 +1,49 @@
-import { Injectable, signal, computed } from '@angular/core';
+//Angular
+import { Injectable, signal, computed, inject } from '@angular/core';
+
+//Services
+import { StorageService } from './storage.service';
+
+//Constants
+import { STORAGE_KEYS } from '../constants/storageKeys';
+import { THEMES, ThemeType } from '../models/types/Theme.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ThemeService {
-  private key = 'theme';
+  private readonly storageService = inject(StorageService);
+  private readonly storageKey = STORAGE_KEYS.THEME;
 
-  private _isDark = signal<boolean>(true);
-  public isDark = this._isDark.asReadonly();
+  private readonly _theme = signal<ThemeType>(this.loadTheme());
 
-  constructor() {
-    this.loadTheme();
+  public readonly theme = this._theme.asReadonly();
+
+  public readonly isDark = computed(() => this._theme() === THEMES.DARK);
+
+  public readonly chartTextColor = computed(() => 
+    this._theme() === THEMES.DARK ? '#ffffff' : '#0d0d0d'
+  );
+
+  public setTheme(theme: ThemeType): void {
+    this._theme.set(theme);
+    this.applyThemeToDom(theme);
+    this.storageService.setItem(this.storageKey, theme);
   }
 
-  toggleTheme() {
-    this.setTheme(!this._isDark());
+  public toggleTheme(): void {
+    const nextTheme = this.isDark() ? THEMES.LIGHT : THEMES.DARK;
+    this.setTheme(nextTheme);
   }
 
-  setTheme(dark: boolean) {
-    this._isDark.set(dark);
-    const theme = dark ? 'dark' : 'light';
-    
-    document.body.classList.remove('light-mode', 'dark-mode');
-    document.body.classList.add(theme + '-mode');
-    localStorage.setItem(this.key, theme);
+  private applyThemeToDom(theme: ThemeType): void {
+    document.body.classList.remove(THEMES.DARK, THEMES.LIGHT);
+    document.body.classList.add(theme);
   }
 
-  getChartTextColor(): string {
-    return this._isDark() ? '#ffffff' : '#0d0d0d';
-  }
-
-  private loadTheme() {
-    const saved = localStorage.getItem(this.key);
-    this.setTheme(saved !== 'light'); 
+  private loadTheme(): ThemeType {
+    const saved = this.storageService.getItem<ThemeType>(this.storageKey) ?? THEMES.DARK;
+    this.applyThemeToDom(saved);
+    return saved;
   }
 }

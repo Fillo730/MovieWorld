@@ -8,7 +8,7 @@ import { CurrencyPipe } from '@angular/common';
 import { CartService } from '../../services/cart.service';
 import { ToastService } from '../../services/toast.service';
 import { Movie } from '../../models/Movie.model';
-import { AuthService } from '../../services/auth-service.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'movie-detail-card-component',
