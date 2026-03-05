@@ -1,7 +1,7 @@
 <div class="languages-container">
     <p-select
     [options]="languages"
-    [(ngModel)]="selectedLanguage"
+    [ngModel]="lang()"
     optionLabel="label"
     optionValue="value"
     (onChange)="onLanguageChangeFromPrime($event)"

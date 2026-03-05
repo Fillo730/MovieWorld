@@ -42,27 +42,27 @@ import { LanguageService } from '../../../services/language.service';
   styleUrl: './news.css'
 })
 export class NewsComponent implements OnInit {
+  private dialog = inject(MatDialog);
+  private toastService = inject(ToastService);
+  private translate = inject(TranslateService);
+  private newsService = inject(NewsService);
+  private languageService = inject(LanguageService);
+  
   news: News[] = [];
   totalCount: number = 0;
   recentCount: number = 0;
-  lang !: string;
   
   first: number = 0;
   rows: number = 10;
   totalRecords !: number;
   isLoading: boolean = false;
   error: boolean = false;
+
+  public lang = this.languageService.currentLanguage;
   
   currentFilters: NewsFilter = { ...DEFAULT_NEWS_FILTER };
 
-  private dialog = inject(MatDialog);
-  private toastService = inject(ToastService);
-  private translate = inject(TranslateService);
-  private newsService = inject(NewsService);
-  private languageService = inject(LanguageService);
-
   ngOnInit(): void {
-    this.lang = this.languageService.getLanguage();
     this.loadNews();
     this.loadCounts();
   }
@@ -71,7 +71,7 @@ export class NewsComponent implements OnInit {
     this.isLoading = true;
     this.error = false;
     const pageIndex = Math.floor(this.first / this.rows);
-    this.newsService.getNews(pageIndex, this.rows, this.currentFilters, this.lang).subscribe({
+    this.newsService.getNews(pageIndex, this.rows, this.currentFilters, this.lang()).subscribe({
       next: (response) => {
         if (response.success && response.data) {
           this.news = response.data.items;
@@ -131,7 +131,7 @@ export class NewsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.newsService.deleteNews(newsId, this.lang).subscribe(res => {
+        this.newsService.deleteNews(newsId, this.lang()).subscribe(res => {
           if (res.success) {
             this.loadNews();
             this.loadCounts();
@@ -161,7 +161,7 @@ export class NewsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         console.log(result)
-        this.newsService.updateNews(result, this.lang).subscribe(res => {
+        this.newsService.updateNews(result, this.lang()).subscribe(res => {
           console.log(res);
           if (res.success) {
             this.loadNews();
@@ -189,7 +189,7 @@ export class NewsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.newsService.createNews(result, this.lang).subscribe(res => {
+        this.newsService.createNews(result, this.lang()).subscribe(res => {
           if (res.success) {
             this.loadNews();
             this.loadCounts();

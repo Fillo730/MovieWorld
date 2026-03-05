@@ -35,12 +35,19 @@ import { LanguageService } from '../../../services/language.service';
 })
 export class OrdersComponent implements OnInit {
 
+  private dialog = inject(MatDialog);
+  private toastService = inject(ToastService);
+  private translate = inject(TranslateService);
+  private ordersService = inject(OrdersService);
+  private languageService = inject(LanguageService);
+
   orders: Order[] = [];
   orderStates : OrderState[] = [];
   filters: OrdersFilter = { ...DEFAULT_ORDERS_FILTER };
   ordersCount !: number;
   ordersCompletedCount !: number;
-  lang !: string;
+
+  public lang = this.languageService.currentLanguage;
 
   totalRecords: number = 0;
   first : number = 0;
@@ -49,22 +56,14 @@ export class OrdersComponent implements OnInit {
   isLoading: boolean = false;
   hasError: boolean = false;
 
-  private dialog = inject(MatDialog);
-  private toastService = inject(ToastService);
-  private translate = inject(TranslateService);
-  private ordersService = inject(OrdersService);
-  private languageService = inject(LanguageService)
-
   ngOnInit(): void {
-    this.lang = this.languageService.getLanguage();
     this.loadOrders();
     this.loadStates();
     this.loadCountsOrder();
   }
 
   loadStates() {
-    const lang = this.languageService.getLanguage();
-    this.ordersService.getOrderStates(lang).subscribe(response => {
+    this.ordersService.getOrderStates(this.lang()).subscribe(response => {
       if(response.success) {
         this.orderStates = response.data;
       }
@@ -74,10 +73,9 @@ export class OrdersComponent implements OnInit {
   loadOrders() {
     this.isLoading = true;
     this.hasError = false;
-    const lang = this.languageService.getLanguage();
     const pageIndex = Math.floor(this.first / this.rows);
     
-    this.ordersService.getOrders(pageIndex, this.rows, this.filters, lang).subscribe({
+    this.ordersService.getOrders(pageIndex, this.rows, this.filters, this.lang()).subscribe({
       next: (response) => {
         if(response.success) {
           this.orders = response.data.items;
@@ -144,7 +142,7 @@ export class OrdersComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.ordersService.addOrder(result, this.lang).subscribe(response => {
+        this.ordersService.addOrder(result, this.lang()).subscribe(response => {
           if(response.success) {
             this.toastService.success(this.translate.instant('Admin.OrdersPage.Messages.AddSuccess'));
             this.loadOrders();
@@ -175,7 +173,7 @@ export class OrdersComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.ordersService.updateOrder(result, this.lang).subscribe(response => {
+        this.ordersService.updateOrder(result, this.lang()).subscribe(response => {
           if(response.success) {
             this.toastService.success(this.translate.instant('Admin.OrdersPage.Messages.UpdateSuccess'));
             this.loadOrders();

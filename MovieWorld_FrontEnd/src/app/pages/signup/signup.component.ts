@@ -52,7 +52,7 @@ export class Signup {
       password: ['', [Validators.required, passwordValidatorLogin]],
       confirmPassword: ['', [Validators.required]]
     }, { validators: this.passwordMatchValidator });
-    this.languageService.loadLanguageSaved();
+    
   }
 
   passwordMatchValidator = (form: any) => {

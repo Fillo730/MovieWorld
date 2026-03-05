@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Header } from '../../components/header/header.component';
 import { Footer } from '../../components/footer/footer.component';
 import { MoviesListComponent } from '../../components/movies-list/movies-list.component';
@@ -34,11 +34,15 @@ import { getDownloadButtonTheme } from '../../utils/themeFunctions';
   styleUrl: './catalog.component.css',
 })
 export class Catalog implements OnInit {
+  private readonly themeService = inject(ThemeService);
+  private readonly movieService = inject(MovieService);
+  private readonly languageService = inject(LanguageService);
+  private readonly authService = inject(AuthService);
+  private readonly translateService = inject(TranslateService);
 
   filters: MovieFilter = { ...DEFAULT_MOVIES_FILTERS };
   movies: Movie[] = [];
   genres: Genre[] = [];
-  lang !: string;
 
   error: boolean = false;
   isLoading: boolean = false;
@@ -48,22 +52,14 @@ export class Catalog implements OnInit {
   rows: number = 10;
   first: number = 0;
 
-  constructor(
-    private themeService: ThemeService,
-    private movieService: MovieService,
-    private languageService: LanguageService,
-    private authService: AuthService,
-    private translateService : TranslateService,
-    private cartService : CartService
-  ) {}
+  public lang = this.languageService.currentLanguage;
 
   ngOnInit() {
-    this.lang = this.languageService.getLanguage();
     this.loadMovies();
     this.loadGenres();
 
     this.translateService.onLangChange.subscribe(() => {
-      this.lang = this.languageService.getLanguage();
+      this.lang();
       this.loadMovies();
       this.loadGenres();
     })
@@ -75,7 +71,7 @@ export class Catalog implements OnInit {
 
     const pageIndex = Math.floor(this.first / this.rows);
 
-    this.movieService.getMovies(pageIndex, this.rows, this.lang, this.filters).subscribe({
+    this.movieService.getMovies(pageIndex, this.rows, this.lang(), this.filters).subscribe({
       next: (response) => {
         if (response.success) {
           this.movies = response.data.items;
@@ -95,7 +91,7 @@ export class Catalog implements OnInit {
   }
 
   loadGenres() {
-    this.movieService.getGenres(this.lang).subscribe(response => {
+    this.movieService.getGenres(this.lang()).subscribe(response => {
       if (response.success) {
         this.genres = response.data;
       }
@@ -104,7 +100,7 @@ export class Catalog implements OnInit {
 
   downloadExcel() {
     this.isLoadingButton = true;
-    this.movieService.exportToExcel(this.filters, this.lang).subscribe(blob => {
+    this.movieService.exportToExcel(this.filters, this.lang()).subscribe(blob => {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;

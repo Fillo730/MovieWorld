@@ -1,5 +1,5 @@
 import { FormsModule } from '@angular/forms';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { CurrencyPipe } from '@angular/common';
 import { Subscription } from 'rxjs';
@@ -36,6 +36,15 @@ import { StateHandlerComponent } from '../../components/state-handler/state-hand
   styleUrl: './cart.component.css'
 })
 export class Cart implements OnInit, OnDestroy {
+  private readonly router = inject(Router);
+  private readonly authService = inject(AuthService);
+  private readonly cartService = inject(CartService);
+  private readonly sellPointsService = inject(SellPointsService);
+  private readonly themeService = inject(ThemeService);
+  private readonly toastService = inject(ToastService);
+  private readonly translate = inject(TranslateService);
+  private readonly languageService = inject(LanguageService);
+
   sellPoints: SellPoint[] = [];
   total: number = 0;
   selectedSellPoint!: SellPoint;
@@ -44,7 +53,8 @@ export class Cart implements OnInit, OnDestroy {
   totalRecords: number = 0;
   rows: number = 6;
   first: number = 0;
-  lang !: string;
+
+  public lang = this.languageService.currentLanguage;
 
   isLoading: boolean = true;
   error: boolean = false;
@@ -54,19 +64,7 @@ export class Cart implements OnInit, OnDestroy {
   private lastLng?: number;
   private cartSubscription!: Subscription;
 
-  constructor(
-    private cartService: CartService,
-    private router: Router,
-    private toastService: ToastService,
-    private themeService: ThemeService,
-    private translate: TranslateService,
-    private authService: AuthService,
-    private languageService: LanguageService,
-    private sellPointsService: SellPointsService
-  ) {}
-
   ngOnInit() {
-    this.lang = this.languageService.getLanguage();
     this.initCart();
   }
 
@@ -110,7 +108,7 @@ export class Cart implements OnInit, OnDestroy {
     const pageIndex = Math.floor(this.first / this.rows);
 
     this.sellPointsService.getSellPointsByMovies(
-      pageIndex, this.rows, this.lang, movieIds, this.lastLat, this.lastLng
+      pageIndex, this.rows, this.lang(), movieIds, this.lastLat, this.lastLng
     ).subscribe({
       next: (response) => {
         if (response.success) {
@@ -166,7 +164,7 @@ export class Cart implements OnInit, OnDestroy {
       items: this.moviesInTheCart
     };
 
-    this.cartService.addUserOrder(request, this.lang).subscribe(res => {
+    this.cartService.addUserOrder(request, this.lang()).subscribe(res => {
       if (res.success) {
         this.cartService.clearCart().subscribe(() => {
           this.toastService.success(this.translate.instant('Cart.ToastOrderCompleted'));

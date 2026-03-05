@@ -31,9 +31,13 @@ import { DEFAULT_MOVIE } from '../../utils/validURLPath';
   styleUrl: './update-create-news-dialog.component.css'
 })
 export class UpdateCreateNewsDialogComponent implements OnInit {
+  private readonly movieService = inject(MovieService);
+  private readonly personService = inject(PersonService);
+  private readonly languageService = inject(LanguageService);
+  
   public newsUpdate!: News;
   public isLoading = false;
-  public lang: string = '';
+  public lang = this.languageService.currentLanguage;
 
   movieSearch = new FormControl<any>('');
   actorSearch = new FormControl<any>('');
@@ -41,17 +45,12 @@ export class UpdateCreateNewsDialogComponent implements OnInit {
   moviesQuered: Movie[] = [];
   actorsQuered: Person[] = [];
 
-  private movieService = inject(MovieService);
-  private personService = inject(PersonService);
-  private languageService = inject(LanguageService);
-
   constructor(
     public dialogRef: MatDialogRef<UpdateCreateNewsDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
   ngOnInit(): void {
-    this.lang = this.languageService.getLanguage();
     this.newsUpdate = { 
       ...this.data.news,
       relatedMovies: this.data.news.relatedMovies ? [...this.data.news.relatedMovies] : [],
@@ -62,7 +61,7 @@ export class UpdateCreateNewsDialogComponent implements OnInit {
       filter(val => typeof val === 'string' && val.length >= 2),
       debounceTime(400),
       tap(() => this.isLoading = true),
-      switchMap(query => this.movieService.getMoviesByQuery(8, query, this.lang).pipe(
+      switchMap(query => this.movieService.getMoviesByQuery(8, query, this.lang()).pipe(
         finalize(() => this.isLoading = false)
       ))
     ).subscribe(res => {

@@ -40,6 +40,12 @@ import { Format } from '../../../models/Format.model';
   styleUrl: './movies.css',
 })
 export class MoviesAdmimComponent implements OnInit {
+  private translate = inject(TranslateService);
+  private dialog = inject(MatDialog);
+  private toastService = inject(ToastService);
+  private movieService = inject(MovieService);
+  private languageService = inject(LanguageService);
+  
   movies: Movie[] = [];
   genres: Genre[] = [];
   formats: Format[] = [];
@@ -52,13 +58,9 @@ export class MoviesAdmimComponent implements OnInit {
   isLoading: boolean = false;
   hasError: boolean = false;
 
-  filters = { ...DEFAULT_MOVIES_FILTERS };
+  public lang = this.languageService.currentLanguage;
 
-  private translate = inject(TranslateService);
-  private dialog = inject(MatDialog);
-  private toastService = inject(ToastService);
-  private movieService = inject(MovieService);
-  private languageService = inject(LanguageService);
+  filters = { ...DEFAULT_MOVIES_FILTERS };
 
   ngOnInit() {
     this.loadMovies();
@@ -69,10 +71,9 @@ export class MoviesAdmimComponent implements OnInit {
   loadMovies() {
     this.isLoading = true;
     this.hasError = false;
-    const lang = this.languageService.getLanguage();
     const pageIndex = Math.floor(this.first / this.rows);
 
-    this.movieService.getMovies(pageIndex, this.rows, lang, this.filters).subscribe({
+    this.movieService.getMovies(pageIndex, this.rows, this.lang(), this.filters).subscribe({
       next: (response) => {
         if (response.success && response.data) {
           this.movies = response.data.items;
@@ -98,8 +99,7 @@ export class MoviesAdmimComponent implements OnInit {
   }
 
   loadGenres() {
-    const lang = this.languageService.getLanguage();
-    this.movieService.getGenres(lang).subscribe(response => {
+    this.movieService.getGenres(this.lang()).subscribe(response => {
       if (response.success) this.genres = response.data;
     });
   }
@@ -171,8 +171,7 @@ export class MoviesAdmimComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        const lang = this.languageService.getLanguage();
-        this.movieService.updateMovie(result, movieId, lang).subscribe(response => {
+        this.movieService.updateMovie(result, movieId, this.lang()).subscribe(response => {
           if (response.success) {
             this.loadMovies();
             this.toastService.success(this.translate.instant('Admin.MoviesPage.Messages.UpdateSuccess', { title: result.title }));
@@ -198,8 +197,7 @@ export class MoviesAdmimComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        const lang = this.languageService.getLanguage();
-        this.movieService.createMovie(result, lang).subscribe(response => {
+        this.movieService.createMovie(result, this.lang()).subscribe(response => {
           if (response.success) {
             this.loadMovies();
             this.toastService.success(this.translate.instant('Admin.MoviesPage.Messages.AddSuccess', { title: result.title }));

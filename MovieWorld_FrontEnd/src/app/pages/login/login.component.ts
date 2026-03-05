@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, Validators, ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -33,27 +33,24 @@ import { LoginRequest } from '../../models/LoginRequest.model';
   styleUrls: ['./login.component.css']
 })
 export class Login implements OnInit {
+  private readonly fb = inject(FormBuilder);
+  private readonly router = inject(Router);
+  private readonly authService = inject(AuthService);
+  private readonly toastService = inject(ToastService);
+  private readonly languageService = inject(LanguageService);
+  private readonly translate = inject(TranslateService);
+
   loginForm !: FormGroup;
   credentials !: LoginRequest
   isLoading = false;
 
   areCredentialsInvalid = false;
 
-  constructor(
-    private fb: FormBuilder,
-    private router: Router,
-    private languageService: LanguageService,
-    private authService: AuthService,
-    private toastService : ToastService,
-    private translate : TranslateService
-  ) {}
-
   ngOnInit() {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, emailValidator]],
       password: ['', [Validators.required, passwordValidatorLogin]]
     });
-    this.languageService.loadLanguageSaved();
   }
 
   isInvalid(field: string): boolean {

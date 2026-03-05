@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { SellPointCardComponent } from '../sell-point-card/sell-point-card.component';
 import { StateHandlerComponent } from '../state-handler/state-handler.component';
@@ -22,15 +22,15 @@ export class NearestSellFinderComponent {
   @Input() buttonLabel!: string;
   @Input() searchOnMapPointsLabel!: string;
 
+  private readonly themeService = inject(ThemeService);
+  private readonly sellPointsService = inject(SellPointsService);
+  private readonly languageService = inject(LanguageService);
+
   closest: SellPoint[] = [];
   isLoading: boolean = false;
   error: boolean = false;
 
-  constructor(
-    private themeService: ThemeService,
-    private sellPointsService: SellPointsService,
-    private languageService: LanguageService
-  ) {}
+  public lang = this.languageService.currentLanguage;
 
   findNearSellPoints() {
     this.isLoading = true;
@@ -46,10 +46,9 @@ export class NearestSellFinderComponent {
       (position) => {
         const lat = position.coords.latitude;
         const lng = position.coords.longitude;
-        const lang = this.languageService.getLanguage();
         const limit = 5;
 
-        this.sellPointsService.getNearest(lat, lng, limit, lang).subscribe({
+        this.sellPointsService.getNearest(lat, lng, limit, this.lang()).subscribe({
           next: (response) => {
             if (response.success) {
               this.closest = response.data;

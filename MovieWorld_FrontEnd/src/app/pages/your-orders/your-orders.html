@@ -3,13 +3,13 @@
 <div class="list-container background-color-custom-ligher occupy-space p-3">
     <h1 class="text-color mb-4">{{ "YourOrders.MainTitle" | translate }}</h1>
 
-    @if (isLoading) {
+    @if (isLoading()) {
         <state-handler-component 
             type="loading" 
             message="YourOrders.Loading">
         </state-handler-component>
     }
-    @else if (error) {
+    @else if (error()) {
         <state-handler-component 
             type="error" 
             title="YourOrders.ErrorTitle" 
@@ -29,10 +29,10 @@
     }
     @else {
         <order-user-list-component 
-            [orders]="orders" 
-            [first]="first" 
-            [rows]="rows" 
-            [totalRecords]="totalRecords" 
+            [orders]="orders()" 
+            [first]="first()" 
+            [rows]="rows()" 
+            [totalRecords]="totalRecords()" 
             (onPageChange)="onPageChange($event)">
         </order-user-list-component>
     }

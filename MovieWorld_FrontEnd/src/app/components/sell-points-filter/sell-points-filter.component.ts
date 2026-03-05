@@ -1,5 +1,5 @@
 //Angular Core
-import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit, inject } from '@angular/core';
 
 //Services
 import { SellPointsService } from '../../services/sell-points.service';
@@ -19,13 +19,17 @@ export class SellPointsFilterComponent implements OnInit {
   
   @Output() filtersChanged = new EventEmitter<void>();
 
+  private readonly sellPointsService = inject(SellPointsService);
+  private readonly languageService = inject(LanguageService);
+
+  public lang = this.languageService.currentLanguage;
+
   availableCities: string[] = [];
 
-  constructor(private sellPointsService : SellPointsService, private languageService : LanguageService) {}
 
   ngOnInit() {
-    const currentLang = this.languageService.getLanguage();
-    this.sellPointsService.getCities(currentLang).subscribe(response => {
+    
+    this.sellPointsService.getCities(this.lang()).subscribe(response => {
       if(response.success) {
         this.availableCities = response.data;
       } else {

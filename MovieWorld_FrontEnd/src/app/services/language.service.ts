@@ -1,5 +1,12 @@
 //Angular
-import { Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
+
+//Services
+import { StorageService } from './storage.service';
+
+//Contants
+import { APP_CONFIG } from '../constants/app.config';
+import { STORAGE_KEYS } from '../constants/storageKeys';
 
 // i18n
 import { TranslateService } from '@ngx-translate/core';
@@ -7,37 +14,35 @@ import { TranslateService } from '@ngx-translate/core';
 @Injectable({
   providedIn: 'root'
 })
+
 export class LanguageService {
+  private readonly storageKey = STORAGE_KEYS.LANGUAGE;
 
-  private currentLanguage = 'it';
-  private readonly storageKey = 'app-language';
+  private storageService = inject(StorageService);
+  private translate = inject(TranslateService);
 
-  constructor(private translate: TranslateService) {
+  private readonly _currentLanguage = signal<string>(
+    this.storageService.getItem<string>(this.storageKey) ?? APP_CONFIG.DEFAULT_LANGUAGE
+  );
 
-    this.translate.addLangs(['it', 'en']);
+  public readonly currentLanguage = this._currentLanguage.asReadonly();
 
-    this.translate.setFallbackLang('it');
-
-    this.translate.use(this.currentLanguage);
-
-    this.loadLanguageSaved();
+  constructor() {
+    this.initLanguageConfiguration();
   }
 
-  setLanguage(lang: string) {
-    this.currentLanguage = lang;
-    localStorage.setItem(this.storageKey, lang);
+  public setLanguage(lang: string) : void{
+    if(this._currentLanguage() === lang) return;
+    this._currentLanguage.set(lang);
+    this.storageService.setItem(this.storageKey, lang);
     this.translate.use(lang);
   }
 
-  getLanguage() {
-    return this.currentLanguage;
-  }
+  private initLanguageConfiguration() : void {
+    this.translate.addLangs([...APP_CONFIG.SUPPORTED_LANGUAGES]);
 
-  loadLanguageSaved() {
-    const currentLanguage = localStorage.getItem(this.storageKey);
-    if(currentLanguage) 
-      this.setLanguage(currentLanguage);
-    else
-      this.setLanguage('it');
+    this.translate.setFallbackLang(APP_CONFIG.DEFAULT_LANGUAGE);
+
+    this.translate.use(this._currentLanguage());
   }
 }

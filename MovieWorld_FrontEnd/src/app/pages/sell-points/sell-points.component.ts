@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Header } from '../../components/header/header.component';
 import { Footer } from '../../components/footer/footer.component';
 import { SellPointsFilterComponent } from '../../components/sell-points-filter/sell-points-filter.component';
@@ -33,28 +33,25 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrl: './sell-points.component.css',
 })
 export class SellPoints implements OnInit {
+  private themeService = inject(ThemeService);
+  private languageService = inject(LanguageService);
+  private sellPointsService = inject(SellPointsService);
+  private translateService = inject(TranslateService);
+
   sellPoints: SellPoint[] = []; 
   filters: SellPointsFilter = { ...DEFAULT_SELLPOINTS_FILTERS };
   totalCount: number = 0;
   pageIndex: number = 0;
   pageSize: number = 10;
 
-  currentLang !: string;
+  public lang = this.languageService.currentLanguage;
 
   isLoadingButton = false;
 
   isLoading: boolean = true;
   error: boolean = false;
 
-  constructor(
-    private themeService: ThemeService, 
-    private languageService: LanguageService, 
-    private sellPointsService: SellPointsService,
-    private translateService : TranslateService
-  ) {}
-
   ngOnInit() {
-    this.currentLang = this.languageService.getLanguage();
     this.loadData();
   }
 
@@ -62,7 +59,7 @@ export class SellPoints implements OnInit {
     this.isLoading = true;
     this.error = false;
 
-    this.sellPointsService.getSellPoints(this.pageIndex, this.pageSize, this.currentLang, this.filters).subscribe({
+    this.sellPointsService.getSellPoints(this.pageIndex, this.pageSize, this.lang(), this.filters).subscribe({
       next: (response) => {
         if(response.success) {
           this.sellPoints = response.data.items;
@@ -82,7 +79,7 @@ export class SellPoints implements OnInit {
 
   downloadExcel() {
     this.isLoadingButton = true;
-    this.sellPointsService.exportToExcel(this.filters, this.currentLang).subscribe(blob => {
+    this.sellPointsService.exportToExcel(this.filters, this.lang()).subscribe(blob => {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;

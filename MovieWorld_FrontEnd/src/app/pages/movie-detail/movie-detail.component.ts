@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { TabsModule } from 'primeng/tabs';
@@ -35,21 +35,21 @@ import { ThemeService } from '../../services/theme.service';
   styleUrl: './movie-detail.component.css',
 })
 export class MovieDetail implements OnInit {
+  private readonly cartService = inject(CartService);
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  private readonly movieService = inject(MovieService);
+  private readonly languageService = inject(LanguageService);
+  private readonly authService = inject(AuthService);
+  private readonly themeService = inject(ThemeService);
+  
   movie!: Movie;
   moviesWithSameGenre: Movie[] = [];
   value = 0;
   isLoading: boolean = false;
   error: boolean = false;
 
-  constructor(
-    private cartService: CartService, 
-    private router: Router,
-    private route: ActivatedRoute,
-    private movieService: MovieService,
-    private languageService: LanguageService,
-    private authService: AuthService,
-    private themeService: ThemeService
-  ) {}
+  public lang = this.languageService.currentLanguage;
 
   ngOnInit() {
     this.loadMovieData();
@@ -59,17 +59,16 @@ export class MovieDetail implements OnInit {
     scrollToTop();
     this.route.paramMap.subscribe(params => {
       const id = Number(params.get('id'));
-      const currentLang = this.languageService.getLanguage();
       
       if (id) {
         this.isLoading = true;
         this.error = false;
 
-        this.movieService.getMovieById(id, currentLang).subscribe({
+        this.movieService.getMovieById(id, this.lang()).subscribe({
           next: (dbMovie) => {
             if (dbMovie) {
               this.movie = dbMovie;
-              this.loadRelatedMovies(id, currentLang);
+              this.loadRelatedMovies(id, this.lang());
             } else {
               this.error = true;
             }

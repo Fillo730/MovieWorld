@@ -1,5 +1,5 @@
 //Angular Core
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms'
 
 //External Libraries
@@ -7,6 +7,9 @@ import { SelectModule } from 'primeng/select';
 
 //Services
 import { LanguageService } from '../../services/language.service';
+
+//Constants
+import { APP_CONFIG } from '../../constants/app.config';
 
 @Component({
   selector: 'language-selector',
@@ -16,22 +19,13 @@ import { LanguageService } from '../../services/language.service';
 })
 
 export class LanguageSelectorComponent {
+  private readonly languageService = inject(LanguageService);
 
-  constructor(private languageService : LanguageService) {}
+  public readonly languages = [...APP_CONFIG.LANG_OPTIONS];
 
-  selectedLanguage = 'it';
+  public lang = this.languageService.currentLanguage;
 
-  languages = [
-    { label: "Italiano", value: "it", flag: "https://flagsapi.com/IT/flat/24.png" },
-    { label: "English", value: "en", flag: "https://flagsapi.com/GB/flat/24.png" },
-  ];
-
-  ngOnInit() {
-    this.selectedLanguage = this.languageService.getLanguage();
-  }
-
-  onLanguageChangeFromPrime(event: any) {
-    this.selectedLanguage = event.value;
+  onLanguageChangeFromPrime(event: { value: string}) {
     this.languageService.setLanguage(event.value);
   }
 }

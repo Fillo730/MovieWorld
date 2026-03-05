@@ -19,7 +19,7 @@ import { scrollToTop } from '../../../utils/windowFunctions';
 import { StateHandlerComponent } from '../../../components/state-handler/state-handler.component';
 
 @Component({
-  selector: 'app-cast-admin',
+  selector: 'cast-admin',
   standalone: true,
   imports: [
     CommonModule, FormsModule, MatIconModule, MatButtonModule, 
@@ -30,6 +30,12 @@ import { StateHandlerComponent } from '../../../components/state-handler/state-h
   styleUrl: './cast.component.css'
 })
 export class CastAdminComponent implements OnInit {
+  private personService = inject(PersonService);
+  private dialog = inject(MatDialog);
+  private toastService = inject(ToastService);
+  private translate = inject(TranslateService);
+  private languageService = inject(LanguageService);
+  
   filteredCast: Person[] = [];
   totalCount: number = 0;
   filters: PersonsFilter = { ...DEFAULT_PERSONS_FILTERS };
@@ -38,11 +44,7 @@ export class CastAdminComponent implements OnInit {
   isLoading: boolean = false;
   error: boolean = false;
 
-  private personService = inject(PersonService);
-  private dialog = inject(MatDialog);
-  private toastService = inject(ToastService);
-  private translate = inject(TranslateService);
-  private languageService = inject(LanguageService);
+  public lang = this.languageService.currentLanguage; 
 
   ngOnInit(): void {
     this.loadData();
@@ -51,9 +53,8 @@ export class CastAdminComponent implements OnInit {
   loadData(): void {
     this.isLoading = true;
     this.error = false;
-    const lang = this.languageService.getLanguage();
     
-    this.personService.getPersons(this.pageIndex, this.pageSize, lang, this.filters).subscribe({
+    this.personService.getPersons(this.pageIndex, this.pageSize, this.lang(), this.filters).subscribe({
       next: (response) => {
         if (response.success && response.data) {
           this.filteredCast = response.data.items || [];

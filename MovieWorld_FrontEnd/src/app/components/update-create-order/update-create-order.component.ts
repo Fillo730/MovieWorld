@@ -40,6 +40,11 @@ import { SellPoint } from '../../models/SellPoint.model';
   styleUrl: './update-create-order.component.css',
 })
 export class UpdateCreateOrderComponent implements OnInit {
+  private readonly userService = inject(UserService);
+  private readonly movieService = inject(MovieService);
+  private readonly sellPointsService = inject(SellPointsService);
+  private readonly languageService = inject(LanguageService);
+  
   public orderUpdate!: Order;
   public isLoading = false;
   public states: OrderState[] = [];
@@ -48,15 +53,10 @@ export class UpdateCreateOrderComponent implements OnInit {
   movieSearch = new FormControl<any>('');
   sellPointSearch = new FormControl<any>('');
 
-  lang: string = '';
+  public lang = this.languageService.currentLanguage;
   usersQuered: User[] = [];
   moviesQuered: Movie[] = [];
   sellPointsQuered: SellPoint[] = [];
-
-  userService = inject(UserService);
-  movieService = inject(MovieService);
-  sellPointsService = inject(SellPointsService);
-  languageService = inject(LanguageService);
 
   constructor(
     public dialogRef: MatDialogRef<UpdateCreateOrderComponent>,
@@ -64,7 +64,6 @@ export class UpdateCreateOrderComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.lang = this.languageService.getLanguage();
     this.states = this.data.states || [];
     console.log(this.data.order);
 
@@ -98,7 +97,7 @@ export class UpdateCreateOrderComponent implements OnInit {
       filter(val => typeof val === 'string' && val.length >= 2),
       debounceTime(400),
       tap(() => this.isLoading = true),
-      switchMap(query => this.movieService.getMoviesByQuery(8, query, this.lang).pipe(
+      switchMap(query => this.movieService.getMoviesByQuery(8, query, this.lang()).pipe(
         finalize(() => this.isLoading = false)
       ))
     ).subscribe(res => {
@@ -109,7 +108,7 @@ export class UpdateCreateOrderComponent implements OnInit {
       filter(val => typeof val === 'string' && val.length >= 2),
       debounceTime(400),
       tap(() => this.isLoading = true),
-      switchMap(query => this.sellPointsService.getSellPointsByQuery(8, query, this.lang).pipe(
+      switchMap(query => this.sellPointsService.getSellPointsByQuery(8, query, this.lang()).pipe(
         finalize(() => this.isLoading = false)
       ))
     ).subscribe(res => {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { Header } from "../../components/header/header.component";
@@ -37,6 +37,12 @@ import { DEFAULT_NEWS_FILTER } from '../../models/filters/NewsFilter';
   styleUrl: './home.component.css',
 })
 export class Home implements OnInit {
+  private readonly router = inject(Router);
+  private readonly themeService = inject(ThemeService);
+  private readonly movieService = inject(MovieService);
+  private readonly languageService = inject(LanguageService);
+  private readonly newsService = inject(NewsService);
+  
   newsList: News[] = [];
   cultMovies: Movie[] = [];
   count: number = -1;
@@ -49,13 +55,7 @@ export class Home implements OnInit {
   isLoading: boolean = true;
   error: boolean = false;
 
-  constructor(
-    private router: Router, 
-    private themeService: ThemeService, 
-    private movieService: MovieService, 
-    private languageService: LanguageService, 
-    private newsService: NewsService
-  ) {}
+  public lang = this.languageService.currentLanguage;
 
   ngOnInit() {
     this.loadInitialData();
@@ -64,9 +64,8 @@ export class Home implements OnInit {
   loadInitialData() {
     this.isLoading = true;
     this.error = false;
-    const currentLang = this.languageService.getLanguage();
 
-    this.movieService.getCultMovies(currentLang, 8).subscribe({
+    this.movieService.getCultMovies(this.lang(), 8).subscribe({
       next: (moviesFromDb) => {
         this.cultMovies = moviesFromDb;
         this.imagesForCarosel = this.cultMovies.map(movie => movie.imagePath ?? "");
@@ -94,8 +93,7 @@ export class Home implements OnInit {
 
   loadNews() {
     const pageIndex = Math.floor(this.first / this.rows);
-    const currentLang = this.languageService.getLanguage();
-    this.newsService.getNews(pageIndex, this.rows, DEFAULT_NEWS_FILTER, currentLang).subscribe(response => {
+    this.newsService.getNews(pageIndex, this.rows, DEFAULT_NEWS_FILTER, this.lang()).subscribe(response => {
       if(response.success) {
         this.newsList = response.data.items;
         this.totalRecords = response.data.totalCount;

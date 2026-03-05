@@ -1,45 +1,55 @@
-import { Component, inject, OnInit } from "@angular/core";
+//Angular
+import { Component, computed, effect, inject, OnInit, signal } from "@angular/core";
+
+//Components
 import { Header } from "../../components/header/header.component";
 import { Footer } from "../../components/footer/footer.component";
+import { OrderUserListComponent } from "../../components/order-user-list/order-user-list.component";
+import { StateHandlerComponent } from "../../components/state-handler/state-handler.component";
+
+//Services
 import { OrdersService } from "../../services/orders.service";
 import { LanguageService } from "../../services/language.service";
-import { DEFAULT_ORDERS_FILTER } from "../../models/filters/OrdersFilter.model";
 import { AuthService } from "../../services/auth-service.service";
-import { Order } from "../../models/Order.model";
-import { OrderUserListComponent } from "../../components/order-user-list/order-user-list.component";
-import { TranslatePipe, TranslateService } from "@ngx-translate/core";
-import { StateHandlerComponent } from "../../components/state-handler/state-handler.component";
 import { ThemeService } from "../../services/theme.service";
+
+//Models
+import { DEFAULT_ORDERS_FILTER } from "../../models/filters/OrdersFilter.model";
+import { Order } from "../../models/Order.model";
+import { TranslatePipe } from "@ngx-translate/core";
 import { getButtonTypeBasedOnTheme } from "../../utils/themeFunctions";
+import { finalize } from "rxjs";
 
 @Component({
-  selector: 'your-orders',
+  selector: 'your-orders-page',
   standalone: true,
   imports: [Header, Footer, OrderUserListComponent, TranslatePipe, StateHandlerComponent],
   templateUrl: './your-orders.html',
   styleUrl: './your-orders.css',
 })
-export class YourOrders implements OnInit {
+
+export class YourOrders {
   private ordersService = inject(OrdersService);
   private languageService = inject(LanguageService);
   private authService = inject(AuthService);
   private themeService = inject(ThemeService);
-  private translateService = inject(TranslateService);
 
-  orders: Order[] = [];
-  first: number = 0;
-  rows: number = 10;
-  totalRecords: number = 0;
-  lang!: string;
-  isLoading: boolean = false;
-  error: boolean = false;
+  public orders = signal<Order[]>([]);
+  public readonly lang = this.languageService.currentLanguage;
+  public isLoading = signal<boolean>(false);
+  public error = signal<boolean>(false);
 
-  ngOnInit() {
-    this.lang = this.languageService.getLanguage();
-    this.loadOrders();
+  public first = signal<number>(0)
+  public rows = signal<number>(10);
+  public readonly totalRecords = signal<number>(0);
 
-    this.translateService.onLangChange.subscribe(() => {
-      this.lang = this.languageService.getLanguage();
+  public readonly pageIndex = computed(() => Math.floor(this.first() / this.rows()));
+
+  constructor() {
+    effect(() => {
+      this.lang();
+      this.first();
+      this.rows();
       this.loadOrders();
     })
   }
@@ -48,31 +58,29 @@ export class YourOrders implements OnInit {
     const id = this.authService.getId();
     if (id == undefined) return;
 
-    this.isLoading = true;
-    this.error = false;
-    const pageIndex = Math.floor(this.first / this.rows);
+    this.isLoading.set(true);
+    this.error.set(false);
 
-    this.ordersService.getUsersOrders(pageIndex, this.rows, DEFAULT_ORDERS_FILTER, this.lang, id).subscribe({
+    this.ordersService.getUsersOrders(this.pageIndex(), this.rows(), DEFAULT_ORDERS_FILTER, this.lang(), id).pipe(
+      finalize(() => this.isLoading.set(false))
+    ).subscribe({
       next: (response) => {
         if (response.success) {
-          this.orders = response.data.items;
-          this.totalRecords = response.data.totalCount;
+          this.orders.set(response.data.items);
+          this.totalRecords.set(response.data.totalCount);
         } else {
-          this.error = true;
+          this.error.set(true);
         }
-        this.isLoading = false;
       },
       error: () => {
-        this.error = true;
-        this.isLoading = false;
+        this.error.set(true);
       }
     });
   }
 
   onPageChange(event: any) {
-    this.first = event.first;
-    this.rows = event.rows;
-    this.loadOrders();
+    this.first.set(event.first);
+    this.rows.set(event.rows);
   }
 
   getButtonTheme() {
