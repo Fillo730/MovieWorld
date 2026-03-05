@@ -15,7 +15,7 @@ import { Movie } from '../models/Movie.model';
 import { ApiResponse } from '../models/ApiResponse.model';
 
 //Constants
-import { RETRIEVE_MOVIES_CULT_DEFAULT_QUANTITY, RETRIEVE_MOVIES_SAME_GENRE_DEFAULT_QUANTITY } from '../constants/DefaultQuantity';
+import { APP_CONFIG } from '../constants/app.config';
 import { getApiUrl } from '../constants/app.config';
 
 @Injectable({
@@ -47,14 +47,14 @@ export class MovieService {
     return this.http.put<ApiResponse<Movie>>(`${this.apiUrl}/${id}`, movie);
   }
 
-  public getMoviesWithSameGenre(id: number, quantity: number = RETRIEVE_MOVIES_SAME_GENRE_DEFAULT_QUANTITY): Observable<Movie[]> {
+  public getMoviesWithSameGenre(id: number, quantity: number = APP_CONFIG.MOVIES.SAME_GENRE_QUANTITY): Observable<Movie[]> {
     const params = new HttpParams().set('quantity', quantity);
     return this.http.get<ApiResponse<Movie[]>>(`${this.apiUrl}/related/${id}`, { params }).pipe(
       map(response => response.data)
     );
   }
 
-  public getCultMovies(quantity: number = RETRIEVE_MOVIES_CULT_DEFAULT_QUANTITY): Observable<Movie[]> {
+  public getCultMovies(quantity: number = APP_CONFIG.MOVIES.CULT_QUANTITY): Observable<Movie[]> {
     const params = new HttpParams().set('quantity', quantity);
     return this.http.get<ApiResponse<Movie[]>>(`${this.apiUrl}/cult`, { params }).pipe(
       map(response => response.data)

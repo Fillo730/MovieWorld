@@ -10,6 +10,11 @@ export const APP_CONFIG = {
         { label: "English", value: LANGUAGES.ENGLISH, flag: "https://flagsapi.com/GB/flat/24.png" },
     ],
     DEFAULT_THEME: THEMES.DARK,
+    MOVIES: {
+        SAME_GENRE_QUANTITY: 5,
+        CULT_QUANTITY: 6,
+        DEFAULT_PAGE_SIZE: 10
+    }
 } as const;
 
 export const API_BASE_URL = "https://localhost:7163/api";
