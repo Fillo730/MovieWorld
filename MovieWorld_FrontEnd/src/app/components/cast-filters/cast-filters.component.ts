@@ -1,7 +1,11 @@
 //Angular Core
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+
+//RxJS
+import { Subject, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 //Angular Material
 import { MatInputModule } from '@angular/material/input';
@@ -29,14 +33,34 @@ import { TranslatePipe } from '@ngx-translate/core';
   templateUrl: './cast-filters.component.html',
   styleUrl: './cast-filters.component.css'
 })
-export class CastFiltersComponent {
+export class CastFiltersComponent implements OnInit, OnDestroy {
   @Input() filters!: PersonsFilter;
   @Output() filterChanged = new EventEmitter<PersonsFilter>();
   @Output() filterReset = new EventEmitter<void>();
 
   public readonly Roles = Role;
 
+  private queryChanged$ = new Subject<string>();
+  private queryChangedSubscription?: Subscription;
+
   constructor(private themeService : ThemeService) {}
+
+  ngOnInit(): void {
+    this.queryChangedSubscription = this.queryChanged$
+      .pipe(debounceTime(300), distinctUntilChanged())
+      .subscribe(query => {
+        this.filters.query = query;
+        this.notifyChange();
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.queryChangedSubscription?.unsubscribe();
+  }
+
+  onQueryInput(query: string) {
+    this.queryChanged$.next(query);
+  }
 
   notifyChange() {
     this.filterChanged.emit({ ...this.filters });

@@ -8,12 +8,13 @@ import { UsersFilter } from '../models/filters/UsersFilter.model';
 import { UserYear } from '../models/stats/UserYear.model';
 import { UserRevenue } from '../models/stats/UserRevenue.model';
 import { UserMonth } from '../models/stats/UserMonth.model';
+import { getApiUrl } from '../constants/app.config';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  private apiUrl = "https://localhost:7163/api/users";
+  private apiUrl = getApiUrl("USERS");
 
   constructor(private http: HttpClient) {}
 

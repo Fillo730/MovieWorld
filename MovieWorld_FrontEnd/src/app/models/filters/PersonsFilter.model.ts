@@ -2,7 +2,7 @@ import { Role } from "../Person.model";
 
 export interface PersonsFilter {
     query: string;
-    role: Role.None
+    role: Role
 }
 
 export const DEFAULT_PERSONS_FILTERS: PersonsFilter = {

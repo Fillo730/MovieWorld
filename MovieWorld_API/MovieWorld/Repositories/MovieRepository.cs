@@ -18,13 +18,15 @@ public class MovieRepository : BaseRepository, IMovieRepository
 
         if (!string.IsNullOrEmpty(movieFilterDto.Name))
         {
-            query = query.Where(m => m.MovieTranslations.Any(mt => mt.Title.Contains(movieFilterDto.Name)));
+            var namePattern = $"%{movieFilterDto.Name}%";
+            query = query.Where(m => m.MovieTranslations.Any(mt => EF.Functions.Like(mt.Title, namePattern)));
         }
 
         if (!string.IsNullOrEmpty(movieFilterDto.Genre))
         {
+            var genrePattern = $"%{movieFilterDto.Genre}%";
             query = query.Where(m => m.MovieGenres.Any(mg =>
-                mg.Genre.GenreTranslations.Any(gt => gt.Name.Contains(movieFilterDto.Genre))));
+                mg.Genre.GenreTranslations.Any(gt => EF.Functions.Like(gt.Name, genrePattern))));
         }
 
         if (movieFilterDto.Year.HasValue)
@@ -37,14 +39,20 @@ public class MovieRepository : BaseRepository, IMovieRepository
             query = query.Where(m => m.Cost <= movieFilterDto.MaxPrice.Value);
 
         if (!string.IsNullOrWhiteSpace(movieFilterDto.Director))
+        {
+            var directorPattern = $"%{movieFilterDto.Director}%";
             query = query.Where(m => m.MoviePeople.Any(mp =>
-                mp.Role == "Director" && (mp.Person.Name.Contains(movieFilterDto.Director)
-                || mp.Person.Surname.Contains(movieFilterDto.Director))));
+                mp.Role == "Director" && (EF.Functions.Like(mp.Person.Name, directorPattern)
+                || EF.Functions.Like(mp.Person.Surname, directorPattern))));
+        }
 
         if (!string.IsNullOrWhiteSpace(movieFilterDto.Actor))
+        {
+            var actorPattern = $"%{movieFilterDto.Actor}%";
             query = query.Where(m => m.MoviePeople.Any(mp =>
-                mp.Role == "Actor" && (mp.Person.Name.Contains(movieFilterDto.Actor) ||
-                mp.Person.Surname.Contains(movieFilterDto.Actor))));
+                mp.Role == "Actor" && (EF.Functions.Like(mp.Person.Name, actorPattern) ||
+                EF.Functions.Like(mp.Person.Surname, actorPattern))));
+        }
 
         int totalCount = await query.CountAsync();
 
@@ -156,10 +164,11 @@ public class MovieRepository : BaseRepository, IMovieRepository
 
     public async Task<IEnumerable<Movie>> GetMoviesByQueryAsync(string query, string lang, int limit)
     {
+        var pattern = $"%{query}%";
         return await _dbContext.Movies
             .AsNoTracking()
-            .Where(m => m.MovieTranslations.Any(mt => mt.LanguageCode == lang && mt.Title.Contains(query)))
-            .Include(m => m.MovieTranslations.Where(mt => mt.LanguageCode == lang && mt.Title.Contains(query)))
+            .Where(m => m.MovieTranslations.Any(mt => mt.LanguageCode == lang && EF.Functions.Like(mt.Title, pattern)))
+            .Include(m => m.MovieTranslations.Where(mt => mt.LanguageCode == lang && EF.Functions.Like(mt.Title, pattern)))
             .Take(limit)
             .ToListAsync();
     }

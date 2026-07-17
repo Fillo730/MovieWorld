@@ -15,9 +15,9 @@ namespace MovieWorld.Migrations
                 name: "Format",
                 columns: table => new
                 {
-                    Format_ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true)
+                    Format_ID = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -28,8 +28,8 @@ namespace MovieWorld.Migrations
                 name: "Genre",
                 columns: table => new
                 {
-                    Genre_ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1")
+                    Genre_ID = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true)
                 },
                 constraints: table =>
                 {
@@ -40,7 +40,7 @@ namespace MovieWorld.Migrations
                 name: "LanguageCode",
                 columns: table => new
                 {
-                    LanguageCode = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false)
+                    LanguageCode = table.Column<string>(type: "TEXT", maxLength: 10, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -51,10 +51,10 @@ namespace MovieWorld.Migrations
                 name: "News",
                 columns: table => new
                 {
-                    News_ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ImagePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Date = table.Column<DateOnly>(type: "date", nullable: true)
+                    News_ID = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    ImagePath = table.Column<string>(type: "TEXT", nullable: true),
+                    Date = table.Column<DateOnly>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -65,8 +65,8 @@ namespace MovieWorld.Migrations
                 name: "OrderState",
                 columns: table => new
                 {
-                    OrderState_ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1")
+                    OrderState_ID = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true)
                 },
                 constraints: table =>
                 {
@@ -77,12 +77,12 @@ namespace MovieWorld.Migrations
                 name: "Person",
                 columns: table => new
                 {
-                    Person_ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    Surname = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    imagePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    createdAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "(getdate())")
+                    Person_ID = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", maxLength: 255, nullable: true),
+                    Surname = table.Column<string>(type: "TEXT", maxLength: 255, nullable: true),
+                    imagePath = table.Column<string>(type: "TEXT", nullable: true),
+                    createdAt = table.Column<DateTime>(type: "TEXT", nullable: false, defaultValueSql: "(datetime('now'))")
                 },
                 constraints: table =>
                 {
@@ -93,13 +93,13 @@ namespace MovieWorld.Migrations
                 name: "SellPoint",
                 columns: table => new
                 {
-                    SellPoint_ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Province = table.Column<string>(type: "char(2)", unicode: false, fixedLength: true, maxLength: 2, nullable: true),
-                    CAP = table.Column<string>(type: "char(5)", unicode: false, fixedLength: true, maxLength: 5, nullable: true),
-                    Lat = table.Column<double>(type: "float", nullable: true),
-                    Lng = table.Column<double>(type: "float", nullable: true)
+                    SellPoint_ID = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
+                    Province = table.Column<string>(type: "TEXT", unicode: false, fixedLength: true, maxLength: 2, nullable: true),
+                    CAP = table.Column<string>(type: "TEXT", unicode: false, fixedLength: true, maxLength: 5, nullable: true),
+                    Lat = table.Column<double>(type: "REAL", nullable: true),
+                    Lng = table.Column<double>(type: "REAL", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -110,15 +110,15 @@ namespace MovieWorld.Migrations
                 name: "User",
                 columns: table => new
                 {
-                    User_ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Email = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    HashPassword = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    Surname = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    Role = table.Column<int>(type: "int", nullable: false),
-                    ImagePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    createdAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "(getdate())")
+                    User_ID = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Email = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false),
+                    HashPassword = table.Column<string>(type: "TEXT", nullable: true),
+                    Name = table.Column<string>(type: "TEXT", maxLength: 255, nullable: true),
+                    Surname = table.Column<string>(type: "TEXT", maxLength: 255, nullable: true),
+                    Role = table.Column<int>(type: "INTEGER", nullable: false),
+                    ImagePath = table.Column<string>(type: "TEXT", nullable: true),
+                    createdAt = table.Column<DateTime>(type: "TEXT", nullable: false, defaultValueSql: "(datetime('now'))")
                 },
                 constraints: table =>
                 {
@@ -129,15 +129,14 @@ namespace MovieWorld.Migrations
                 name: "Movie",
                 columns: table => new
                 {
-                    Movie_ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Format_ID = table.Column<int>(type: "int", nullable: false),
-                    Genre_ID = table.Column<int>(type: "int", nullable: false),
-                    Cost = table.Column<decimal>(type: "decimal(10,2)", nullable: true),
-                    Year = table.Column<int>(type: "int", nullable: true),
-                    TrailerURL = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsCult = table.Column<bool>(type: "bit", nullable: true),
-                    ImagePath = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
+                    Movie_ID = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Format_ID = table.Column<int>(type: "INTEGER", nullable: false),
+                    Cost = table.Column<decimal>(type: "TEXT", precision: 10, scale: 2, nullable: true),
+                    Year = table.Column<int>(type: "INTEGER", nullable: true),
+                    TrailerURL = table.Column<string>(type: "TEXT", nullable: true),
+                    IsCult = table.Column<bool>(type: "INTEGER", nullable: true),
+                    ImagePath = table.Column<string>(type: "TEXT", maxLength: 255, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -148,21 +147,15 @@ namespace MovieWorld.Migrations
                         principalTable: "Format",
                         principalColumn: "Format_ID",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK__Movie__Genre_ID__34C8D9D1",
-                        column: x => x.Genre_ID,
-                        principalTable: "Genre",
-                        principalColumn: "Genre_ID",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "GenreTranslation",
                 columns: table => new
                 {
-                    Genre_ID = table.Column<int>(type: "int", nullable: false),
-                    LanguageCode = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
+                    Genre_ID = table.Column<int>(type: "INTEGER", nullable: false),
+                    LanguageCode = table.Column<string>(type: "TEXT", maxLength: 10, nullable: false),
+                    Name = table.Column<string>(type: "TEXT", maxLength: 255, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -183,10 +176,10 @@ namespace MovieWorld.Migrations
                 name: "NewsTranslation",
                 columns: table => new
                 {
-                    News_ID = table.Column<int>(type: "int", nullable: false),
-                    LanguageCode = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    Text = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    News_ID = table.Column<int>(type: "INTEGER", nullable: false),
+                    LanguageCode = table.Column<string>(type: "TEXT", maxLength: 10, nullable: false),
+                    Title = table.Column<string>(type: "TEXT", maxLength: 255, nullable: true),
+                    Text = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -209,9 +202,9 @@ namespace MovieWorld.Migrations
                 name: "OrderStateTranslation",
                 columns: table => new
                 {
-                    OrderStateId = table.Column<int>(type: "int", nullable: false),
-                    LanguageCode = table.Column<string>(type: "varchar(10)", unicode: false, maxLength: 10, nullable: false),
-                    Description = table.Column<string>(type: "varchar(32)", unicode: false, maxLength: 32, nullable: false)
+                    OrderStateId = table.Column<int>(type: "INTEGER", nullable: false),
+                    LanguageCode = table.Column<string>(type: "TEXT", unicode: false, maxLength: 10, nullable: false),
+                    Description = table.Column<string>(type: "TEXT", unicode: false, maxLength: 32, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -227,8 +220,8 @@ namespace MovieWorld.Migrations
                 name: "NewsPerson",
                 columns: table => new
                 {
-                    News_ID = table.Column<int>(type: "int", nullable: false),
-                    Person_ID = table.Column<int>(type: "int", nullable: false)
+                    News_ID = table.Column<int>(type: "INTEGER", nullable: false),
+                    Person_ID = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -251,11 +244,11 @@ namespace MovieWorld.Migrations
                 name: "SellPointTranslation",
                 columns: table => new
                 {
-                    SellPoint_ID = table.Column<int>(type: "int", nullable: false),
-                    LanguageCode = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    City = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true)
+                    SellPoint_ID = table.Column<int>(type: "INTEGER", nullable: false),
+                    LanguageCode = table.Column<string>(type: "TEXT", maxLength: 10, nullable: false),
+                    Address = table.Column<string>(type: "TEXT", maxLength: 255, nullable: true),
+                    Description = table.Column<string>(type: "TEXT", nullable: true),
+                    City = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -276,10 +269,10 @@ namespace MovieWorld.Migrations
                 name: "Chart",
                 columns: table => new
                 {
-                    Chart_ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    User_ID = table.Column<int>(type: "int", nullable: false),
-                    CreationData = table.Column<DateTime>(type: "datetime", nullable: true, defaultValueSql: "(getdate())")
+                    Chart_ID = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    User_ID = table.Column<int>(type: "INTEGER", nullable: false),
+                    CreationData = table.Column<DateTime>(type: "TEXT", nullable: true, defaultValueSql: "(datetime('now'))")
                 },
                 constraints: table =>
                 {
@@ -295,12 +288,12 @@ namespace MovieWorld.Migrations
                 name: "Order",
                 columns: table => new
                 {
-                    Order_ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Date = table.Column<DateTime>(type: "datetime", nullable: true, defaultValueSql: "(getdate())"),
-                    OrderState_ID = table.Column<int>(type: "int", nullable: false),
-                    User_ID = table.Column<int>(type: "int", nullable: false),
-                    SellPoint_ID = table.Column<int>(type: "int", nullable: false)
+                    Order_ID = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Date = table.Column<DateTime>(type: "TEXT", nullable: true, defaultValueSql: "(datetime('now'))"),
+                    OrderState_ID = table.Column<int>(type: "INTEGER", nullable: false),
+                    User_ID = table.Column<int>(type: "INTEGER", nullable: false),
+                    SellPoint_ID = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -323,12 +316,36 @@ namespace MovieWorld.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "MovieGenre",
+                columns: table => new
+                {
+                    Movie_ID = table.Column<int>(type: "INTEGER", nullable: false),
+                    Genre_ID = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MovieGenre", x => new { x.Movie_ID, x.Genre_ID });
+                    table.ForeignKey(
+                        name: "FK_MovieGenre_Genre",
+                        column: x => x.Genre_ID,
+                        principalTable: "Genre",
+                        principalColumn: "Genre_ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_MovieGenre_Movie",
+                        column: x => x.Movie_ID,
+                        principalTable: "Movie",
+                        principalColumn: "Movie_ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "MoviePerson",
                 columns: table => new
                 {
-                    Person_ID = table.Column<int>(type: "int", nullable: false),
-                    Movie_ID = table.Column<int>(type: "int", nullable: false),
-                    Role = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
+                    Person_ID = table.Column<int>(type: "INTEGER", nullable: false),
+                    Movie_ID = table.Column<int>(type: "INTEGER", nullable: false),
+                    Role = table.Column<string>(type: "TEXT", maxLength: 255, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -351,9 +368,9 @@ namespace MovieWorld.Migrations
                 name: "MovieSellPoint",
                 columns: table => new
                 {
-                    Movie_ID = table.Column<int>(type: "int", nullable: false),
-                    SellPoint_ID = table.Column<int>(type: "int", nullable: false),
-                    Quantità = table.Column<int>(type: "int", nullable: true)
+                    Movie_ID = table.Column<int>(type: "INTEGER", nullable: false),
+                    SellPoint_ID = table.Column<int>(type: "INTEGER", nullable: false),
+                    Quantità = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -374,10 +391,10 @@ namespace MovieWorld.Migrations
                 name: "MovieTranslation",
                 columns: table => new
                 {
-                    Movie_ID = table.Column<int>(type: "int", nullable: false),
-                    LanguageCode = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    Story = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Movie_ID = table.Column<int>(type: "INTEGER", nullable: false),
+                    LanguageCode = table.Column<string>(type: "TEXT", maxLength: 10, nullable: false),
+                    Title = table.Column<string>(type: "TEXT", maxLength: 255, nullable: true),
+                    Story = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -400,8 +417,8 @@ namespace MovieWorld.Migrations
                 name: "NewsMovie",
                 columns: table => new
                 {
-                    News_ID = table.Column<int>(type: "int", nullable: false),
-                    Movie_ID = table.Column<int>(type: "int", nullable: false)
+                    News_ID = table.Column<int>(type: "INTEGER", nullable: false),
+                    Movie_ID = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -424,9 +441,9 @@ namespace MovieWorld.Migrations
                 name: "ChartItem",
                 columns: table => new
                 {
-                    Chart_ID = table.Column<int>(type: "int", nullable: false),
-                    Movie_ID = table.Column<int>(type: "int", nullable: false),
-                    Quantità = table.Column<int>(type: "int", nullable: true)
+                    Chart_ID = table.Column<int>(type: "INTEGER", nullable: false),
+                    Movie_ID = table.Column<int>(type: "INTEGER", nullable: false),
+                    Quantità = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -447,9 +464,10 @@ namespace MovieWorld.Migrations
                 name: "OrderItem",
                 columns: table => new
                 {
-                    Movie_ID = table.Column<int>(type: "int", nullable: false),
-                    Order_ID = table.Column<int>(type: "int", nullable: false),
-                    Quantity = table.Column<int>(type: "int", nullable: false, defaultValue: 1)
+                    Movie_ID = table.Column<int>(type: "INTEGER", nullable: false),
+                    Order_ID = table.Column<int>(type: "INTEGER", nullable: false),
+                    Quantity = table.Column<int>(type: "INTEGER", nullable: false, defaultValue: 1),
+                    PurchasedPrice = table.Column<decimal>(type: "TEXT", precision: 18, scale: 2, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -458,12 +476,14 @@ namespace MovieWorld.Migrations
                         name: "FK__OrderItem__Movie__7A672E12",
                         column: x => x.Movie_ID,
                         principalTable: "Movie",
-                        principalColumn: "Movie_ID");
+                        principalColumn: "Movie_ID",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK__OrderItem__Order__7B5B524B",
                         column: x => x.Order_ID,
                         principalTable: "Order",
-                        principalColumn: "Order_ID");
+                        principalColumn: "Order_ID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -487,8 +507,8 @@ namespace MovieWorld.Migrations
                 column: "Format_ID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Movie_Genre_ID",
-                table: "Movie",
+                name: "IX_MovieGenre_Genre_ID",
+                table: "MovieGenre",
                 column: "Genre_ID");
 
             migrationBuilder.CreateIndex(
@@ -563,6 +583,9 @@ namespace MovieWorld.Migrations
                 name: "GenreTranslation");
 
             migrationBuilder.DropTable(
+                name: "MovieGenre");
+
+            migrationBuilder.DropTable(
                 name: "MoviePerson");
 
             migrationBuilder.DropTable(
@@ -593,6 +616,9 @@ namespace MovieWorld.Migrations
                 name: "Chart");
 
             migrationBuilder.DropTable(
+                name: "Genre");
+
+            migrationBuilder.DropTable(
                 name: "Person");
 
             migrationBuilder.DropTable(
@@ -609,9 +635,6 @@ namespace MovieWorld.Migrations
 
             migrationBuilder.DropTable(
                 name: "Format");
-
-            migrationBuilder.DropTable(
-                name: "Genre");
 
             migrationBuilder.DropTable(
                 name: "OrderState");

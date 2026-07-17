@@ -36,7 +36,11 @@ public class PersonRepository : BaseRepository, IPersonRepository
 
         if (!string.IsNullOrEmpty(filters.Query))
         {
-            query = query.Where(p => p.Name.Contains(filters.Query) || p.Surname.Contains(filters.Query));
+            var pattern = $"%{filters.Query}%";
+            query = query.Where(p =>
+                EF.Functions.Like(p.Name, pattern) ||
+                EF.Functions.Like(p.Surname, pattern) ||
+                EF.Functions.Like(p.Name + " " + p.Surname, pattern));
         }
 
         if (!string.IsNullOrEmpty(filters.Role))
@@ -70,9 +74,13 @@ public class PersonRepository : BaseRepository, IPersonRepository
 
     public async Task<IEnumerable<Person>> GetPersonByQueryAsync(string query)
     {
+        var pattern = $"%{query}%";
         return await _dbContext.People
         .AsNoTracking()
-        .Where(p => p.Name.Contains(query) || p.Name.Contains(query))
+        .Where(p =>
+            EF.Functions.Like(p.Name, pattern) ||
+            EF.Functions.Like(p.Surname, pattern) ||
+            EF.Functions.Like(p.Name + " " + p.Surname, pattern))
         .OrderBy(p => p.Name)
         .Take(15)
         .ToListAsync();

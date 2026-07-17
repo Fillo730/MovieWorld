@@ -35,9 +35,10 @@ public class UsersRepository : BaseRepository, IUserRepository
 
         if (!string.IsNullOrWhiteSpace(filters.Query))
         {
-            query = query.Where(u => u.Name.Contains(filters.Query) ||
-                                     u.Surname.Contains(filters.Query) ||
-                                     u.Email.Contains(filters.Query));
+            var pattern = $"%{filters.Query}%";
+            query = query.Where(u => EF.Functions.Like(u.Name, pattern) ||
+                                     EF.Functions.Like(u.Surname, pattern) ||
+                                     EF.Functions.Like(u.Email, pattern));
         }
 
         if (filters.Role != -1)
@@ -79,11 +80,12 @@ public class UsersRepository : BaseRepository, IUserRepository
 
     public async Task<IEnumerable<User>> GetUserByQueryAsync(string query, int limit)
     {
+        var pattern = $"%{query}%";
         return await _dbContext.Users
             .AsNoTracking()
-            .Where(u => u.Name.Contains(query) ||
-                        u.Surname.Contains(query) ||
-                        u.Email.Contains(query))
+            .Where(u => EF.Functions.Like(u.Name, pattern) ||
+                        EF.Functions.Like(u.Surname, pattern) ||
+                        EF.Functions.Like(u.Email, pattern))
             .Take(limit)
             .ToListAsync();
     }

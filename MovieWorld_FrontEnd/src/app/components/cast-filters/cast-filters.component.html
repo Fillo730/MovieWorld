@@ -4,14 +4,14 @@
     <div class="filter-row">
         <mat-form-field appearance="outline">
             <mat-label class="text-color">{{ "Admin.CastPage.CastFilters.SearchName" | translate }}</mat-label>
-            <input matInput [(ngModel)]="filters.query" (ngModelChange)="notifyChange()">
+            <input matInput [(ngModel)]="filters.query" (ngModelChange)="onQueryInput($event)">
             <mat-icon matSuffix>search</mat-icon>
         </mat-form-field>
 
         <mat-form-field appearance="outline">
             <mat-label class="text-color">{{ "Admin.CastPage.CastFilters.Role" | translate }}</mat-label>
             <mat-select class="text-color" [(ngModel)]="filters.role" (selectionChange)="notifyChange()">
-                <mat-option [value]="Roles.Actor">
+                <mat-option [value]="Roles.None">
                     {{ "Admin.CastPage.CastFilters.AllRoles" | translate }}
                 </mat-option>
                 <mat-option [value]="Roles.Actor">

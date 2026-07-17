@@ -60,3 +60,8 @@ Migrations/*.designer.cs
 
 # --- User-specific files ---
 .vs/
+populate_movies.js
+MovieWorld_API/MovieWorld.sln
+MovieWorld_API/MovieWorld/MovieWorld.db.bak.20260717_230548
+.gitignore
+MovieWorld_API/MovieWorld/MovieWorld.db.bak.20260717_231416

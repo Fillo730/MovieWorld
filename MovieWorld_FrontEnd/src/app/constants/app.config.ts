@@ -17,7 +17,7 @@ export const APP_CONFIG = {
     }
 } as const;
 
-export const API_BASE_URL = "https://localhost:7163/api";
+export const API_BASE_URL = "http://localhost:5246/api";
 
 export const API_ENDPOINTS =  {
     MOVIES: "movies",
@@ -26,7 +26,8 @@ export const API_ENDPOINTS =  {
     ORDERS: "orders",
     NEWS: "news",
     CART: "cart",
-    AUTH: "auth" 
+    AUTH: "auth",
+    USERS: "users"
 } as const;
 
 export function getApiUrl (key : keyof typeof API_ENDPOINTS) : string {

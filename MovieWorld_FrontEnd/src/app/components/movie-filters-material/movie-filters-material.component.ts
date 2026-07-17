@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
@@ -9,6 +9,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
+//RxJS
+import { Subject, Subscription } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 import { Genre } from '../../models/Genre.model';
 
@@ -27,7 +30,7 @@ import { Genre } from '../../models/Genre.model';
   templateUrl: './movie-filters-material.component.html',
   styleUrl: './movie-filters-material.component.css'
 })
-export class MoviesFiltersMaterialComponent {
+export class MoviesFiltersMaterialComponent implements OnInit, OnDestroy {
   @Input() filters!: any;
   @Input() filtersTitle!: string;
   @Input() nameTitle!: string;
@@ -40,6 +43,7 @@ export class MoviesFiltersMaterialComponent {
   @Input() actorTitle!: string;
   @Input() actorPlaceholder!: string;
   @Input() resetLabel!: string;
+  @Input() allGenresLabel: string = '';
 
   @Input() genres: Genre[] = [];
   @Input() areGenresVisible: boolean = true;
@@ -47,8 +51,21 @@ export class MoviesFiltersMaterialComponent {
   @Output() filtersChanged = new EventEmitter<void>();
   @Output() filtersReset = new EventEmitter<void>();
 
+  private inputChanged$ = new Subject<void>();
+  private inputChangedSubscription?: Subscription;
+
+  ngOnInit(): void {
+    this.inputChangedSubscription = this.inputChanged$
+      .pipe(debounceTime(300))
+      .subscribe(() => this.filtersChanged.emit());
+  }
+
+  ngOnDestroy(): void {
+    this.inputChangedSubscription?.unsubscribe();
+  }
+
   emitChange() {
-    this.filtersChanged.emit();
+    this.inputChanged$.next();
   }
 
   onGenreChange() {

@@ -1,5 +1,6 @@
 ﻿namespace MovieWorld.Controllers;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MovieWorld.Dtos;
@@ -90,6 +91,7 @@ public class SellpointsController(ISellPointsService sellPointsService) : BaseCo
         }
     }
 
+    [Authorize]
     [HttpGet("export")]
     public async Task<IActionResult> ExportMoviesToExcel([FromQuery] SellPointsFilterDto sellPointsFilters, [FromQuery] string? lang)
     {

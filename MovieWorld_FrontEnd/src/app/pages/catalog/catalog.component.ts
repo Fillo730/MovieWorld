@@ -14,7 +14,6 @@ import { DEFAULT_MOVIES_FILTERS, MovieFilter } from '../../models/filters/MovieF
 import { Genre } from '../../models/Genre.model';
 import { AuthService } from '../../services/auth.service';
 import { StateHandlerComponent } from '../../components/state-handler/state-handler.component';
-import { throwToolbarMixedModesError } from '@angular/material/toolbar';
 import { CartService } from '../../services/cart.service';
 import { getDownloadButtonTheme } from '../../utils/themeFunctions';
 

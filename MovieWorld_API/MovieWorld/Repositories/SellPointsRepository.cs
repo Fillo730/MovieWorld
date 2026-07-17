@@ -42,7 +42,8 @@ public class SellPointsRepository : BaseRepository, ISellPointsRepository
 
         if (!string.IsNullOrEmpty(filters.City))
         {
-            query = query.Where(sp => sp.SellPointTranslations.Any(t => t.City.Contains(filters.City) && t.LanguageCode.Equals(lang)));
+            var pattern = $"%{filters.City}%";
+            query = query.Where(sp => sp.SellPointTranslations.Any(t => EF.Functions.Like(t.City, pattern) && t.LanguageCode.Equals(lang)));
         }
 
         int totalCount = await query.CountAsync();
@@ -94,11 +95,12 @@ public class SellPointsRepository : BaseRepository, ISellPointsRepository
 
     public async Task<IEnumerable<SellPoint>> GetSellPointsByQuery(string query, string lang, int limit)
     {
+        var pattern = $"%{query}%";
         var result = await _dbContext.SellPoints
             .AsNoTracking()
             .Include(sp => sp.SellPointTranslations.Where(t => t.LanguageCode == lang))
             .Where(sp => sp.SellPointTranslations.Any(t => t.LanguageCode == lang &&
-                                                          (t.Address.Contains(query) || t.City.Contains(query))))
+                                                          (EF.Functions.Like(t.Address, pattern) || EF.Functions.Like(t.City, pattern))))
             .Take(limit)
             .ToListAsync();
         return result;

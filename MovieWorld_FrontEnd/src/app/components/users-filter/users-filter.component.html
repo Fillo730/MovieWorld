@@ -4,14 +4,14 @@
     <div class="filter-row">
         <mat-form-field appearance="outline" class="search-field">
             <mat-label>{{ "Admin.UsersPage.Filters.Name" | translate }}</mat-label>
-            <input class="text-color" matInput [(ngModel)]="filters.query" (ngModelChange)="notifyChange()" [placeholder]="'Admin.UsersPage.Filters.Placeholder' | translate">
+            <input class="text-color" matInput [(ngModel)]="filters.query" (ngModelChange)="onQueryInput($event)" [placeholder]="'Admin.UsersPage.Filters.Placeholder' | translate">
             <mat-icon matSuffix>search</mat-icon>
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="select-field">
             <mat-label>{{ "Admin.UsersPage.Filters.Year" | translate }}</mat-label>
             <mat-select class="text-color" [(ngModel)]="filters.year" (selectionChange)="notifyChange()">
-                <mat-option value="">{{ "Admin.UsersPage.Filters.All" | translate }}</mat-option>
+                <mat-option [value]="-1">{{ "Admin.UsersPage.Filters.All" | translate }}</mat-option>
                 @for (year of getFiltersYear(); track year) {
                     <mat-option [value]="year">{{ year }}</mat-option>
                 }
@@ -21,9 +21,9 @@
         <mat-form-field appearance="outline" class="select-field">
             <mat-label>{{ "Admin.UsersPage.Filters.Role" | translate }}</mat-label>
             <mat-select class="text-color" [(ngModel)]="filters.role" (selectionChange)="notifyChange()">
-                <mat-option value="-1">{{ "Admin.UsersPage.Filters.All" | translate }}</mat-option>
-                <mat-option value="1">{{ "Admin.UsersPage.Table.RoleAdmin" | translate }}</mat-option>
-                <mat-option value="0">{{ "Admin.UsersPage.Table.RoleUser" | translate }}</mat-option>
+                <mat-option [value]="-1">{{ "Admin.UsersPage.Filters.All" | translate }}</mat-option>
+                <mat-option [value]="1">{{ "Admin.UsersPage.Table.RoleAdmin" | translate }}</mat-option>
+                <mat-option [value]="0">{{ "Admin.UsersPage.Table.RoleUser" | translate }}</mat-option>
             </mat-select>
         </mat-form-field>
 

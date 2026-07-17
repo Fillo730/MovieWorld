@@ -24,17 +24,20 @@ public class NewsRepository(TrainingBrattiContext dbcontext) : BaseRepository(db
 
         if (!string.IsNullOrWhiteSpace(filters.Query))
         {
-            query = query.Where(n => n.NewsTranslations.Any(nt => nt.LanguageCode == lang && nt.Title.Contains(filters.Query)));
+            var titlePattern = $"%{filters.Query}%";
+            query = query.Where(n => n.NewsTranslations.Any(nt => nt.LanguageCode == lang && EF.Functions.Like(nt.Title, titlePattern)));
         }
 
         if (!string.IsNullOrWhiteSpace(filters.MovieQuery))
         {
-            query = query.Where(n => n.Movies.Any(m => m.MovieTranslations.Any(mt => mt.LanguageCode == lang && mt.Title.Contains(filters.MovieQuery))));
+            var moviePattern = $"%{filters.MovieQuery}%";
+            query = query.Where(n => n.Movies.Any(m => m.MovieTranslations.Any(mt => mt.LanguageCode == lang && EF.Functions.Like(mt.Title, moviePattern))));
         }
 
         if (!string.IsNullOrWhiteSpace(filters.ActorQuery))
         {
-            query = query.Where(n => n.People.Any(a => a.Name.Contains(filters.ActorQuery)));
+            var actorPattern = $"%{filters.ActorQuery}%";
+            query = query.Where(n => n.People.Any(a => EF.Functions.Like(a.Name, actorPattern) || EF.Functions.Like(a.Surname, actorPattern)));
         }
 
         if (filters.Year > 0)

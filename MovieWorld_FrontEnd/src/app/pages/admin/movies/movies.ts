@@ -146,6 +146,8 @@ export class MoviesAdmimComponent implements OnInit {
           if (response.success) {
             this.loadMovies();
             this.toastService.success(this.translate.instant('Admin.MoviesPage.Messages.DeleteSuccess'));
+          } else {
+            this.toastService.error(this.translate.instant('Admin.MoviesPage.Messages.DeleteError'));
           }
         });
       }

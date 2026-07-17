@@ -20,7 +20,7 @@
             <mat-form-field appearance="outline" class="flex-1">
                 <mat-label>{{ genreTitle }}</mat-label>
                 <mat-select [(ngModel)]="filters.genre" (selectionChange)="onGenreChange()">
-                    <mat-option [value]="''">Tutti i generi</mat-option>
+                    <mat-option [value]="''">{{ allGenresLabel }}</mat-option>
                     @for (genre of genres; track genre.id) {
                         <mat-option [value]="genre.name">{{ genre.name }}</mat-option>
                     }
@@ -30,7 +30,7 @@
 
         <mat-form-field appearance="outline" class="flex-1">
             <mat-label>{{ priceTitle }}</mat-label>
-            <input matInput type="number" [placeholder]="priceTitle" [(ngModel)]="filters.price" (ngModelChange)="emitChange()" />
+            <input matInput type="number" [placeholder]="priceTitle" [(ngModel)]="filters.priceRange[1]" (ngModelChange)="emitChange()" />
             <mat-icon matSuffix>payments</mat-icon>
         </mat-form-field>
     </div>

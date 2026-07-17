@@ -218,6 +218,7 @@
         "NamePlaceholder": "Search by title...",
         "Price": "Price",
         "Genre": "Genre",
+        "AllGenres": "All genres",
         "Year": "Year",
         "Director": "Director",
         "DirectorPlaceholder": "Director name...",
@@ -254,7 +255,8 @@
       "Messages": {
         "AddSuccess": "Movie '{{ title }}' added successfully!",
         "UpdateSuccess": "Movie '{{ title }}' updated successfully!",
-        "DeleteSuccess": "Movie deleted correctly"
+        "DeleteSuccess": "Movie deleted correctly",
+        "DeleteError": "Error deleting the movie"
       }
     },
     "CastPage": {

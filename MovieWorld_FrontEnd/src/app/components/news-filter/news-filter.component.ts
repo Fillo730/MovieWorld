@@ -69,7 +69,6 @@ export class NewsFilterComponent {
       actorQuery: val.actorQuery,
       year: val.year
     };
-    console.log(updatedFilters);
     this.filterChanged.emit(updatedFilters);
   }
 

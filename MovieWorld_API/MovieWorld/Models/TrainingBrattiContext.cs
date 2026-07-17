@@ -65,8 +65,7 @@ public partial class TrainingBrattiContext : DbContext
 
             entity.Property(e => e.ChartId).HasColumnName("Chart_ID");
             entity.Property(e => e.CreationData)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime");
+                .HasDefaultValueSql("(datetime('now'))");
             entity.Property(e => e.UserId).HasColumnName("User_ID");
 
             entity.HasOne(d => d.User).WithMany(p => p.Charts)
@@ -91,7 +90,7 @@ public partial class TrainingBrattiContext : DbContext
 
             entity.HasOne(d => d.Movie).WithMany(p => p.ChartItems)
                 .HasForeignKey(d => d.MovieId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK__ChartItem__Movie__4D94879B");
         });
 
@@ -153,7 +152,7 @@ public partial class TrainingBrattiContext : DbContext
             entity.ToTable("Movie");
 
             entity.Property(e => e.MovieId).HasColumnName("Movie_ID");
-            entity.Property(e => e.Cost).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.Cost).HasPrecision(10, 2);
             entity.Property(e => e.FormatId).HasColumnName("Format_ID");
             entity.Property(e => e.ImagePath).HasMaxLength(255);
             entity.Property(e => e.TrailerUrl).HasColumnName("TrailerURL");
@@ -216,7 +215,7 @@ public partial class TrainingBrattiContext : DbContext
 
             entity.HasOne(d => d.Movie).WithMany(p => p.MovieSellPoints)
                 .HasForeignKey(d => d.MovieId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK__MovieSell__Movie__5070F446");
 
             entity.HasOne(d => d.SellPoint).WithMany(p => p.MovieSellPoints)
@@ -320,8 +319,7 @@ public partial class TrainingBrattiContext : DbContext
 
             entity.Property(e => e.OrderId).HasColumnName("Order_ID");
             entity.Property(e => e.Date)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime");
+                .HasDefaultValueSql("(datetime('now'))");
             entity.Property(e => e.OrderStateId).HasColumnName("OrderState_ID");
             entity.Property(e => e.SellPointId).HasColumnName("SellPoint_ID");
             entity.Property(e => e.UserId).HasColumnName("User_ID");
@@ -401,8 +399,7 @@ public partial class TrainingBrattiContext : DbContext
 
             entity.Property(e => e.PersonId).HasColumnName("Person_ID");
             entity.Property(e => e.CreatedAt)
-                .HasDefaultValueSql("(getdate())")
-                .HasAnnotation("Relational:DefaultConstraintName", "DF_Person_createdAt")
+                .HasDefaultValueSql("(datetime('now'))")
                 .HasColumnName("createdAt");
             entity.Property(e => e.ImagePath).HasColumnName("imagePath");
             entity.Property(e => e.Name).HasMaxLength(255);
@@ -460,14 +457,12 @@ public partial class TrainingBrattiContext : DbContext
 
             entity.Property(e => e.UserId).HasColumnName("User_ID");
             entity.Property(e => e.CreatedAt)
-                .HasDefaultValueSql("(getdate())")
-                .HasAnnotation("Relational:DefaultConstraintName", "DF_User_createdAt")
+                .HasDefaultValueSql("(datetime('now'))")
                 .HasColumnName("createdAt");
             entity.Property(e => e.Email)
                 .IsRequired()
                 .HasMaxLength(255);
             entity.Property(e => e.Name).HasMaxLength(255);
-            entity.Property(e => e.Role).HasAnnotation("Relational:DefaultConstraintName", "DF_User_Role");
             entity.Property(e => e.Surname).HasMaxLength(255);
         });
 

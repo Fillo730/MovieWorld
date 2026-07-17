@@ -51,12 +51,12 @@ public class OrdersRepository  : BaseRepository, IOrdersRepository
 
         if (filters.MaxTotalPrice > 0)
         {
-            query = query.Where(o => o.OrderItems.Sum(oi => oi.Movie.Cost) <= filters.MaxTotalPrice);
+            query = query.Where(o => o.OrderItems.Sum(oi => oi.Quantity * oi.PurchasedPrice) <= filters.MaxTotalPrice);
         }
 
         if (filters.MinTotalPrice > 0)
         {
-            query = query.Where(o => o.OrderItems.Sum(oi => oi.Movie.Cost) >= filters.MinTotalPrice);
+            query = query.Where(o => o.OrderItems.Sum(oi => oi.Quantity * oi.PurchasedPrice) >= filters.MinTotalPrice);
         }
 
         var totalItems = await query.CountAsync();

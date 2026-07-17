@@ -2,7 +2,6 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MovieWorld.Models;
@@ -12,35 +11,29 @@ using MovieWorld.Models;
 namespace MovieWorld.Migrations
 {
     [DbContext(typeof(TrainingBrattiContext))]
-    [Migration("20260218120946_AddPurchasedPriceOrderItems")]
-    partial class AddPurchasedPriceOrderItems
+    [Migration("20260713201342_FixMovieCascadeDeleteBehavior")]
+    partial class FixMovieCascadeDeleteBehavior
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.22")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128);
-
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+            modelBuilder.HasAnnotation("ProductVersion", "8.0.28");
 
             modelBuilder.Entity("MovieWorld.Models.Chart", b =>
                 {
                     b.Property<int>("ChartId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("INTEGER")
                         .HasColumnName("Chart_ID");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ChartId"));
 
                     b.Property<DateTime?>("CreationData")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
-                        .HasDefaultValueSql("(getdate())");
+                        .HasColumnType("TEXT")
+                        .HasDefaultValueSql("(datetime('now'))");
 
                     b.Property<int>("UserId")
-                        .HasColumnType("int")
+                        .HasColumnType("INTEGER")
                         .HasColumnName("User_ID");
 
                     b.HasKey("ChartId")
@@ -54,15 +47,15 @@ namespace MovieWorld.Migrations
             modelBuilder.Entity("MovieWorld.Models.ChartItem", b =>
                 {
                     b.Property<int>("ChartId")
-                        .HasColumnType("int")
+                        .HasColumnType("INTEGER")
                         .HasColumnName("Chart_ID");
 
                     b.Property<int>("MovieId")
-                        .HasColumnType("int")
+                        .HasColumnType("INTEGER")
                         .HasColumnName("Movie_ID");
 
                     b.Property<int?>("Quantità")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("ChartId", "MovieId")
                         .HasName("PK__ChartIte__76EF9255BF58DFA4");
@@ -76,14 +69,12 @@ namespace MovieWorld.Migrations
                 {
                     b.Property<int>("FormatId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("INTEGER")
                         .HasColumnName("Format_ID");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FormatId"));
 
                     b.Property<string>("Name")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("FormatId")
                         .HasName("PK__Format__C66EB6DCC5873E6B");
@@ -95,10 +86,8 @@ namespace MovieWorld.Migrations
                 {
                     b.Property<int>("GenreId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("INTEGER")
                         .HasColumnName("Genre_ID");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("GenreId"));
 
                     b.HasKey("GenreId")
                         .HasName("PK__Genre__964A20062CDBCC18");
@@ -109,16 +98,16 @@ namespace MovieWorld.Migrations
             modelBuilder.Entity("MovieWorld.Models.GenreTranslation", b =>
                 {
                     b.Property<int>("GenreId")
-                        .HasColumnType("int")
+                        .HasColumnType("INTEGER")
                         .HasColumnName("Genre_ID");
 
                     b.Property<string>("LanguageCode")
                         .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("GenreId", "LanguageCode")
                         .HasName("PK__GenreTra__DEF2E8A5963F4BE9");
@@ -132,7 +121,7 @@ namespace MovieWorld.Migrations
                 {
                     b.Property<string>("LanguageCode1")
                         .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)")
+                        .HasColumnType("TEXT")
                         .HasColumnName("LanguageCode");
 
                     b.HasKey("LanguageCode1")
@@ -145,31 +134,30 @@ namespace MovieWorld.Migrations
                 {
                     b.Property<int>("MovieId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("INTEGER")
                         .HasColumnName("Movie_ID");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MovieId"));
-
                     b.Property<decimal?>("Cost")
-                        .HasColumnType("decimal(10, 2)");
+                        .HasPrecision(10, 2)
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("FormatId")
-                        .HasColumnType("int")
+                        .HasColumnType("INTEGER")
                         .HasColumnName("Format_ID");
 
                     b.Property<string>("ImagePath")
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("TEXT");
 
                     b.Property<bool?>("IsCult")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("TrailerUrl")
-                        .HasColumnType("nvarchar(max)")
+                        .HasColumnType("TEXT")
                         .HasColumnName("TrailerURL");
 
                     b.Property<int?>("Year")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("MovieId")
                         .HasName("PK__Movie__7A8804053452EFE6");
@@ -182,11 +170,11 @@ namespace MovieWorld.Migrations
             modelBuilder.Entity("MovieWorld.Models.MovieGenre", b =>
                 {
                     b.Property<int>("MovieId")
-                        .HasColumnType("int")
+                        .HasColumnType("INTEGER")
                         .HasColumnName("Movie_ID");
 
                     b.Property<int>("GenreId")
-                        .HasColumnType("int")
+                        .HasColumnType("INTEGER")
                         .HasColumnName("Genre_ID");
 
                     b.HasKey("MovieId", "GenreId")
@@ -200,16 +188,16 @@ namespace MovieWorld.Migrations
             modelBuilder.Entity("MovieWorld.Models.MoviePerson", b =>
                 {
                     b.Property<int>("PersonId")
-                        .HasColumnType("int")
+                        .HasColumnType("INTEGER")
                         .HasColumnName("Person_ID");
 
                     b.Property<int>("MovieId")
-                        .HasColumnType("int")
+                        .HasColumnType("INTEGER")
                         .HasColumnName("Movie_ID");
 
                     b.Property<string>("Role")
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("PersonId", "MovieId")
                         .HasName("PK__MoviePer__390350CBFE68D7D3");
@@ -222,15 +210,15 @@ namespace MovieWorld.Migrations
             modelBuilder.Entity("MovieWorld.Models.MovieSellPoint", b =>
                 {
                     b.Property<int>("MovieId")
-                        .HasColumnType("int")
+                        .HasColumnType("INTEGER")
                         .HasColumnName("Movie_ID");
 
                     b.Property<int>("SellPointId")
-                        .HasColumnType("int")
+                        .HasColumnType("INTEGER")
                         .HasColumnName("SellPoint_ID");
 
                     b.Property<int?>("Quantità")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("MovieId", "SellPointId")
                         .HasName("PK__MovieSel__8373B2F0EC6ADF7F");
@@ -243,19 +231,19 @@ namespace MovieWorld.Migrations
             modelBuilder.Entity("MovieWorld.Models.MovieTranslation", b =>
                 {
                     b.Property<int>("MovieId")
-                        .HasColumnType("int")
+                        .HasColumnType("INTEGER")
                         .HasColumnName("Movie_ID");
 
                     b.Property<string>("LanguageCode")
                         .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Story")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Title")
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("MovieId", "LanguageCode")
                         .HasName("PK__MovieTra__3230CCA6FDAB878F");
@@ -269,16 +257,14 @@ namespace MovieWorld.Migrations
                 {
                     b.Property<int>("NewsId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("INTEGER")
                         .HasColumnName("News_ID");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("NewsId"));
-
                     b.Property<DateOnly?>("Date")
-                        .HasColumnType("date");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("ImagePath")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("NewsId")
                         .HasName("PK__News__DC88604BC91A20F8");
@@ -289,19 +275,19 @@ namespace MovieWorld.Migrations
             modelBuilder.Entity("MovieWorld.Models.NewsTranslation", b =>
                 {
                     b.Property<int>("NewsId")
-                        .HasColumnType("int")
+                        .HasColumnType("INTEGER")
                         .HasColumnName("News_ID");
 
                     b.Property<string>("LanguageCode")
                         .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Text")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Title")
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("NewsId", "LanguageCode")
                         .HasName("PK__NewsTran__9430A8E8C7DC8578");
@@ -315,26 +301,24 @@ namespace MovieWorld.Migrations
                 {
                     b.Property<int>("OrderId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("INTEGER")
                         .HasColumnName("Order_ID");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderId"));
 
                     b.Property<DateTime?>("Date")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
-                        .HasDefaultValueSql("(getdate())");
+                        .HasColumnType("TEXT")
+                        .HasDefaultValueSql("(datetime('now'))");
 
                     b.Property<int>("OrderStateId")
-                        .HasColumnType("int")
+                        .HasColumnType("INTEGER")
                         .HasColumnName("OrderState_ID");
 
                     b.Property<int>("SellPointId")
-                        .HasColumnType("int")
+                        .HasColumnType("INTEGER")
                         .HasColumnName("SellPoint_ID");
 
                     b.Property<int>("UserId")
-                        .HasColumnType("int")
+                        .HasColumnType("INTEGER")
                         .HasColumnName("User_ID");
 
                     b.HasKey("OrderId")
@@ -352,20 +336,20 @@ namespace MovieWorld.Migrations
             modelBuilder.Entity("MovieWorld.Models.OrderItem", b =>
                 {
                     b.Property<int>("MovieId")
-                        .HasColumnType("int")
+                        .HasColumnType("INTEGER")
                         .HasColumnName("Movie_ID");
 
                     b.Property<int>("OrderId")
-                        .HasColumnType("int")
+                        .HasColumnType("INTEGER")
                         .HasColumnName("Order_ID");
 
                     b.Property<decimal>("PurchasedPrice")
                         .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("Quantity")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("INTEGER")
                         .HasDefaultValue(1);
 
                     b.HasKey("MovieId", "OrderId")
@@ -380,10 +364,8 @@ namespace MovieWorld.Migrations
                 {
                     b.Property<int>("OrderStateId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("INTEGER")
                         .HasColumnName("OrderState_ID");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderStateId"));
 
                     b.HasKey("OrderStateId")
                         .HasName("PK__OrderSta__FE9F9561BBF12A0D");
@@ -394,18 +376,18 @@ namespace MovieWorld.Migrations
             modelBuilder.Entity("MovieWorld.Models.OrderStateTranslation", b =>
                 {
                     b.Property<int>("OrderStateId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("LanguageCode")
                         .HasMaxLength(10)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(10)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(32)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(32)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("OrderStateId", "LanguageCode")
                         .HasName("PK__OrderSta__16C8D65E39A2DB81");
@@ -417,29 +399,26 @@ namespace MovieWorld.Migrations
                 {
                     b.Property<int>("PersonId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("INTEGER")
                         .HasColumnName("Person_ID");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PersonId"));
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
+                        .HasColumnType("TEXT")
                         .HasColumnName("createdAt")
-                        .HasDefaultValueSql("(getdate())")
-                        .HasAnnotation("Relational:DefaultConstraintName", "DF_Person_createdAt");
+                        .HasDefaultValueSql("(datetime('now'))");
 
                     b.Property<string>("ImagePath")
-                        .HasColumnType("nvarchar(max)")
+                        .HasColumnType("TEXT")
                         .HasColumnName("imagePath");
 
                     b.Property<string>("Name")
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Surname")
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("PersonId")
                         .HasName("PK__Person__7EABD08B29B36885");
@@ -451,32 +430,30 @@ namespace MovieWorld.Migrations
                 {
                     b.Property<int>("SellPointId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("INTEGER")
                         .HasColumnName("SellPoint_ID");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SellPointId"));
 
                     b.Property<string>("Cap")
                         .HasMaxLength(5)
                         .IsUnicode(false)
-                        .HasColumnType("char(5)")
+                        .HasColumnType("TEXT")
                         .HasColumnName("CAP")
                         .IsFixedLength();
 
                     b.Property<double?>("Lat")
-                        .HasColumnType("float");
+                        .HasColumnType("REAL");
 
                     b.Property<double?>("Lng")
-                        .HasColumnType("float");
+                        .HasColumnType("REAL");
 
                     b.Property<string>("Name")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Province")
                         .HasMaxLength(2)
                         .IsUnicode(false)
-                        .HasColumnType("char(2)")
+                        .HasColumnType("TEXT")
                         .IsFixedLength();
 
                     b.HasKey("SellPointId")
@@ -488,23 +465,23 @@ namespace MovieWorld.Migrations
             modelBuilder.Entity("MovieWorld.Models.SellPointTranslation", b =>
                 {
                     b.Property<int>("SellPointId")
-                        .HasColumnType("int")
+                        .HasColumnType("INTEGER")
                         .HasColumnName("SellPoint_ID");
 
                     b.Property<string>("LanguageCode")
                         .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Address")
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("City")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("SellPointId", "LanguageCode");
 
@@ -517,40 +494,36 @@ namespace MovieWorld.Migrations
                 {
                     b.Property<int>("UserId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("INTEGER")
                         .HasColumnName("User_ID");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
+                        .HasColumnType("TEXT")
                         .HasColumnName("createdAt")
-                        .HasDefaultValueSql("(getdate())")
-                        .HasAnnotation("Relational:DefaultConstraintName", "DF_User_createdAt");
+                        .HasDefaultValueSql("(datetime('now'))");
 
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("HashPassword")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("ImagePath")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("Role")
-                        .HasColumnType("int")
-                        .HasAnnotation("Relational:DefaultConstraintName", "DF_User_Role");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Surname")
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("UserId")
                         .HasName("PK__User__206D9190B4E40C2D");
@@ -564,11 +537,11 @@ namespace MovieWorld.Migrations
             modelBuilder.Entity("NewsMovie", b =>
                 {
                     b.Property<int>("NewsId")
-                        .HasColumnType("int")
+                        .HasColumnType("INTEGER")
                         .HasColumnName("News_ID");
 
                     b.Property<int>("MovieId")
-                        .HasColumnType("int")
+                        .HasColumnType("INTEGER")
                         .HasColumnName("Movie_ID");
 
                     b.HasKey("NewsId", "MovieId")
@@ -582,11 +555,11 @@ namespace MovieWorld.Migrations
             modelBuilder.Entity("NewsPerson", b =>
                 {
                     b.Property<int>("NewsId")
-                        .HasColumnType("int")
+                        .HasColumnType("INTEGER")
                         .HasColumnName("News_ID");
 
                     b.Property<int>("PersonId")
-                        .HasColumnType("int")
+                        .HasColumnType("INTEGER")
                         .HasColumnName("Person_ID");
 
                     b.HasKey("NewsId", "PersonId")
@@ -619,6 +592,7 @@ namespace MovieWorld.Migrations
                     b.HasOne("MovieWorld.Models.Movie", "Movie")
                         .WithMany("ChartItems")
                         .HasForeignKey("MovieId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("FK__ChartItem__Movie__4D94879B");
 
@@ -705,6 +679,7 @@ namespace MovieWorld.Migrations
                     b.HasOne("MovieWorld.Models.Movie", "Movie")
                         .WithMany("MovieSellPoints")
                         .HasForeignKey("MovieId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("FK__MovieSell__Movie__5070F446");
 
@@ -793,12 +768,14 @@ namespace MovieWorld.Migrations
                     b.HasOne("MovieWorld.Models.Movie", "Movie")
                         .WithMany("OrderItems")
                         .HasForeignKey("MovieId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("FK__OrderItem__Movie__7A672E12");
 
                     b.HasOne("MovieWorld.Models.Order", "Order")
                         .WithMany("OrderItems")
                         .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("FK__OrderItem__Order__7B5B524B");
 

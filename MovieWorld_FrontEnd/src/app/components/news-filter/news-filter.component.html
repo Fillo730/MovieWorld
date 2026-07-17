@@ -11,7 +11,7 @@
         <mat-form-field appearance="outline" class="select-field">
             <mat-label class="text-color">{{ "Admin.NewsPage.Filters.Year" | translate }}</mat-label>
             <mat-select class="text-color" formControlName="year">
-                <mat-option value="">{{ "Admin.NewsPage.Filters.All" | translate }}</mat-option>
+                <mat-option [value]="0">{{ "Admin.NewsPage.Filters.All" | translate }}</mat-option>
                 @for (year of getYearsForFilters(); track year) {
                     <mat-option [value]="year">{{ year }}</mat-option>
                 }

@@ -268,6 +268,7 @@
         "NamePlaceholder": "Cerca per titolo...",
         "Price": "Prezzo",
         "Genre": "Genere",
+        "AllGenres": "Tutti i generi",
         "Year": "Anno",
         "Director": "Regista",
         "DirectorPlaceholder": "Nome regista...",
@@ -304,7 +305,8 @@
       "Messages": {
         "AddSuccess": "Film '{{ title }}' aggiunto con successo!",
         "UpdateSuccess": "Film '{{ title }}' aggiornato con successo!",
-        "DeleteSuccess": "Film eliminato con successo!"
+        "DeleteSuccess": "Film eliminato con successo!",
+        "DeleteError": "Errore durante l'eliminazione del film"
       }
     },
     "CastPage": {

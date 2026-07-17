@@ -17,6 +17,7 @@ public class PersonsController(IPersonsService personsService) : BaseController
         try
         {
             var result = await _personsService.GetAllPersonsAsync(pageIndex, pageSize, GetCurrentLanguage(lang), filters);
+            
             return Ok(ApiResponse<PagedResult<PersonDto>>.CreateSuccessResponse(result));
         }
         catch (Exception ex)
