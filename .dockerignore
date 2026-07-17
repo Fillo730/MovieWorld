@@ -1,0 +1,11 @@
+**/bin/
+**/obj/
+**/node_modules/
+**/dist/
+**/.angular/
+.git/
+**/*.db-shm
+**/*.db-wal
+**/*.db.bak.*
+MovieWorld_API/MovieWorld/appsettings.Development.json
+**/.vs/

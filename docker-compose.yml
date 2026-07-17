@@ -1,0 +1,11 @@
+services:
+  app:
+    build:
+      context: .
+    ports:
+      - "8080:8080"
+    environment:
+      - PORT=8080
+      # Obbligatoria: chiave usata per firmare i JWT. Impostala in un file .env
+      # locale (non committato) o esportala nella shell prima di lanciare compose.
+      - Jwt__Key=${JWT_KEY:?set JWT_KEY in your environment or a .env file}

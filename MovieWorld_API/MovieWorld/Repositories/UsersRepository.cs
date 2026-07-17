@@ -114,10 +114,10 @@ public class UsersRepository : BaseRepository, IUserRepository
             .Select(u => new UserRevenueStatistic
             {
                 User = u,
-                Revenue = u.Orders
+                Revenue = (decimal)u.Orders
                     .Where(o => o.OrderStateId != (int)OrderStateEnum.Deleted)
                     .SelectMany(o => o.OrderItems)
-                    .Sum(oi => oi.Quantity * oi.PurchasedPrice)
+                    .Sum(oi => (double)(oi.Quantity * oi.PurchasedPrice))
             })
             .OrderByDescending(u => u.Revenue)
             .Take(count)

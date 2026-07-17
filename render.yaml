@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: movieworld
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    plan: free
+    envVars:
+      # Segreto per firmare i JWT: da generare (es. openssl rand -base64 64)
+      # e incollare manualmente nella dashboard Render, non va mai committato.
+      - key: Jwt__Key
+        sync: false

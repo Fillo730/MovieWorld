@@ -1,3 +1,5 @@
+import { isDevMode } from "@angular/core";
+
 //Models
 import { THEMES } from "../models/types/Theme.model";
 import { LANGUAGES } from "../models/types/Language.model";
@@ -17,7 +19,11 @@ export const APP_CONFIG = {
     }
 } as const;
 
-export const API_BASE_URL = "http://localhost:5246/api";
+// Backend e frontend sono serviti dallo stesso container/host (l'API .NET
+// pubblica anche i file statici di Angular), quindi in produzione basta un
+// percorso relativo. In sviluppo (ng serve su :4200) l'API gira separatamente
+// su :5246.
+export const API_BASE_URL = isDevMode() ? "http://localhost:5246/api" : "/api";
 
 export const API_ENDPOINTS =  {
     MOVIES: "movies",

@@ -88,13 +88,14 @@ export class UsersAdminComponent implements OnInit {
   }
 
   loadCounts(): void {
-    this.userService.getAdminsCount().subscribe(res => {
-      if (res.success) this.adminCount = res.data;
+    forkJoin({
+      admins: this.userService.getAdminsCount(),
+      standard: this.userService.getStandardUsersCount()
+    }).subscribe(({ admins, standard }) => {
+      if (admins.success) this.adminCount = admins.data;
+      if (standard.success) this.standardCount = standard.data;
+      this.totalUsers = this.adminCount + this.standardCount;
     });
-    this.userService.getStandardUsersCount().subscribe(res => {
-      if (res.success) this.standardCount = res.data;
-    });
-    this.totalUsers = this.adminCount + this.standardCount;
   }
 
   handlePageChange(event: any): void {

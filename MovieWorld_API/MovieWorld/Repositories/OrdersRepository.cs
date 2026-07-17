@@ -49,14 +49,16 @@ public class OrdersRepository  : BaseRepository, IOrdersRepository
             query = query.Where(o => o.OrderItems.Sum(oi => oi.Quantity) == filters.MoviesNumber);
         }
 
+        // SQLite/EF Core non supporta Sum() su decimal: si effettua il cast a double,
+        // che SQLite può sommare nativamente (affinità REAL).
         if (filters.MaxTotalPrice > 0)
         {
-            query = query.Where(o => o.OrderItems.Sum(oi => oi.Quantity * oi.PurchasedPrice) <= filters.MaxTotalPrice);
+            query = query.Where(o => o.OrderItems.Sum(oi => (double)(oi.Quantity * oi.PurchasedPrice)) <= filters.MaxTotalPrice);
         }
 
         if (filters.MinTotalPrice > 0)
         {
-            query = query.Where(o => o.OrderItems.Sum(oi => oi.Quantity * oi.PurchasedPrice) >= filters.MinTotalPrice);
+            query = query.Where(o => o.OrderItems.Sum(oi => (double)(oi.Quantity * oi.PurchasedPrice)) >= filters.MinTotalPrice);
         }
 
         var totalItems = await query.CountAsync();
@@ -103,7 +105,7 @@ public class OrdersRepository  : BaseRepository, IOrdersRepository
 
     public async Task<int> GetOrdersCompletedCountAsync()
     {
-        return await _dbContext.Orders.Where(order => order.OrderStateId == 4).CountAsync();
+        return await _dbContext.Orders.Where(order => order.OrderStateId == 3).CountAsync();
     }
 
     public async Task<int> GetOrdersCountAsync()
@@ -134,8 +136,8 @@ public class OrdersRepository  : BaseRepository, IOrdersRepository
             .Select(g => new RevenuePerYearStatistic
             {
                 Year = g.Key,
-                Revenue = g.SelectMany(o => o.OrderItems)
-                           .Sum(oi => oi.Quantity * oi.PurchasedPrice)
+                Revenue = (decimal)g.SelectMany(o => o.OrderItems)
+                           .Sum(oi => (double)(oi.Quantity * oi.PurchasedPrice))
             })
             .OrderBy(r => r.Year)
             .ToListAsync();
