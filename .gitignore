@@ -58,6 +58,11 @@ obj/
 *.log
 Migrations/*.designer.cs
 
+# Eccezione: il DB SQLite va tracciato e committato perche' viene copiato
+# dentro l'immagine Docker in fase di build (dati "mockati" per il deploy su
+# Render, che builda dal repo git e non vede file locali non committati).
+!MovieWorld_API/MovieWorld/MovieWorld.db
+
 # --- User-specific files ---
 .vs/
 populate_movies.js
