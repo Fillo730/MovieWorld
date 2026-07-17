@@ -7,20 +7,20 @@
 FROM node:20-alpine AS frontend-build
 WORKDIR /frontend
 
-COPY MovieWorld_FrontEnd/package.json MovieWorld_FrontEnd/package-lock.json ./
+COPY frontend/package.json frontend/package-lock.json ./
 RUN npm ci
 
-COPY MovieWorld_FrontEnd/. .
+COPY frontend/. .
 RUN npm run build -- --configuration production
 
 # ---- Stage 2: build del backend .NET ----
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS backend-build
 WORKDIR /src
 
-COPY MovieWorld_API/MovieWorld/MovieWorld.csproj ./
+COPY api/MovieWorld.csproj ./
 RUN dotnet restore MovieWorld.csproj
 
-COPY MovieWorld_API/MovieWorld/. .
+COPY api/. .
 RUN dotnet publish MovieWorld.csproj -c Release -o /app/publish --no-restore
 
 # ---- Stage 3: runtime ----
@@ -34,7 +34,7 @@ COPY --from=frontend-build /frontend/dist/HelloWorld/browser ./wwwroot
 
 # Database SQLite già popolato (film, generi, cast, news, utenti, ordini di esempio),
 # cosi il servizio non parte vuoto al primo deploy.
-COPY MovieWorld_API/MovieWorld/MovieWorld.db ./MovieWorld.db
+COPY api/MovieWorld.db ./MovieWorld.db
 
 ENV ASPNETCORE_ENVIRONMENT=Production
 EXPOSE 8080

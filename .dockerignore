@@ -7,5 +7,5 @@
 **/*.db-shm
 **/*.db-wal
 **/*.db.bak.*
-MovieWorld_API/MovieWorld/appsettings.Development.json
+api/appsettings.Development.json
 **/.vs/
