@@ -137,9 +137,20 @@
     <div class="charts-row mt-4">
       <mat-card class="chart-container full-width card-border-theme background-color-custom-ligher">
         <mat-card-content>
-          <canvas baseChart 
-            [data]="barChartMoviesGenres" 
-            [options]="barChartOptions" 
+          <canvas baseChart
+            [data]="barChartMoviesGenres"
+            [options]="barChartOptions"
+            [type]="'bar'">
+          </canvas>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="charts-row mt-4">
+      <mat-card class="chart-container full-width card-border-theme background-color-custom-ligher">
+        <mat-card-content>
+          <canvas baseChart
+            [data]="barChartGenreRevenue"
+            [options]="barChartOptions"
             [type]="'bar'">
           </canvas>
         </mat-card-content>

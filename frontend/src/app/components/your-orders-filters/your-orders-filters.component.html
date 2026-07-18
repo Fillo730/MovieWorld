@@ -1,1 +1,44 @@
-<p>your-orders-filters.component works!</p>
+<div class="p-4 rounded filters-container background-color-custom-ligher text-color">
+
+    <div class="title-container">
+        <h4 class="fw-bold mb-4">{{ filtersTitle }}</h4>
+    </div>
+
+    <div class="width-custom-filters mb-5">
+        <label class="form-label fw-semibold">{{ stateTitle }}</label>
+        <select class="form-select" [(ngModel)]="filters.OrderStateId" (change)="onStateChange()">
+            <option [ngValue]="0">{{ allStatesLabel }}</option>
+            @for (state of orderStates; track state.id) {
+                <option [ngValue]="state.id">{{ state.name }}</option>
+            }
+        </select>
+    </div>
+
+    <div class="width-custom-filters mb-5">
+        <label class="form-label fw-semibold">{{ yearTitle }}</label>
+        <slider-with-input-component [minValue]="1960" [maxValue]="2025"
+            [value]="filters.year" (valueChange)="onYearChange($event)">
+        </slider-with-input-component>
+    </div>
+
+    <div class="width-custom-filters mb-5">
+        <label class="form-label fw-semibold">{{ moviesNumberTitle }}</label>
+        <input type="number" class="form-control" min="0"
+            [(ngModel)]="filters.moviesNumber" (blur)="onMoviesNumberChange()" />
+    </div>
+
+    <div class="width-custom-filters mb-5">
+        <label class="form-label fw-semibold">{{ priceTitle }}</label>
+        <slide-range [minValue]="minMaxPrices[0]" [maxValue]="minMaxPrices[1]" [label]="priceTitle"
+            [min]="filters.totalValue[0]" [max]="filters.totalValue[1]"
+            (changedValue)="onPriceRangeChange($event)">
+        </slide-range>
+    </div>
+
+    <div class="occupy-all-row"></div>
+
+    <div>
+        <p-button [label]="resetLabel" icon="pi pi-refresh"
+            [severity]="handleButtonTheme()" (onClick)="handleResetFilters()"/>
+    </div>
+</div>

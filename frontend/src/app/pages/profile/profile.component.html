@@ -1,4 +1,152 @@
 <header-component></header-component>
 
+<div class="profile-container background-color-custom-ligher occupy-space p-3">
+    @if (isLoading()) {
+        <state-handler-component
+            type="loading"
+            message="Profile.Loading">
+        </state-handler-component>
+    }
+    @else if (error()) {
+        <state-handler-component
+            type="error"
+            title="Profile.ErrorTitle"
+            message="Profile.ErrorMessage"
+            buttonLabel="Profile.RetryButton"
+            [buttonSeverity]="getButtonTheme()"
+            (action)="loadProfile()">
+        </state-handler-component>
+    }
+    @else if (user(); as currentUser) {
+        <h1 class="text-color mb-4 text-center">
+            {{ 'Profile.Title' | translate: { currentUser: currentUser.name } }}
+        </h1>
+
+        <div class="profile-card background-color-custom shadow-2 border-round p-4">
+            <div class="d-flex flex-column align-items-center mb-4">
+                <p-avatar [image]="getAvatarImage(isEditing() ? editForm.value.imagePath : currentUser.imagePath)"
+                    size="xlarge" shape="circle" styleClass="profile-avatar mb-3">
+                </p-avatar>
+                <p-tag [value]="(isAdmin() ? 'Profile.Admin' : 'Profile.User') | translate"
+                    [severity]="isAdmin() ? 'warn' : 'info'">
+                </p-tag>
+            </div>
+
+            <p-divider></p-divider>
+
+            @if (!isEditing()) {
+                <div class="info-row d-flex justify-content-between align-items-center py-2">
+                    <span class="text-color opacity-7">{{ 'Profile.NameLabel' | translate }}</span>
+                    <span class="text-color fw-bold">{{ currentUser.name }}</span>
+                </div>
+                <div class="info-row d-flex justify-content-between align-items-center py-2">
+                    <span class="text-color opacity-7">{{ 'Profile.SurnameLabel' | translate }}</span>
+                    <span class="text-color fw-bold">{{ currentUser.surname }}</span>
+                </div>
+                <div class="info-row d-flex justify-content-between align-items-center py-2">
+                    <span class="text-color opacity-7">{{ 'Profile.EmailLabel' | translate }}</span>
+                    <span class="text-color fw-bold">{{ currentUser.email }}</span>
+                </div>
+                @if (currentUser.createdAt) {
+                    <div class="info-row d-flex justify-content-between align-items-center py-2">
+                        <span class="text-color opacity-7">{{ 'Profile.MemberSinceLabel' | translate }}</span>
+                        <span class="text-color fw-bold">{{ currentUser.createdAt | date:'dd/MM/yyyy' }}</span>
+                    </div>
+                }
+
+                <div class="d-flex justify-content-center mt-4">
+                    <p-button
+                        [label]="'Profile.EditButton' | translate"
+                        icon="pi pi-pencil"
+                        [severity]="getButtonTheme()"
+                        (onClick)="startEdit()">
+                    </p-button>
+                </div>
+            } @else {
+                <form [formGroup]="editForm" (ngSubmit)="saveProfile()">
+                    <div class="edit-field mb-3">
+                        <label class="form-label fw-semibold text-color">{{ 'Profile.NameLabel' | translate }}</label>
+                        <input pInputText type="text" class="w-100" formControlName="name" [invalid]="isInvalid('name')">
+                        @if (isInvalid('name')) {
+                            @if (editForm.get('name')?.errors?.['required']) {
+                                <p-message severity="error" size="small">{{ 'Profile.Errors.NameRequired' | translate }}</p-message>
+                            }
+                            @if (editForm.get('name')?.errors?.['nameInvalid']) {
+                                <p-message severity="error" size="small">{{ 'Profile.Errors.NameInvalid' | translate }}</p-message>
+                            }
+                        }
+                    </div>
+                    <div class="edit-field mb-3">
+                        <label class="form-label fw-semibold text-color">{{ 'Profile.SurnameLabel' | translate }}</label>
+                        <input pInputText type="text" class="w-100" formControlName="surname" [invalid]="isInvalid('surname')">
+                        @if (isInvalid('surname')) {
+                            @if (editForm.get('surname')?.errors?.['required']) {
+                                <p-message severity="error" size="small">{{ 'Profile.Errors.SurnameRequired' | translate }}</p-message>
+                            }
+                            @if (editForm.get('surname')?.errors?.['surnameInvalid']) {
+                                <p-message severity="error" size="small">{{ 'Profile.Errors.SurnameInvalid' | translate }}</p-message>
+                            }
+                        }
+                    </div>
+                    <div class="edit-field mb-3">
+                        <label class="form-label fw-semibold text-color">{{ 'Profile.ImagePathLabel' | translate }}</label>
+                        <input pInputText type="text" class="w-100" formControlName="imagePath"
+                            [placeholder]="'Profile.ImagePathPlaceholder' | translate">
+                    </div>
+
+                    <div class="d-flex justify-content-center gap-2 mt-4">
+                        <p-button
+                            type="button"
+                            [label]="'Profile.CancelButton' | translate"
+                            [outlined]="true"
+                            severity="secondary"
+                            [disabled]="isSaving()"
+                            (onClick)="cancelEdit()">
+                        </p-button>
+                        <p-button
+                            type="submit"
+                            [label]="'Profile.SaveButton' | translate"
+                            icon="pi pi-check"
+                            [severity]="getButtonTheme()"
+                            [loading]="isSaving()">
+                        </p-button>
+                    </div>
+                </form>
+            }
+        </div>
+
+        <div class="profile-card background-color-custom shadow-2 border-round p-4 mt-4 d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center gap-3 text-color">
+                <i class="pi pi-box text-primary" style="font-size: 1.5rem"></i>
+                <div>
+                    <div class="fw-bold">{{ 'Profile.OrdersSummaryTitle' | translate }}</div>
+                    @if (ordersCount(); as count) {
+                        <small class="opacity-7">
+                            {{ count }} {{ (count === 1 ? 'Profile.OrderCountLabelSingular' : 'Profile.OrdersCountLabel') | translate }}
+                        </small>
+                    }
+                </div>
+            </div>
+            <p-button
+                [label]="'Profile.ViewOrdersButton' | translate"
+                icon="pi pi-arrow-right"
+                iconPos="right"
+                [outlined]="true"
+                [severity]="getButtonTheme()"
+                (onClick)="goToOrders()">
+            </p-button>
+        </div>
+
+        <div class="d-flex justify-content-center mt-4">
+            <p-button
+                [label]="'Profile.LogoutButton' | translate"
+                icon="pi pi-sign-out"
+                severity="danger"
+                [outlined]="true"
+                (onClick)="handleLogout()">
+            </p-button>
+        </div>
+    }
+</div>
 
 <footer-component></footer-component>

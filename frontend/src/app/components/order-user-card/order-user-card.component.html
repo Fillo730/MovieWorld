@@ -1,4 +1,4 @@
-<p-card [style]="{ width: '350px', height: '360px', overflow: 'hidden' }" styleClass="background-color-custom shadow-2">
+<p-card class="order-user-card" [style]="{ width: '100%', maxWidth: '350px' }" styleClass="background-color-custom shadow-2 h-100">
   <ng-template pTemplate="header">
     <div class="p-3 d-flex align-items-center justify-content-between">
       <div class="flex-grow-1 m-2">
@@ -35,14 +35,14 @@
         <div class="thumb-container">
           @if (item.quantity > 1) {
             <p-overlay-badge [value]="item.quantity" severity="danger">
-              <img [src]="item.movie.imagePath" 
-                   [pTooltip]="item.movie.title" 
+              <img [src]="item.movie.imagePath"
+                   [pTooltip]="item.movie.title"
                    tooltipPosition="top"
                    class="movie-thumb border-round shadow-1">
             </p-overlay-badge>
           } @else {
-            <img [src]="item.movie.imagePath" 
-                 [pTooltip]="item.movie.title" 
+            <img [src]="item.movie.imagePath"
+                 [pTooltip]="item.movie.title"
                  tooltipPosition="top"
                  class="movie-thumb border-round shadow-1">
           }
@@ -56,5 +56,13 @@
       <span class="total-label text-color font-bold">{{ 'Admin.OrdersPage.Table.Total' | translate | uppercase }}</span>
       <span class="total-price text-primary text-xl font-bold">{{ order.totalAmount | currency:'EUR' }}</span>
     </div>
+    <p-button
+      [label]="'YourOrders.ViewDetailsButton' | translate"
+      icon="pi pi-eye"
+      styleClass="w-100 mt-2"
+      [outlined]="true"
+      [severity]="getButtonTheme()"
+      (onClick)="handleViewDetails()">
+    </p-button>
   </ng-template>
 </p-card>

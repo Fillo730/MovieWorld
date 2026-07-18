@@ -87,6 +87,29 @@ public class UsersController(IUsersService usersService) : BaseController
         }
     }
 
+    [Authorize]
+    [HttpPut("me")]
+    public async Task<IActionResult> UpdateOwnProfile([FromBody] UpdateProfileDto profile)
+    {
+        try
+        {
+            var userId = GetUserIdFromToken();
+
+            var updatedUser = await _usersService.UpdateOwnProfileAsync(userId, profile);
+
+            if (updatedUser is null)
+            {
+                return Ok(ApiResponse<UserDto>.CreateFailureResponse("User not found."));
+            }
+
+            return Ok(ApiResponse<UserDto>.CreateSuccessResponse(updatedUser));
+        }
+        catch (Exception ex)
+        {
+            return Ok(ApiResponse<UserDto>.CreateFailureResponse($"Errore durante l'aggiornamento: {ex.Message}"));
+        }
+    }
+
     [HttpGet("{userId}")]
     public async Task<IActionResult> GetUserById(int userId)
     {

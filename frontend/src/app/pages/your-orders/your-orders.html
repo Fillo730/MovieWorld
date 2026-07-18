@@ -1,41 +1,87 @@
 <header-component></header-component>
 
-<div class="list-container background-color-custom-ligher occupy-space p-3">
-    <h1 class="text-color mb-4">{{ "YourOrders.MainTitle" | translate }}</h1>
+<div class="header-row background-color-custom-ligher text-color p-3">
+    <h1 class="m-0">{{ "YourOrders.MainTitle" | translate }}</h1>
+    @if (!isLoading() && !error() && orders().length > 0) {
+        <div class="buttons-container">
+            <p-button
+                label="{{ 'YourOrders.FiltersTitle' | translate }}"
+                [severity]="getButtonTheme()"
+                data-bs-toggle="collapse"
+                data-bs-target="#yourOrdersFiltersCollapse"
+                aria-expanded="false"
+                aria-controls="yourOrdersFiltersCollapse">
+            </p-button>
+        </div>
+    }
+</div>
 
-    @if (isLoading()) {
-        <state-handler-component 
-            type="loading" 
+<div class="list-container background-color-custom-ligher occupy-space p-3">
+    @if (isLoading() && orders().length === 0) {
+        <state-handler-component
+            type="loading"
             message="YourOrders.Loading">
         </state-handler-component>
     }
     @else if (error()) {
-        <state-handler-component 
-            type="error" 
-            title="YourOrders.ErrorTitle" 
+        <state-handler-component
+            type="error"
+            title="YourOrders.ErrorTitle"
             message="YourOrders.ErrorMessage"
             buttonLabel="YourOrders.RetryButton"
             [buttonSeverity]="getButtonTheme()"
             (action)="loadOrders()">
         </state-handler-component>
     }
-    @else if (orders.length === 0) {
-        <state-handler-component 
-            type="empty"
-            title="YourOrders.NoOrdersTitle"
-            message="YourOrders.NoOrdersMessage"
-            buttonLabel="YourOrders.RetryButton">
-        </state-handler-component>
-    }
     @else {
-        <order-user-list-component 
-            [orders]="orders()" 
-            [first]="first()" 
-            [rows]="rows()" 
-            [totalRecords]="totalRecords()" 
-            (onPageChange)="onPageChange($event)">
-        </order-user-list-component>
+        <div class="orders-filters-container d-flex gap-5">
+            <div class="filters-sidebar">
+                <div class="collapse p-fluid" id="yourOrdersFiltersCollapse">
+                    <your-orders-filters-component
+                        [filters]="filters()"
+                        [orderStates]="orderStates()"
+                        (filtersChanged)="applyFilters($event)"
+                        (filtersReset)="handleFiltersReset()"
+                        [filtersTitle]="'YourOrders.Filters.MainTitle' | translate"
+                        [stateTitle]="'YourOrders.Filters.State' | translate"
+                        [allStatesLabel]="'YourOrders.Filters.All' | translate"
+                        [yearTitle]="'YourOrders.Filters.Year' | translate"
+                        [moviesNumberTitle]="'YourOrders.Filters.MoviesNumber' | translate"
+                        [priceTitle]="'YourOrders.Filters.PriceRange' | translate"
+                        [resetLabel]="'YourOrders.Filters.Reset' | translate">
+                    </your-orders-filters-component>
+                </div>
+            </div>
+
+            <div class="grow d-flex flex-column">
+                @if (orders().length === 0) {
+                    <state-handler-component
+                        type="empty"
+                        title="YourOrders.NoOrdersTitle"
+                        message="YourOrders.NoOrdersMessage"
+                        buttonLabel="YourOrders.BrowseCatalogButton"
+                        [buttonSeverity]="getButtonTheme()"
+                        (action)="goToCatalog()">
+                    </state-handler-component>
+                } @else {
+                    <order-user-list-component
+                        [orders]="orders()"
+                        [first]="first()"
+                        [rows]="rows()"
+                        [totalRecords]="totalRecords()"
+                        (onPageChange)="onPageChange($event)"
+                        (viewDetails)="handleViewDetails($event)">
+                    </order-user-list-component>
+                }
+            </div>
+        </div>
     }
 </div>
+
+<order-user-detail-dialog-component
+    [order]="selectedOrder()"
+    [isVisible]="isDetailVisible()"
+    (isDialogClosed)="closeDetails()">
+</order-user-detail-dialog-component>
 
 <footer-component></footer-component>

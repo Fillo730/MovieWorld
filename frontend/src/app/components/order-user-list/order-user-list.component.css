@@ -1,13 +1,19 @@
 .orders-list {
     display: flex;
-    flex-direction: row; 
+    flex-direction: row;
     flex-wrap: wrap;
-    justify-content: center; 
-    align-items: center; 
+    justify-content: center;
+    align-items: stretch;
     gap: 1rem;
-    
-    width: 100%;       
-    max-width: 1200px; 
+
+    width: 100%;
+    max-width: 1200px;
     min-height: 60vh;
-    margin: 0 auto;    
+    margin: 0 auto;
+}
+
+@media (max-width: 576px) {
+    .orders-list {
+        padding: 0 0.5rem;
+    }
 }

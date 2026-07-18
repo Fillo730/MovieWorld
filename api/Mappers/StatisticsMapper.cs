@@ -91,4 +91,18 @@ public class StatisticsMapper (IUsersMapper usersMapper) : IStatisticsMapper
     {
         return userYearStatistics.Select(u =>  MapToUserYearStatDto((u)));
     }
+
+    public GenreRevenueStatisticDto MapToGenreRevenueDto(GenreRevenueStatistic stat)
+    {
+        return new GenreRevenueStatisticDto
+        {
+            GenreName = stat.Name,
+            Revenue = stat.Revenue,
+        };
+    }
+
+    public IEnumerable<GenreRevenueStatisticDto> MapToGenreRevenueDtoList(IEnumerable<GenreRevenueStatistic> stats)
+    {
+        return stats.Select(s => MapToGenreRevenueDto(s));
+    }
 }

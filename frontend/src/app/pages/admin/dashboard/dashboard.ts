@@ -11,6 +11,7 @@ import { MovieService } from '../../../services/movie.service';
 import { OrdersService } from '../../../services/orders.service';
 import { NewsService } from '../../../services/news.service';
 import { GenreStat } from '../../../models/stats/GenreStat.model';
+import { GenreRevenue } from '../../../models/stats/GenreRevenue.model';
 import { UserYear } from '../../../models/stats/UserYear.model';
 import { ThemeService } from '../../../services/theme.service';
 import { RevenueYear } from '../../../models/stats/RevenueYear.model';
@@ -68,6 +69,7 @@ export class DashboardAdminComponent implements OnInit {
   moviesCount !: number;
   moviesCultCount !: number;
   genresStats !: GenreStat[];
+  genreRevenue !: GenreRevenue[];
 
   newsCount !: number;
 
@@ -79,6 +81,7 @@ export class DashboardAdminComponent implements OnInit {
   public pieChartUsers : ChartConfiguration<'pie'>['data'] = { labels: [], datasets: []}
   public pieChartCast : ChartConfiguration<'pie'>['data'] = { labels: [], datasets: []}
   public barChartMoviesGenres : ChartConfiguration<'bar'>['data'] = {labels : [], datasets: []}
+  public barChartGenreRevenue : ChartConfiguration<'bar'>['data'] = {labels : [], datasets: []}
   public barChartOrdersPerOrderState : ChartConfiguration<'bar'>['data'] = {labels : [], datasets: []}
   public lineChartUsersYears : ChartConfiguration<'line'>['data'] = {labels: [], datasets: []}
   public lineChartRevenueYears : ChartConfiguration<'line'>['data'] = {labels: [], datasets: []}
@@ -124,6 +127,7 @@ export class DashboardAdminComponent implements OnInit {
       movies: this.moviesService.getMoviesCount(),
       cult: this.moviesService.getMoviesCultCount(),
       genres: this.moviesService.getMoviesCountForEveryGenre(),
+      genreRevenue: this.moviesService.getRevenuePerGenre(),
       news: this.newsService.getCount(),
 
       orders: this.ordersService.getOrdersCount(),
@@ -147,6 +151,7 @@ export class DashboardAdminComponent implements OnInit {
       this.moviesCount = res.movies.data;
       this.moviesCultCount = res.cult.data;
       this.genresStats = res.genres.data;
+      this.genreRevenue = res.genreRevenue.data;
       this.newsCount = res.news.data;
 
       this.ordersCount = res.orders.data;
@@ -165,6 +170,7 @@ export class DashboardAdminComponent implements OnInit {
 
   refreshAllCharts()  : void {
     this.setUpMoviesCharts();
+    this.setUpGenreRevenueChart();
     this.setUpUserChart();
     this.setUpLineChartRevenue();
     this.setUpLineChartUser();
@@ -181,6 +187,19 @@ export class DashboardAdminComponent implements OnInit {
         data: counts,
         label: this.translate.instant('Admin.Dashboard.Labels.GenresMoviesLabel'),
         backgroundColor: '#3f51b5'
+      }]
+    }
+  }
+
+  private setUpGenreRevenueChart() : void {
+    const labels = this.genreRevenue.map(g => g.genreName);
+    const revenues = this.genreRevenue.map(g => g.revenue);
+    this.barChartGenreRevenue = {
+      labels: labels,
+      datasets: [{
+        data: revenues,
+        label: this.translate.instant('Admin.Dashboard.Labels.GenreRevenueLabel'),
+        backgroundColor: '#ff9800'
       }]
     }
   }

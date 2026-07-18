@@ -49,6 +49,10 @@ export class UserService {
     return this.http.put<ApiResponse<User>>(`${this.apiUrl}/${user.userId}`, user);
   }
 
+  updateOwnProfile(profile: { name: string; surname: string; imagePath: string }): Observable<ApiResponse<User>> {
+    return this.http.put<ApiResponse<User>>(`${this.apiUrl}/me`, profile);
+  }
+
   deleteUser(userId: number): Observable<ApiResponse<string>> {
     return this.http.delete<ApiResponse<string>>(`${this.apiUrl}/${userId}`);
   }

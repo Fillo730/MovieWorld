@@ -55,6 +55,13 @@ export class AuthService {
     );
   }
   
+  public updateLocalUser(name: string, imagePath: string): void {
+    const user = this._currentUser();
+    if (!user) return;
+
+    this.saveUser({ ...user, name, imagePath });
+  }
+
   private saveUser(data: LoginRegisterResponse): void {
     this.storageService.setItem(this.storageKey, data);
     this._currentUser.set(data);

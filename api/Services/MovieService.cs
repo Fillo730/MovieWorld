@@ -153,4 +153,11 @@ public class MovieService(IMovieRepository movieRepository, IMovieMapper movieMa
 
         return _statisticsMapper.MapToGenreStatDtoList(genreStatistics);
     }
+
+    public async Task<IEnumerable<GenreRevenueStatisticDto>> GetRevenuePerGenreAsync(string lang)
+    {
+        var genreRevenueStatistics = await _movieRepository.GetRevenuePerGenreAsync(lang);
+
+        return _statisticsMapper.MapToGenreRevenueDtoList(genreRevenueStatistics);
+    }
 }

@@ -53,16 +53,60 @@
     "NoOrdersMessage": "Sembra che tu non abbia ancora effettuato acquisti. Corri a dare un'occhiata al nostro catalogo film!",
     "StatusLabel": "Stato ordine",
     "DateLabel": "Data",
-    "TotalLabel": "Totale"
+    "TotalLabel": "Totale",
+    "BrowseCatalogButton": "Vai al Catalogo",
+    "FiltersTitle": "Filtri",
+    "ViewDetailsButton": "Dettagli",
+    "Filters": {
+      "MainTitle": "Filtra i tuoi ordini",
+      "State": "Stato Ordine",
+      "All": "Tutti",
+      "Year": "Anno",
+      "MoviesNumber": "Numero Film",
+      "PriceRange": "Prezzo",
+      "Reset": "Resetta Filtri"
+    },
+    "OrderDetail": {
+      "Title": "Dettaglio Ordine #{{id}}",
+      "ItemsLabel": "Film acquistati",
+      "SellPointLabel": "Punto vendita",
+      "QuantityLabel": "Quantità",
+      "PriceLabel": "Prezzo",
+      "UnitPriceSuffix": "cad.",
+      "CloseButton": "Chiudi"
+    }
   },
   "Profile": {
     "Title": "Ciao {{currentUser}}, questo è il tuo profilo",
+    "Loading": "Caricamento profilo in corso...",
+    "ErrorTitle": "Ops! Errore di caricamento",
+    "ErrorMessage": "Non è stato possibile caricare il tuo profilo. Verifica la connessione o riprova.",
+    "RetryButton": "Riprova",
     "NameLabel": "Nome",
     "SurnameLabel": "Cognome",
     "EmailLabel": "Email",
     "RoleLabel": "Ruolo",
     "Admin": "Amministratore",
-    "User": "Utente Standard"
+    "User": "Utente Standard",
+    "MemberSinceLabel": "Membro dal",
+    "EditButton": "Modifica Profilo",
+    "SaveButton": "Salva",
+    "CancelButton": "Annulla",
+    "ImagePathLabel": "URL Immagine Profilo",
+    "ImagePathPlaceholder": "https://esempio.com/foto.jpg",
+    "UpdateSuccess": "Profilo aggiornato con successo",
+    "UpdateError": "Errore durante l'aggiornamento del profilo",
+    "OrdersSummaryTitle": "I tuoi ordini",
+    "OrdersCountLabel": "ordini effettuati",
+    "OrderCountLabelSingular": "ordine effettuato",
+    "ViewOrdersButton": "Vai ai miei ordini",
+    "LogoutButton": "Esci",
+    "Errors": {
+      "NameRequired": "Nome richiesto.",
+      "NameInvalid": "Nome non valido.",
+      "SurnameRequired": "Cognome richiesto.",
+      "SurnameInvalid": "Cognome non valido."
+    }
   },
   "MovieDetail": {
     "WatchTrailer": "Guarda trailer",
@@ -240,7 +284,8 @@
         "RevenueYearsLabel": "Incasso totale per anno (€)",
         "TopSpenders": "Top utenti per spesa totale",
         "UsersMonthThisYearLabel": "Utenti iscritti negli ultimi 6 mesi",
-        "OrdersPerOrderStateLabel": "Numero ordini per stato dell'ordine"
+        "OrdersPerOrderStateLabel": "Numero ordini per stato dell'ordine",
+        "GenreRevenueLabel": "Incasso per genere (€)"
       },
       "Table": {
         "User": "Utente",

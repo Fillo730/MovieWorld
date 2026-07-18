@@ -66,4 +66,11 @@ public class UsersMapper : IUsersMapper
         user.Role = userDto.Role;
         user.Email = userDto.Email;
     }
+
+    public void MapProfileUpdateToDb(UpdateProfileDto profileDto, User user)
+    {
+        user.Name = profileDto.Name;
+        user.Surname = profileDto.Surname;
+        user.ImagePath = profileDto.ImagePath;
+    }
 }

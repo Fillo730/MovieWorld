@@ -199,6 +199,23 @@ public class MovieRepository : BaseRepository, IMovieRepository
 
     public async Task<IEnumerable<GenreRevenueStatistic>> GetRevenuePerGenreAsync(string lang)
     {
-        throw new NotImplementedException();
+        return await _dbContext.OrderItems
+            .Where(oi => oi.Order.OrderStateId != (int)OrderStateEnum.Deleted)
+            .SelectMany(oi => oi.Movie.MovieGenres, (oi, mg) => new { oi, mg })
+            .GroupBy(x => new
+            {
+                x.mg.GenreId,
+                Name = x.mg.Genre.GenreTranslations
+                    .Where(gt => gt.LanguageCode == lang)
+                    .Select(gt => gt.Name)
+                    .FirstOrDefault()
+            })
+            .Select(g => new GenreRevenueStatistic
+            {
+                Name = g.Key.Name ?? "Unknown",
+                Revenue = (decimal)g.Sum(x => (double)(x.oi.Quantity * x.oi.PurchasedPrice))
+            })
+            .OrderBy(r => r.Name)
+            .ToListAsync();
     }
 }

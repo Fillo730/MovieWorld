@@ -15,6 +15,7 @@ public interface IUsersService
     Task<IEnumerable<UserDto>> GetUserByQueryAsync(string query, int limit);
     public Task<UserDto> CreateUserAsync(UserDto user);
     Task<UserDto?> UpdateUserAsync(UserDto user);
+    Task<UserDto?> UpdateOwnProfileAsync(int userId, UpdateProfileDto profile);
     Task<int> GetStandardUsersCountAsync();
     Task<int> GetAdminsCountAsync();
 

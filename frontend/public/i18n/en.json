@@ -35,7 +35,60 @@
     "NoOrdersMessage": "It looks like you haven't made any purchases yet. Go check out our movie catalog!",
     "StatusLabel": "Order Status",
     "DateLabel": "Date",
-    "TotalLabel": "Total"
+    "TotalLabel": "Total",
+    "BrowseCatalogButton": "Browse Catalog",
+    "FiltersTitle": "Filters",
+    "ViewDetailsButton": "Details",
+    "Filters": {
+      "MainTitle": "Filter your orders",
+      "State": "Order Status",
+      "All": "All",
+      "Year": "Year",
+      "MoviesNumber": "Movies Count",
+      "PriceRange": "Price",
+      "Reset": "Reset Filters"
+    },
+    "OrderDetail": {
+      "Title": "Order Details #{{id}}",
+      "ItemsLabel": "Purchased movies",
+      "SellPointLabel": "Sell point",
+      "QuantityLabel": "Quantity",
+      "PriceLabel": "Price",
+      "UnitPriceSuffix": "each",
+      "CloseButton": "Close"
+    }
+  },
+  "Profile": {
+    "Title": "Hi {{currentUser}}, this is your profile",
+    "Loading": "Loading profile...",
+    "ErrorTitle": "Oops! Something went wrong",
+    "ErrorMessage": "Unable to retrieve your profile. Please try again.",
+    "RetryButton": "Retry",
+    "NameLabel": "Name",
+    "SurnameLabel": "Surname",
+    "EmailLabel": "Email",
+    "RoleLabel": "Role",
+    "Admin": "Administrator",
+    "User": "Standard User",
+    "MemberSinceLabel": "Member since",
+    "EditButton": "Edit Profile",
+    "SaveButton": "Save",
+    "CancelButton": "Cancel",
+    "ImagePathLabel": "Profile Image URL",
+    "ImagePathPlaceholder": "https://example.com/photo.jpg",
+    "UpdateSuccess": "Profile updated successfully",
+    "UpdateError": "Error updating profile",
+    "OrdersSummaryTitle": "Your orders",
+    "OrdersCountLabel": "orders placed",
+    "OrderCountLabelSingular": "order placed",
+    "ViewOrdersButton": "Go to my orders",
+    "LogoutButton": "Logout",
+    "Errors": {
+      "NameRequired": "Name is required.",
+      "NameInvalid": "Invalid name.",
+      "SurnameRequired": "Surname is required.",
+      "SurnameInvalid": "Invalid surname."
+    }
   },
   "MovieDetail": {
     "WatchTrailer": "Watch trailer",
@@ -195,7 +248,14 @@
         "CultMovie": "Total cult movies",
         "News": "Total News",
         "Order": "Total orders",
-        "OrderCompleted": "Total completed orders"
+        "OrderCompleted": "Total completed orders",
+        "GenresMoviesLabel": "Movies per genre",
+        "UsersYearsLabel": "Users registered per year",
+        "RevenueYearsLabel": "Total revenue per year (€)",
+        "TopSpenders": "Top spending users",
+        "UsersMonthThisYearLabel": "Users registered in the last 6 months",
+        "OrdersPerOrderStateLabel": "Number of orders per order status",
+        "GenreRevenueLabel": "Revenue per genre (€)"
       }
     },
     "MoviesPage": {

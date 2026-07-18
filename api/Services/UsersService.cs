@@ -131,4 +131,20 @@ public class UsersService(IUserRepository userRepository, IUsersMapper usersMapp
 
         return _usersMapper.MapToDto(existingUser);
     }
+
+    public async Task<UserDto?> UpdateOwnProfileAsync(int userId, UpdateProfileDto profile)
+    {
+        var existingUser = await _userRepository.GetUserByIdAsync(userId);
+
+        if (existingUser is null)
+        {
+            return null;
+        }
+
+        _usersMapper.MapProfileUpdateToDb(profile, existingUser);
+
+        await _userRepository.SaveChangesAsync();
+
+        return _usersMapper.MapToDto(existingUser);
+    }
 }

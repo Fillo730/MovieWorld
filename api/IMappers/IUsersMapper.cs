@@ -14,4 +14,6 @@ public interface IUsersMapper
     IEnumerable<User> MapToDbList(IEnumerable<UserDto> users);
 
     void MapUpdateToDb(UserDto userDto, User user);
+
+    void MapProfileUpdateToDb(UpdateProfileDto profileDto, User user);
 }

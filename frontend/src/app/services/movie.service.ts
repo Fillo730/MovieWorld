@@ -11,6 +11,7 @@ import { MovieFilter } from '../models/filters/MovieFilter.model';
 import { Genre } from '../models/Genre.model';
 import { Format } from '../models/Format.model';
 import { GenreStat } from '../models/stats/GenreStat.model';
+import { GenreRevenue } from '../models/stats/GenreRevenue.model';
 import { Movie } from '../models/Movie.model';
 import { ApiResponse } from '../models/ApiResponse.model';
 
@@ -96,7 +97,11 @@ export class MovieService {
   }
 
   public getMoviesCountForEveryGenre(): Observable<ApiResponse<GenreStat[]>> {
-    return this.http.get<ApiResponse<GenreStat[]>>(`${this.apiUrl}/stats/genres`); 
+    return this.http.get<ApiResponse<GenreStat[]>>(`${this.apiUrl}/stats/genres`);
+  }
+
+  public getRevenuePerGenre(): Observable<ApiResponse<GenreRevenue[]>> {
+    return this.http.get<ApiResponse<GenreRevenue[]>>(`${this.apiUrl}/stats/revenueByGenre`);
   }
 
   private applyPagingParams(params: HttpParams, pageIndex: number, pageSize: number): HttpParams {

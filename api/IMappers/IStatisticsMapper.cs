@@ -28,4 +28,8 @@ public interface IStatisticsMapper
     IEnumerable<OrdersPerOrderStateStatisticDto> MapToOrdersPerOrderStateDtoList(IEnumerable<OrdersPerOrderStateStatistic> stats);
 
     OrdersPerOrderStateStatisticDto MapToOrdersPerOrderStateDto (OrdersPerOrderStateStatistic stat);
+
+    IEnumerable<GenreRevenueStatisticDto> MapToGenreRevenueDtoList(IEnumerable<GenreRevenueStatistic> stats);
+
+    GenreRevenueStatisticDto MapToGenreRevenueDto(GenreRevenueStatistic stat);
 }

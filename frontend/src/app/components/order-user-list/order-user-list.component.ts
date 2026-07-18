@@ -19,8 +19,13 @@ export class OrderUserListComponent {
   @Input() totalRecords !: number;
 
   @Output() onPageChange = new EventEmitter<any>();
+  @Output() viewDetails = new EventEmitter<Order>();
 
   handlePageChange(event : any) {
     this.onPageChange.emit(event);
+  }
+
+  handleViewDetails(order: Order) {
+    this.viewDetails.emit(order);
   }
 }

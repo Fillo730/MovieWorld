@@ -1,0 +1,68 @@
+@if (order) {
+  <p-dialog
+    [modal]="true"
+    [(visible)]="isVisible"
+    (visibleChange)="handleClose()"
+    [style]="{ width: '650px', maxWidth: '95vw' }"
+    contentStyleClass="background-color-custom text-color">
+
+    <ng-template pTemplate="header">
+      <div class="d-flex align-items-center justify-content-between w-100 pe-3">
+        <div>
+          <h3 class="m-0 text-color">{{ 'YourOrders.OrderDetail.Title' | translate: { id: order.id } }}</h3>
+          <small class="text-color opacity-7">
+            <i class="pi pi-calendar mr-1" style="font-size: 0.8rem"></i>
+            {{ order.date | date:'dd/MM/yyyy HH:mm' }}
+          </small>
+        </div>
+        <p-tag [value]="order.state.name" [style]="{ 'background-color': getOrderStatusColor() }"></p-tag>
+      </div>
+    </ng-template>
+
+    <div class="sell-point-box d-flex align-items-center gap-2 p-3 mb-4 border-round">
+      <i class="pi pi-map-marker text-primary" style="font-size: 1.2rem"></i>
+      <div class="text-color">
+        <div class="fw-bold">{{ order.sellPoint.name }}</div>
+        <small class="opacity-7">{{ order.sellPoint.address }}, {{ order.sellPoint.city }}</small>
+      </div>
+    </div>
+
+    <div class="d-flex align-items-center justify-content-between mb-3">
+      <h4 class="text-color m-0">{{ 'YourOrders.OrderDetail.ItemsLabel' | translate }}</h4>
+      <span class="text-color opacity-7">
+        {{ getTotalItemsCount() }}
+        {{ (getTotalItemsCount() === 1 ? 'Admin.OrdersPage.OrderDialog.QuantityLabel' : 'Admin.OrdersPage.OrderDialog.MoviesLabel') | translate }}
+      </span>
+    </div>
+
+    <div class="items-list">
+      @for (item of order.items; track item.movie.movieId; let last = $last) {
+        <div class="item-row d-flex align-items-center gap-3 py-3">
+          <img [src]="item.movie.imagePath" [alt]="item.movie.title" class="item-thumb border-round shadow-2">
+          <div class="flex-grow-1 text-color">
+            <div class="fw-bold">{{ item.movie.title }}</div>
+            <small class="opacity-7">
+              {{ 'YourOrders.OrderDetail.QuantityLabel' | translate }}: {{ item.quantity }} &middot;
+              {{ item.price | currency:'EUR' }} {{ 'YourOrders.OrderDetail.UnitPriceSuffix' | translate }}
+            </small>
+          </div>
+          <div class="text-primary fw-bold item-subtotal">{{ item.price * item.quantity | currency:'EUR' }}</div>
+        </div>
+        @if (!last) {
+          <p-divider styleClass="my-0"></p-divider>
+        }
+      }
+    </div>
+
+    <div class="order-total d-flex justify-content-between align-items-center mt-4 pt-3">
+      <span class="text-color font-bold">{{ 'YourOrders.TotalLabel' | translate | uppercase }}</span>
+      <span class="text-primary text-xl font-bold">{{ order.totalAmount | currency:'EUR' }}</span>
+    </div>
+
+    <ng-template pTemplate="footer">
+      <p-button [label]="'YourOrders.OrderDetail.CloseButton' | translate"
+        [severity]="getButtonTheme()" (onClick)="handleClose()">
+      </p-button>
+    </ng-template>
+  </p-dialog>
+}

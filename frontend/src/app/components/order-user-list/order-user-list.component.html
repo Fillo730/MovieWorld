@@ -1,7 +1,7 @@
 <div class="orders-list gap-4">
-    @for (order of orders; track $index) {
+    @for (order of orders; track order.id) {
         <order-user-card-component [order]="order"
-        ></order-user-card-component>
+        (viewDetails)="handleViewDetails($event)"></order-user-card-component>
     }
 </div>
 

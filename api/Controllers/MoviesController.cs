@@ -214,6 +214,22 @@ public class MoviesController(IMovieService movieService) : BaseController
 
     }
 
+    [Authorize(Roles = "Admin")]
+    [HttpGet("stats/revenueByGenre")]
+    public async Task<IActionResult> GetRevenuePerGenreAsync([FromQuery] string? lang)
+    {
+        try
+        {
+            var result = await _movieService.GetRevenuePerGenreAsync(GetCurrentLanguage(lang));
+
+            return Ok(ApiResponse<IEnumerable<GenreRevenueStatisticDto>>.CreateSuccessResponse(result));
+        }
+        catch (Exception ex)
+        {
+            return Ok(ApiResponse<IEnumerable<GenreRevenueStatisticDto>>.CreateFailureResponse(ex.Message));
+        }
+    }
+
     [HttpGet("export")]
     public async Task<IActionResult> ExportMoviesToExcel([FromQuery] MovieFilterDto movieFilters, [FromQuery] string? lang)
     {

@@ -1,0 +1,37 @@
+.filters-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.width-custom-filters {
+  min-width: 200px;
+}
+
+.title-container {
+  width: 100%;
+  text-align: center;
+}
+
+.occupy-all-row {
+  width: 100%;
+  display: flex;
+}
+
+@media (max-width: 1400px) {
+  .filters-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .occupy-all-row {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+  }
+}
