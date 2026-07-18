@@ -51,17 +51,13 @@ obj/
 *.sln.docstates
 
 # --- Entity Framework ---
-# Ignora i file di log o database locali temporanei (se usi SQL Express o SQLite)
+# Il DB SQLite non viene piu' committato: all'avvio l'app applica le migrazioni
+# e, se vuoto, si popola da api/Data/SeedData.sql (vedi Program.cs).
 *.db
 *.db-shm
 *.db-wal
 *.log
 Migrations/*.designer.cs
-
-# Eccezione: il DB SQLite va tracciato e committato perche' viene copiato
-# dentro l'immagine Docker in fase di build (dati "mockati" per il deploy su
-# Render, che builda dal repo git e non vede file locali non committati).
-!api/MovieWorld.db
 api/*.db.bak.*
 
 # --- User-specific files ---

@@ -126,6 +126,27 @@ builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
 
 var app = builder.Build();
+
+// Applica le migrazioni pendenti e, se il database è vuoto (prima esecuzione o
+// volume non persistente), lo popola con i dati di esempio committati nel repo
+// invece di spedire il file .db intero.
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<TrainingBrattiContext>();
+    dbContext.Database.Migrate();
+
+    if (!dbContext.Users.Any())
+    {
+        var seedFilePath = Path.Combine(AppContext.BaseDirectory, "Data", "SeedData.sql");
+
+        if (File.Exists(seedFilePath))
+        {
+            var seedSql = File.ReadAllText(seedFilePath);
+            dbContext.Database.ExecuteSqlRaw(seedSql);
+        }
+    }
+}
+
 app.UseCors();
 app.UseRateLimiter();
 

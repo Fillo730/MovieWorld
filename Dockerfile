@@ -32,9 +32,9 @@ COPY --from=backend-build /app/publish .
 # File statici Angular pubblicati da Kestrel (UseDefaultFiles/UseStaticFiles in Program.cs)
 COPY --from=frontend-build /frontend/dist/HelloWorld/browser ./wwwroot
 
-# Database SQLite già popolato (film, generi, cast, news, utenti, ordini di esempio),
-# cosi il servizio non parte vuoto al primo deploy.
-COPY api/MovieWorld.db ./MovieWorld.db
+# Il database SQLite non viene spedito nell'immagine: all'avvio l'app applica le
+# migrazioni e, se il DB è vuoto, lo popola da Data/SeedData.sql (copiato nella
+# publish output da MovieWorld.csproj).
 
 ENV ASPNETCORE_ENVIRONMENT=Production
 EXPOSE 8080

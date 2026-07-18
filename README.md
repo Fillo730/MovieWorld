@@ -7,6 +7,8 @@ MovieWorld is a full-stack e-commerce platform for selling movies: catalog with 
 **Live demo:** [movieworld-9msm.onrender.com](https://movieworld-9msm.onrender.com)
 *(hosted on Render's free tier — the first request after a period of inactivity may take up to a minute to wake the instance up)*
 
+**Demo admin account:** `admin@movieworld.demo` / `Demo1234!` — gives access to the full admin panel (user/movie/order/coupon management, statistics dashboard) on both the live demo and any local instance seeded from this repo.
+
 ## Screenshots
 
 | Home | Movie detail | Admin dashboard |
@@ -66,7 +68,7 @@ The backend follows a layered architecture: `Controller → Service → Reposito
 ### Prerequisites
 - .NET 8 SDK
 - Node.js 20+
-- (optional) `dotnet-ef` CLI for migrations: `dotnet tool install --global dotnet-ef`
+- (optional) `dotnet-ef` CLI, only needed when changing the data model: `dotnet tool install --global dotnet-ef`
 
 ### Backend
 
@@ -76,14 +78,7 @@ dotnet user-secrets set "Jwt:Key" "a-long-secret-key-of-your-choice"
 dotnet run
 ```
 
-The API starts on `http://localhost:5246` and uses the SQLite database already included (`api/MovieWorld.db`), pre-populated with sample data (movies, genres, cast, users, orders).
-
-To apply any new migrations:
-
-```bash
-cd api
-dotnet ef database update
-```
+The API starts on `http://localhost:5246`. The SQLite database is **not** committed to the repo: on startup the app automatically applies all pending EF Core migrations and, if the database is empty, seeds it from `api/Data/SeedData.sql` — a text dump (movies, genres, cast, sample users and orders, etc.) generated from a real working dataset. No manual step is required for a fresh clone to work.
 
 ### Frontend
 
@@ -144,5 +139,6 @@ The workflow in `.github/workflows/ci.yml` automatically runs, on every push/PR 
 
 ## Notes
 
-- The SQLite database is committed to the repository so demo data is always ready to use in development and on first deploy.
-- EF Core migrations live in `api/Migrations`; every data model change requires a new migration (`dotnet ef migrations add MigrationName`) followed by `dotnet ef database update`.
+- The SQLite database file itself is **not** committed; `api/Data/SeedData.sql` (a plain-text data dump, diff-friendly and reviewable) is what ships in the repo and in the Docker image. The app applies migrations and seeds this data automatically on first startup — see [Backend](#backend) above.
+- EF Core migrations live in `api/Migrations`; every data model change requires a new migration (`dotnet ef migrations add MigrationName`). To regenerate `SeedData.sql` after changing the sample data, dump the working `api/MovieWorld.db` (all tables, respecting FK order) into that file.
+- The seed dataset includes the dedicated demo admin account above, 10 standard demo users, ~100 movies with cast/genres/translations, sample orders, a handful of movie reviews, and 3 example discount coupons (`WELCOME10`, `SUMMER20`, `VIP25`).
