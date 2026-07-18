@@ -20,6 +20,9 @@
       <a mat-list-item routerLink="orders">
         <span class="text-color">{{ "Admin.Layout.Orders" | translate }}</span>
       </a>
+      <a mat-list-item routerLink="coupons">
+        <span class="text-color">{{ "Admin.Layout.Coupons" | translate }}</span>
+      </a>
     </mat-nav-list>
 
     <div class="d-flex flex-row align-items-center p-3 gap-3 border-top">
@@ -41,6 +44,7 @@
         <button mat-menu-item routerLink="cast">{{ "Admin.Layout.Cast" | translate }}</button>
         <button mat-menu-item routerLink="news">{{ "Admin.Layout.News" | translate }}</button>
         <button mat-menu-item routerLink="orders">{{ "Admin.Layout.Orders" | translate }}</button>
+        <button mat-menu-item routerLink="coupons">{{ "Admin.Layout.Coupons" | translate }}</button>
         <div class="p-2 d-flex flex-row align-items-center gap-2 border-top">
            <language-selector></language-selector>
            <theme-toggler></theme-toggler>

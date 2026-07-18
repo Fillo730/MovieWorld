@@ -66,7 +66,15 @@ public class MovieRepository : BaseRepository, IMovieRepository
                 .ThenInclude(mp => mp.Person)
             .Include(m => m.Format)
             .AsSplitQuery()
-            .OrderBy(m => m.MovieId).AsQueryable();
+            .AsQueryable();
+
+        dataQuery = movieFilterDto.SortBy switch
+        {
+            "rating_desc" => dataQuery.OrderByDescending(m => _dbContext.Reviews.Where(r => r.MovieId == m.MovieId).Average(r => (double?)r.Rating) ?? 0),
+            "price_asc" => dataQuery.OrderBy(m => m.Cost),
+            "price_desc" => dataQuery.OrderByDescending(m => m.Cost),
+            _ => dataQuery.OrderBy(m => m.MovieId)
+        };
 
         if (pageIndex.HasValue && pageSize.HasValue)
         {
@@ -141,6 +149,23 @@ public class MovieRepository : BaseRepository, IMovieRepository
                 .ThenInclude(mp => mp.Person)
             .AsSplitQuery()
             .OrderBy(m => m.MovieId)
+            .Take(limit)
+            .ToListAsync();
+    }
+
+    public async Task<IEnumerable<Movie>> GetTopRatedMoviesAsync(int limit)
+    {
+        return await _dbContext.Movies
+            .AsNoTracking()
+            .Where(m => _dbContext.Reviews.Any(r => r.MovieId == m.MovieId))
+            .Include(m => m.MovieTranslations)
+            .Include(m => m.MovieGenres)
+                .ThenInclude(mg => mg.Genre)
+                    .ThenInclude(g => g.GenreTranslations)
+            .Include(m => m.MoviePeople)
+                .ThenInclude(mp => mp.Person)
+            .AsSplitQuery()
+            .OrderByDescending(m => _dbContext.Reviews.Where(r => r.MovieId == m.MovieId).Average(r => (double)r.Rating))
             .Take(limit)
             .ToListAsync();
     }

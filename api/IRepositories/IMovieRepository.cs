@@ -13,6 +13,7 @@ public interface IMovieRepository
     Task<IEnumerable<GenreRevenueStatistic>> GetRevenuePerGenreAsync(string lang);
     Task<IEnumerable<Format>> GetFormatsAsync();
     Task<IEnumerable<Movie>> GetCultMoviesAsync(int limit);
+    Task<IEnumerable<Movie>> GetTopRatedMoviesAsync(int limit);
     Task<Movie?> GetByIdAsync(int id);
     Task<int> GetCountAsync();
     Task<Movie>AddAsync(Movie movie);

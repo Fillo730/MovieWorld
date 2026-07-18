@@ -4,4 +4,5 @@ export interface UserCreateOrderRequest {
     orderStateId: number,
     sellPointId: number,
     items: OrderItem[],
+    couponCode?: string | null,
 }

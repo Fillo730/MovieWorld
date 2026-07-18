@@ -4,6 +4,17 @@
         <h4 class="fw-bold mb-4">{{ filtersTitle }}</h4>
     </div>
 
+    @if (sortOptions.length > 0) {
+        <div class="width-custom-filters mb-5">
+            <label class="form-label fw-semibold">{{ sortTitle }}</label>
+            <select class="form-select" [(ngModel)]="filters.sortBy" (change)="emitChange()">
+                @for (option of sortOptions; track option.value) {
+                    <option [value]="option.value">{{ option.label }}</option>
+                }
+            </select>
+        </div>
+    }
+
     <div class="width-custom-filters mb-5">
         <label class="form-label fw-semibold">{{ nameTitle }}</label>
         <input type="text" class="form-control" [placeholder]="namePlaceholder"

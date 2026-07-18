@@ -33,6 +33,8 @@ public class OrdersMapper (ISellPointsMapper sellPointsMapper, IMovieMapper movi
 
     public OrderDto MapToDto(Order order, string lang)
     {
+        var totalAmount = order.OrderItems?.Sum(oi => oi.PurchasedPrice * oi.Quantity) ?? 0;
+
         return new OrderDto
         {
             Id = order.OrderId,
@@ -40,7 +42,10 @@ public class OrdersMapper (ISellPointsMapper sellPointsMapper, IMovieMapper movi
             State = MapToDto(order.OrderState, lang),
             User = _usersMapper.MapToDto(order.User),
             SellPoint = _sellPointsMapper.MapToDto(order.SellPoint, lang),
-            TotalAmount = order.OrderItems?.Sum(oi => oi.PurchasedPrice * oi.Quantity) ?? 0,
+            TotalAmount = totalAmount,
+            CouponCode = order.CouponCode,
+            DiscountAmount = order.DiscountAmount,
+            FinalAmount = totalAmount - order.DiscountAmount,
             Items = order.OrderItems?.Select(oi => new OrderItemDto
             {
                 Quantity = oi.Quantity,

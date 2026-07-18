@@ -27,6 +27,10 @@ public partial class User
 
     public bool EmailNotificationsEnabled { get; set; } = true;
 
+    public string PasswordResetToken { get; set; }
+
+    public DateTime? PasswordResetTokenExpiresAt { get; set; }
+
     public virtual ICollection<Chart> Charts { get; set; } = new List<Chart>();
 
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();

@@ -1,0 +1,96 @@
+<div class="admin-container">
+  <h2 class="text-color mb-3">{{ 'Admin.CouponsPage.Title' | translate }}</h2>
+
+  <div class="create-form background-color-custom shadow-2 border-round p-3 mb-4">
+    <h4 class="text-color mb-3">{{ 'Admin.CouponsPage.CreateTitle' | translate }}</h4>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>{{ 'Admin.CouponsPage.CodeLabel' | translate }}</mat-label>
+        <input matInput [(ngModel)]="form.code" [placeholder]="'Admin.CouponsPage.CodePlaceholder' | translate" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>{{ 'Admin.CouponsPage.DiscountLabel' | translate }}</mat-label>
+        <input matInput type="number" min="1" max="100" [(ngModel)]="form.discountPercentage" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>{{ 'Admin.CouponsPage.ExpiresAtLabel' | translate }}</mat-label>
+        <input matInput type="date" [(ngModel)]="form.expiresAt" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>{{ 'Admin.CouponsPage.MaxUsesLabel' | translate }}</mat-label>
+        <input matInput type="number" min="1" [(ngModel)]="form.maxUses" />
+      </mat-form-field>
+    </div>
+
+    <button mat-raised-button color="primary"
+      [disabled]="!form.code.trim() || !form.discountPercentage || isCreating"
+      (click)="handleCreateCoupon()">
+      <mat-icon>add</mat-icon>
+      {{ 'Admin.CouponsPage.CreateButton' | translate }}
+    </button>
+  </div>
+
+  @if (isLoading) {
+    <state-handler-component type="loading" message="Admin.CouponsPage.Loading"></state-handler-component>
+  }
+  @else if (error) {
+    <state-handler-component
+      type="error"
+      title="Admin.CouponsPage.ErrorTitle"
+      message="Admin.CouponsPage.ErrorMessage"
+      buttonLabel="Admin.CouponsPage.RetryButton"
+      (action)="loadCoupons()">
+    </state-handler-component>
+  }
+  @else if (coupons.length === 0) {
+    <state-handler-component
+      type="empty"
+      title="Admin.CouponsPage.EmptyTitle"
+      message="Admin.CouponsPage.EmptyMessage">
+    </state-handler-component>
+  }
+  @else {
+    <div class="coupons-table-wrapper background-color-custom shadow-2 border-round">
+      <table class="coupons-table text-color">
+        <thead>
+          <tr>
+            <th>{{ 'Admin.CouponsPage.CodeLabel' | translate }}</th>
+            <th>{{ 'Admin.CouponsPage.DiscountLabel' | translate }}</th>
+            <th>{{ 'Admin.CouponsPage.ExpiresAtLabel' | translate }}</th>
+            <th>{{ 'Admin.CouponsPage.UsesLabel' | translate }}</th>
+            <th>{{ 'Admin.CouponsPage.StatusLabel' | translate }}</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (coupon of coupons; track coupon.couponId) {
+            <tr>
+              <td class="fw-bold">{{ coupon.code }}</td>
+              <td>{{ coupon.discountPercentage }}%</td>
+              <td>{{ coupon.expiresAt ? (coupon.expiresAt | date:'dd/MM/yyyy') : ('Admin.CouponsPage.NoExpiry' | translate) }}</td>
+              <td>{{ coupon.usesCount }}{{ coupon.maxUses ? ' / ' + coupon.maxUses : '' }}</td>
+              <td>
+                @if (!coupon.isActive) {
+                  <mat-chip class="status-chip status-inactive">{{ 'Admin.CouponsPage.StatusInactive' | translate }}</mat-chip>
+                } @else if (isExpired(coupon)) {
+                  <mat-chip class="status-chip status-expired">{{ 'Admin.CouponsPage.StatusExpired' | translate }}</mat-chip>
+                } @else {
+                  <mat-chip class="status-chip status-active">{{ 'Admin.CouponsPage.StatusActive' | translate }}</mat-chip>
+                }
+              </td>
+              <td>
+                <button mat-button [color]="coupon.isActive ? 'warn' : 'primary'" (click)="handleToggleCoupon(coupon)">
+                  {{ (coupon.isActive ? 'Admin.CouponsPage.DeactivateButton' : 'Admin.CouponsPage.ActivateButton') | translate }}
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

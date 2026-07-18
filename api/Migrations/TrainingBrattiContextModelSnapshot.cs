@@ -62,6 +62,47 @@ namespace MovieWorld.Migrations
                     b.ToTable("ChartItem", (string)null);
                 });
 
+            modelBuilder.Entity("MovieWorld.Models.Coupon", b =>
+                {
+                    b.Property<int>("CouponId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT")
+                        .HasDefaultValueSql("(datetime('now'))");
+
+                    b.Property<decimal>("DiscountPercentage")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("ExpiresAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasDefaultValue(true);
+
+                    b.Property<int?>("MaxUses")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("UsesCount")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasDefaultValue(0);
+
+                    b.HasKey("CouponId");
+
+                    b.HasIndex("Code")
+                        .IsUnique();
+
+                    b.ToTable("Coupon", (string)null);
+                });
+
             modelBuilder.Entity("MovieWorld.Models.Format", b =>
                 {
                     b.Property<int>("FormatId")
@@ -301,10 +342,18 @@ namespace MovieWorld.Migrations
                         .HasColumnType("INTEGER")
                         .HasColumnName("Order_ID");
 
+                    b.Property<string>("CouponCode")
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime?>("Date")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
                         .HasDefaultValueSql("(datetime('now'))");
+
+                    b.Property<decimal>("DiscountAmount")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT")
+                        .HasDefaultValue(0m);
 
                     b.Property<int>("OrderStateId")
                         .HasColumnType("INTEGER")
@@ -423,6 +472,40 @@ namespace MovieWorld.Migrations
                     b.ToTable("Person", (string)null);
                 });
 
+            modelBuilder.Entity("MovieWorld.Models.Review", b =>
+                {
+                    b.Property<int>("ReviewId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Comment")
+                        .HasMaxLength(2000)
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT")
+                        .HasDefaultValueSql("(datetime('now'))");
+
+                    b.Property<int>("MovieId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("ReviewId");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("MovieId", "UserId")
+                        .IsUnique();
+
+                    b.ToTable("Review", (string)null);
+                });
+
             modelBuilder.Entity("MovieWorld.Models.SellPoint", b =>
                 {
                     b.Property<int>("SellPointId")
@@ -520,6 +603,12 @@ namespace MovieWorld.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("PasswordResetToken")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("PasswordResetTokenExpiresAt")
+                        .HasColumnType("TEXT");
+
                     b.Property<int?>("PreferredSellPointId")
                         .HasColumnType("INTEGER");
 
@@ -539,6 +628,33 @@ namespace MovieWorld.Migrations
                         .IsUnique();
 
                     b.ToTable("User", (string)null);
+                });
+
+            modelBuilder.Entity("MovieWorld.Models.Wishlist", b =>
+                {
+                    b.Property<int>("WishlistId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT")
+                        .HasDefaultValueSql("(datetime('now'))");
+
+                    b.Property<int>("MovieId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("WishlistId");
+
+                    b.HasIndex("MovieId");
+
+                    b.HasIndex("UserId", "MovieId")
+                        .IsUnique();
+
+                    b.ToTable("Wishlist", (string)null);
                 });
 
             modelBuilder.Entity("NewsMovie", b =>
@@ -802,6 +918,25 @@ namespace MovieWorld.Migrations
                     b.Navigation("OrderState");
                 });
 
+            modelBuilder.Entity("MovieWorld.Models.Review", b =>
+                {
+                    b.HasOne("MovieWorld.Models.Movie", "Movie")
+                        .WithMany()
+                        .HasForeignKey("MovieId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MovieWorld.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Movie");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("MovieWorld.Models.SellPointTranslation", b =>
                 {
                     b.HasOne("MovieWorld.Models.LanguageCode", "LanguageCodeNavigation")
@@ -829,6 +964,25 @@ namespace MovieWorld.Migrations
                         .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("PreferredSellPoint");
+                });
+
+            modelBuilder.Entity("MovieWorld.Models.Wishlist", b =>
+                {
+                    b.HasOne("MovieWorld.Models.Movie", "Movie")
+                        .WithMany()
+                        .HasForeignKey("MovieId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MovieWorld.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Movie");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("NewsMovie", b =>

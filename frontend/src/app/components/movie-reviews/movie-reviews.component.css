@@ -1,0 +1,21 @@
+.reviews-container {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.average-rating {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.small-text {
+    font-size: 0.85rem;
+}
+
+.review-item:not(:last-of-type) {
+    border-bottom: 1px solid rgba(128, 128, 128, 0.15);
+}
+
+textarea {
+    resize: vertical;
+}

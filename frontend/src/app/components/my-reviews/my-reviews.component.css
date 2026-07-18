@@ -1,0 +1,14 @@
+.my-reviews-container {
+    width: 100%;
+}
+
+.movie-thumb {
+    width: 50px;
+    height: 75px;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.review-row:not(:last-of-type) {
+    border-bottom: 1px solid rgba(128, 128, 128, 0.15);
+}

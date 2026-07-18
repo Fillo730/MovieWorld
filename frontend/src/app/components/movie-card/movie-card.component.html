@@ -1,6 +1,11 @@
 <div class="movie-card card-border-theme text-color">
     <div class="movie-header cursor-pointer" (click)="openDetail()">
         <img [src]="movie.imagePath" [alt]="movie.title" class="movie-image" />
+        @if (cartServicesVisible && isLoggedIn()) {
+            <i class="pi wishlist-button" [class.wishlisted]="isWishlisted()"
+               [class.pi-heart-fill]="isWishlisted()" [class.pi-heart]="!isWishlisted()"
+               (click)="handleToggleWishlist($event)"></i>
+        }
     </div>
 
     <div class="movie-body p-3">
@@ -10,6 +15,12 @@
         </div>
         @for (genre of movie.genres; track $index) {
             <span class="movie-genre">{{ genre.name }} </span>
+        }
+        @if (movie.reviewCount > 0) {
+            <div class="movie-rating d-flex align-items-center gap-2">
+                <p-rating [ngModel]="movie.averageRating" [readonly]="true" [stars]="5"></p-rating>
+                <span class="movie-rating-count">({{ movie.reviewCount }})</span>
+            </div>
         }
         <p class="movie-story">{{ movie.story }}</p>
     </div>

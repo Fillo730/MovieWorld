@@ -66,6 +66,10 @@ export class Login implements OnInit {
     this.router.navigate(["/signup"]);
   }
 
+  handleGoForgotPassword() {
+    this.router.navigate(["/forgot-password"]);
+  }
+
   onSubmit() {
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();

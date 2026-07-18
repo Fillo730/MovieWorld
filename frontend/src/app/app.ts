@@ -3,6 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import { ToastModule } from 'primeng/toast';
 import { AuthService } from './services/auth.service';
 import { CartService } from './services/cart.service';
+import { WishlistService } from './services/wishlist.service';
 
 @Component({
   selector: 'app-root',
@@ -11,11 +12,13 @@ import { CartService } from './services/cart.service';
   styleUrl: './app.css'
 })
 export class App {
-  constructor(private authService : AuthService, private cartService : CartService) {}
+  constructor(private authService : AuthService, private cartService : CartService, private wishlistService : WishlistService) {}
 
   ngOnInit() {
     if(this.authService.isLoggedIn()) {
       this.cartService.refreshCart().subscribe(response => {
+      })
+      this.wishlistService.refreshWishlistIds().subscribe(response => {
       })
     }
   }

@@ -13,6 +13,36 @@
     border-radius: 10px;
 }
 
+.movie-header {
+    position: relative;
+}
+
+.wishlist-button {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    width: 2.25rem;
+    height: 2.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.55);
+    color: #fff;
+    font-size: 1.1rem;
+    cursor: pointer;
+    z-index: 2;
+    transition: transform 0.15s ease;
+}
+
+.wishlist-button:hover {
+    transform: scale(1.1);
+}
+
+.wishlist-button.wishlisted {
+    color: #ff4d6d;
+}
+
 .movie-body {
     flex-grow: 1;
 }
@@ -41,6 +71,19 @@
 .movie-genre {
     font-size: 1.1rem;
     color: #3e56f5;
+}
+
+.movie-rating {
+    margin-top: 0.35rem;
+}
+
+.movie-rating-count {
+    font-size: 0.85rem;
+    opacity: 0.7;
+}
+
+:host ::ng-deep .movie-rating .p-rating-icon {
+    font-size: 0.9rem;
 }
 
 .movie-story {

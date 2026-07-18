@@ -36,6 +36,10 @@
         <p-message severity="error" size="small" [text]="'Login.Errors.NotValidCredentials' | translate"></p-message>
       }
 
+      <a class="text-white cursor-pointer" (click)="handleGoForgotPassword()">
+        {{ 'Login.ForgotPasswordLinkText' | translate }}
+      </a>
+
       <div class="display-horizontal-center gap-5 mt-4">
         <button pButton type="button" severity="success" (click)="handleGoBack()" class="p-button-lg">
           <span pButtonLabel>{{ 'Login.GoBackButtonText' | translate }}</span>

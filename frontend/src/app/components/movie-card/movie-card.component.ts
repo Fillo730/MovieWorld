@@ -3,17 +3,19 @@ import { Router } from '@angular/router';
 import { CurrencyPipe } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { RatingModule } from 'primeng/rating';
 import { FormsModule } from '@angular/forms';
 import { goToMovieDetail } from '../../utils/navigationFunctions';
 import { ThemeService } from '../../services/theme.service';
 import { Movie } from '../../models/Movie.model';
 import { CartItem } from '../../models/CartItem.model';
 import { AuthService } from '../../services/auth.service';
+import { WishlistService } from '../../services/wishlist.service';
 
 @Component({
   selector: 'movie-card-component',
   standalone: true,
-  imports: [ButtonModule, CurrencyPipe, InputNumberModule, FormsModule],
+  imports: [ButtonModule, CurrencyPipe, InputNumberModule, RatingModule, FormsModule],
   templateUrl: './movie-card.component.html',
   styleUrl: './movie-card.component.css',
 })
@@ -36,10 +38,26 @@ export class MovieCardComponent {
   @Output() deleteMovie = new EventEmitter<number>();
   @Output() editMovie = new EventEmitter<number>();
 
-  constructor(private router: Router, private themeService : ThemeService, private authService : AuthService) {}
+  constructor(private router: Router, private themeService : ThemeService, private authService : AuthService, private wishlistService : WishlistService) {}
 
   ngOnInit() {
     console.log(this.isInTheCart)
+  }
+
+  isWishlisted(): boolean {
+    return this.wishlistService.isWishlisted(this.movie.movieId);
+  }
+
+  handleToggleWishlist(event: Event): void {
+    event.stopPropagation();
+
+    if (!this.isLoggedIn()) return;
+
+    if (this.isWishlisted()) {
+      this.wishlistService.removeFromWishlist(this.movie.movieId).subscribe();
+    } else {
+      this.wishlistService.addToWishlist(this.movie.movieId).subscribe();
+    }
   }
 
   handleToggleToTheCart(): void {

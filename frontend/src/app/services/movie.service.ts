@@ -62,6 +62,13 @@ export class MovieService {
     );
   }
 
+  public getTopRatedMovies(quantity: number = APP_CONFIG.MOVIES.TOP_RATED_QUANTITY): Observable<Movie[]> {
+    const params = new HttpParams().set('quantity', quantity);
+    return this.http.get<ApiResponse<Movie[]>>(`${this.apiUrl}/top-rated`, { params }).pipe(
+      map(response => response.data)
+    );
+  }
+
   public getMoviesCount(): Observable<ApiResponse<number>> {
     return this.http.get<ApiResponse<number>>(`${this.apiUrl}/count`);
   }
@@ -121,6 +128,7 @@ export class MovieService {
         params = params.set('minPrice', filters.priceRange[0].toString());
         params = params.set('maxPrice', filters.priceRange[1].toString());
       }
+      if (filters.sortBy) params = params.set('sortBy', filters.sortBy);
     }
     return params;
   }

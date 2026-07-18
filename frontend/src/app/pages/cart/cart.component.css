@@ -49,6 +49,39 @@
     width: 80%;
 }
 
+.coupon-container {
+    width: 80%;
+    border-radius: 8px;
+}
+
+.coupon-input {
+    max-width: 260px;
+}
+
+.coupon-applied-badge {
+    background-color: rgba(46, 125, 50, 0.15);
+    color: #2e7d32;
+    font-weight: 600;
+    padding: 0.4rem 0.9rem;
+    border-radius: 20px;
+}
+
+.coupon-error {
+    color: #d32f2f;
+    font-size: 0.9rem;
+}
+
+.subtotal-label {
+    opacity: 0.75;
+    font-size: 0.95rem;
+}
+
+.discount-label {
+    color: #2e7d32;
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
 @media (max-width: 576px) {
     .recap-container {
         display: flex;

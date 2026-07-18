@@ -28,6 +28,8 @@ export class MoviesFiltersComponent {
   @Input() actorPlaceholder!: string;
   @Input() resetLabel!: string;
   @Input() allGenresLabel !: string;
+  @Input() sortTitle!: string;
+  @Input() sortOptions: { value: string; label: string }[] = [];
 
   @Input() genres : Genre[] = [];
   @Input() areGenresVisible : boolean = true;

@@ -49,6 +49,12 @@ public partial class TrainingBrattiContext : DbContext
 
     public virtual DbSet<Person> People { get; set; }
 
+    public virtual DbSet<Review> Reviews { get; set; }
+
+    public virtual DbSet<Wishlist> Wishlists { get; set; }
+
+    public virtual DbSet<Coupon> Coupons { get; set; }
+
     public virtual DbSet<SellPoint> SellPoints { get; set; }
 
     public virtual DbSet<SellPointTranslation> SellPointTranslations { get; set; }
@@ -323,6 +329,7 @@ public partial class TrainingBrattiContext : DbContext
             entity.Property(e => e.OrderStateId).HasColumnName("OrderState_ID");
             entity.Property(e => e.SellPointId).HasColumnName("SellPoint_ID");
             entity.Property(e => e.UserId).HasColumnName("User_ID");
+            entity.Property(e => e.DiscountAmount).HasDefaultValue(0m);
 
             entity.HasOne(d => d.OrderState).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.OrderStateId)
@@ -470,6 +477,62 @@ public partial class TrainingBrattiContext : DbContext
                 .WithMany()
                 .HasForeignKey(e => e.PreferredSellPointId)
                 .OnDelete(DeleteBehavior.SetNull);
+        });
+
+        modelBuilder.Entity<Review>(entity =>
+        {
+            entity.HasKey(e => e.ReviewId);
+
+            entity.ToTable("Review");
+
+            entity.HasIndex(e => new { e.MovieId, e.UserId }).IsUnique();
+
+            entity.Property(e => e.Comment).HasMaxLength(2000);
+            entity.Property(e => e.CreatedAt).HasDefaultValueSql("(datetime('now'))");
+
+            entity.HasOne(e => e.Movie)
+                .WithMany()
+                .HasForeignKey(e => e.MovieId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(e => e.User)
+                .WithMany()
+                .HasForeignKey(e => e.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        modelBuilder.Entity<Wishlist>(entity =>
+        {
+            entity.HasKey(e => e.WishlistId);
+
+            entity.ToTable("Wishlist");
+
+            entity.HasIndex(e => new { e.UserId, e.MovieId }).IsUnique();
+
+            entity.Property(e => e.CreatedAt).HasDefaultValueSql("(datetime('now'))");
+
+            entity.HasOne(e => e.Movie)
+                .WithMany()
+                .HasForeignKey(e => e.MovieId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(e => e.User)
+                .WithMany()
+                .HasForeignKey(e => e.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        modelBuilder.Entity<Coupon>(entity =>
+        {
+            entity.HasKey(e => e.CouponId);
+
+            entity.ToTable("Coupon");
+
+            entity.HasIndex(e => e.Code).IsUnique();
+
+            entity.Property(e => e.IsActive).HasDefaultValue(true);
+            entity.Property(e => e.UsesCount).HasDefaultValue(0);
+            entity.Property(e => e.CreatedAt).HasDefaultValueSql("(datetime('now'))");
         });
 
         OnModelCreatingPartial(modelBuilder);

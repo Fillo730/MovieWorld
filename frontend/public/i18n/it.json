@@ -20,9 +20,13 @@
     "SellPointsNavBar": "Punti Vendita",
     "ProfileNavBar": "Profilo",
     "OrdersNavBar": "I miei ordini",
+    "WishlistNavBar": "La mia wishlist",
     "LoginNavBar": "Accedi",
     "LogoutNavBar": "Esci",
-    "LogoutMessage": "Logout effettuato con successo"
+    "LogoutMessage": "Logout effettuato con successo",
+    "SearchPlaceholder": "Cerca un film...",
+    "SearchLoading": "Ricerca in corso...",
+    "SearchNoResults": "Nessun film trovato"
   },
   "Footer": {
     "HelpAndInfo": {
@@ -73,6 +77,8 @@
       "QuantityLabel": "Quantità",
       "PriceLabel": "Prezzo",
       "UnitPriceSuffix": "cad.",
+      "SubtotalLabel": "Subtotale",
+      "DiscountLabel": "Sconto",
       "CloseButton": "Chiudi"
     }
   },
@@ -103,6 +109,7 @@
     "DangerZoneTitle": "Zona pericolosa",
     "DangerZoneDescription": "Esci dal tuo account o eliminalo definitivamente.",
     "NoOrdersYet": "Nessun ordine ancora effettuato",
+    "MyReviewsTitle": "Le tue recensioni",
     "RecommendedTitle": "Film che potrebbero piacerti",
     "OrdersSummaryTitle": "I tuoi ordini",
     "OrdersCountLabel": "ordini effettuati",
@@ -134,6 +141,11 @@
       "CurrentPasswordRequired": "Password richiesta.",
       "NewPasswordInvalid": "La password deve contenere almeno 8 caratteri, una maiuscola, una minuscola, un numero e un carattere speciale.",
       "PasswordMismatch": "Le password non coincidono."
+    },
+    "MyReviews": {
+      "NoReviews": "Non hai ancora scritto nessuna recensione.",
+      "DeleteSuccess": "Recensione eliminata con successo",
+      "DeleteError": "Errore durante l'eliminazione della recensione"
     }
   },
   "MovieDetail": {
@@ -146,11 +158,48 @@
     "ToastRemove": "Film rimosso con successo dal carrello",
     "Director": "Regista",
     "MainCast": "Cast principale",
-    "Recommended": "Film che potrebbero piacerti"
+    "Recommended": "Film che potrebbero piacerti",
+    "Reviews": {
+      "Tab": "Recensioni",
+      "ReviewSingular": "recensione",
+      "ReviewPlural": "recensioni",
+      "LoginToReview": "Accedi per lasciare una recensione.",
+      "WriteReviewButton": "Scrivi una recensione",
+      "YourReviewLabel": "La tua recensione",
+      "YourRatingLabel": "Il tuo voto",
+      "CommentPlaceholder": "Racconta cosa ne pensi di questo film (facoltativo)",
+      "CancelButton": "Annulla",
+      "SubmitButton": "Pubblica",
+      "SaveSuccess": "Recensione pubblicata con successo",
+      "SaveError": "Errore durante il salvataggio della recensione",
+      "DeleteSuccess": "Recensione eliminata con successo",
+      "DeleteError": "Errore durante l'eliminazione della recensione",
+      "RatingRequired": "Seleziona un voto da 1 a 5 stelle",
+      "NoReviews": "Nessuna recensione ancora. Sii il primo a scriverne una!"
+    },
+    "Wishlist": {
+      "Add": "Aggiungi alla wishlist",
+      "Remove": "Rimuovi dalla wishlist",
+      "AddSuccess": "Film aggiunto alla wishlist",
+      "RemoveSuccess": "Film rimosso dalla wishlist",
+      "Error": "Errore durante l'aggiornamento della wishlist"
+    }
+  },
+  "Wishlist": {
+    "MainTitle": "La mia Wishlist",
+    "Loading": "Caricamento wishlist in corso...",
+    "ErrorTitle": "Ops! Errore di caricamento",
+    "ErrorMessage": "Non è stato possibile caricare la tua wishlist. Verifica la connessione o riprova.",
+    "RetryButton": "Riprova",
+    "EmptyTitle": "La tua wishlist è vuota",
+    "EmptyMessage": "Aggiungi i film che ti interessano cliccando sul cuore nella loro card.",
+    "BrowseCatalogButton": "Vai al Catalogo"
   },
   "Home": {
     "MainTitle": "Film Cult",
     "HeroSubtitle": "I titoli più amati dai nostri clienti, scelti per te",
+    "TopRatedTitle": "I più votati",
+    "RecentlyViewedTitle": "Visti di recente",
     "EsploreCatalogTitle": "Esplora il nostro Catalogo",
     "GoToCatalogButtonText": "Vai al Catalogo",
     "CatalogDescription": "Nel nostro catalogo trovi una vasta selezione di film scelti con cura negli ultimi anni.<br/>In totale hai a disposizione <span class=\"catalog-number\">{{total}}</span> titoli da esplorare.",
@@ -181,6 +230,11 @@
     "FilterActorPlaceholder": "Cerca Attore",
     "FiltersResetButton": "Resetta Filtri",
     "AllGenresLabel": "Tutti i generi",
+    "SortTitle": "Ordina per",
+    "SortRelevance": "Rilevanza",
+    "SortRatingDesc": "Voto più alto",
+    "SortPriceAsc": "Prezzo: dal più basso",
+    "SortPriceDesc": "Prezzo: dal più alto",
     "Loading": "Caricamento catalogo in corso...",
     "ErrorTitle": "Ops! Errore di caricamento",
     "ErrorMessage": "Non è stato possibile caricare i film. Verifica la connessione o riprova.",
@@ -225,7 +279,15 @@
     "NoSellPointsTitle": "Nessun punto vendita disponibile",
     "NoSellPointsMessage": "Impossibile trovare un punto vendita valido per il tuo ordine. Riprova più tardi.",
     "BackToCatalog": "Torna al Catalogo",
-    "Loading": "Caricamento carrello in corso..."
+    "Loading": "Caricamento carrello in corso...",
+    "CouponLabel": "Codice sconto",
+    "CouponPlaceholder": "Inserisci il codice",
+    "CouponApplyButton": "Applica",
+    "CouponRemoveButton": "Rimuovi",
+    "CouponApplied": "Codice sconto applicato con successo",
+    "CouponGenericError": "Errore durante la verifica del codice sconto",
+    "SubtotalLabel": "Subtotale",
+    "DiscountLabel": "Sconto"
   },
   "Login": {
     "Title": "Accesso",
@@ -235,6 +297,7 @@
     "GoBackButtonText": "Indietro",
     "GoToLoginButtonText": "Login",
     "GoToSignUpButtonText": "Vai alla Registrazione",
+    "ForgotPasswordLinkText": "Password dimenticata?",
     "LoginSuccess": "Login effettuato con successo",
     "LoginFailure": "Impossibile eseguire il login",
     "Errors": {
@@ -243,6 +306,37 @@
       "PasswordRequired": "La password è obbligatoria.",
       "PasswordInvalid": "La password non rispetta i requisiti minimi.",
       "NotValidCredentials": "Email o password non validi."
+    }
+  },
+  "ForgotPassword": {
+    "Title": "Password dimenticata",
+    "Text": "Inserisci la tua email: se esiste un account associato, riceverai un link per reimpostare la password.",
+    "EmailPlaceholder": "Email",
+    "SendButtonText": "Invia link di reset",
+    "GoBackButtonText": "Torna al Login",
+    "SuccessMessage": "Se l'indirizzo esiste, riceverai un'email con le istruzioni.",
+    "ErrorMessage": "Si è verificato un errore. Riprova più tardi.",
+    "Errors": {
+      "EmailRequired": "L'email è obbligatoria.",
+      "EmailInvalid": "Formato email non valido."
+    }
+  },
+  "ResetPassword": {
+    "Title": "Reimposta password",
+    "Text": "Inserisci la tua nuova password.",
+    "NewPasswordPlaceholder": "Nuova password",
+    "ConfirmPasswordPlaceholder": "Conferma nuova password",
+    "SubmitButtonText": "Reimposta Password",
+    "GoBackButtonText": "Torna al Login",
+    "SuccessMessage": "Password reimpostata con successo. Ora puoi effettuare il login.",
+    "ErrorMessage": "Link non valido o scaduto. Richiedine uno nuovo.",
+    "InvalidLinkTitle": "Link non valido",
+    "InvalidLinkMessage": "Questo link di reset non è valido. Assicurati di aver copiato l'intero indirizzo dall'email.",
+    "Errors": {
+      "PasswordRequired": "La password è obbligatoria.",
+      "PasswordInvalid": "La password deve contenere almeno 8 caratteri, una maiuscola, una minuscola, un numero e un carattere speciale.",
+      "ConfirmPasswordRequired": "Conferma la password.",
+      "PasswordMismatch": "Le password non coincidono."
     }
   },
   "SignUp": {
@@ -279,7 +373,8 @@
       "Movies": "Film",
       "Cast": "Cast",
       "News": "Notizie",
-      "Orders": "Ordini"
+      "Orders": "Ordini",
+      "Coupons": "Coupon"
     },
     "Dashboard": {
       "Sections": {
@@ -628,6 +723,34 @@
         "Subtitle": "Non ci sono notizie che corrispondono ai filtri selezionati.",
         "Button": "Resetta Filtri"
       }
+    },
+    "CouponsPage": {
+      "Title": "Gestione Coupon",
+      "CreateTitle": "Crea nuovo coupon",
+      "CodeLabel": "Codice",
+      "CodePlaceholder": "es. ESTATE2026",
+      "DiscountLabel": "Sconto %",
+      "ExpiresAtLabel": "Scadenza (facoltativa)",
+      "MaxUsesLabel": "Utilizzi massimi (facoltativo)",
+      "UsesLabel": "Utilizzi",
+      "StatusLabel": "Stato",
+      "NoExpiry": "Nessuna scadenza",
+      "StatusActive": "Attivo",
+      "StatusInactive": "Disattivato",
+      "StatusExpired": "Scaduto",
+      "ActivateButton": "Attiva",
+      "DeactivateButton": "Disattiva",
+      "CreateButton": "Crea Coupon",
+      "CreateSuccess": "Coupon creato con successo",
+      "CreateError": "Errore durante la creazione del coupon",
+      "ToggleSuccess": "Stato del coupon aggiornato",
+      "ToggleError": "Errore durante l'aggiornamento del coupon",
+      "Loading": "Caricamento coupon in corso...",
+      "ErrorTitle": "Ops! Errore di caricamento",
+      "ErrorMessage": "Non è stato possibile caricare i coupon. Verifica la connessione o riprova.",
+      "RetryButton": "Riprova",
+      "EmptyTitle": "Nessun coupon creato",
+      "EmptyMessage": "Crea il tuo primo codice sconto usando il modulo qui sopra."
     }
   }
 }

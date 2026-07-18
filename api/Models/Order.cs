@@ -17,6 +17,10 @@ public partial class Order
 
     public int SellPointId { get; set; }
 
+    public string CouponCode { get; set; }
+
+    public decimal DiscountAmount { get; set; }
+
     public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
 
     public virtual OrderState OrderState { get; set; }

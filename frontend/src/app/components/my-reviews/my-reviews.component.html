@@ -1,0 +1,39 @@
+<div class="my-reviews-container">
+    @if (reviews(); as data) {
+        @if (data.items.length === 0) {
+            <p class="text-color opacity-7 text-center mb-0">{{ 'Profile.MyReviews.NoReviews' | translate }}</p>
+        } @else {
+            <div class="reviews-list">
+                @for (review of data.items; track review.id) {
+                    <div class="review-row d-flex gap-3 py-3">
+                        <img [src]="getAvatarImage(review.movieImagePath)" [alt]="review.movieTitle"
+                            class="movie-thumb border-round shadow-1 cursor-pointer" (click)="goToMovie(review.movieId)">
+                        <div class="flex-grow-1">
+                            <div class="d-flex justify-content-between align-items-start gap-2">
+                                <span class="text-color fw-bold cursor-pointer" (click)="goToMovie(review.movieId)">{{ review.movieTitle }}</span>
+                                <p-button icon="pi pi-trash" [text]="true" severity="danger" (onClick)="deleteReview(review)"></p-button>
+                            </div>
+                            <div class="d-flex align-items-center gap-2">
+                                <p-rating [ngModel]="review.rating" [readonly]="true" [stars]="5"></p-rating>
+                                <small class="text-color opacity-7">{{ review.createdAt | date:'dd/MM/yyyy' }}</small>
+                            </div>
+                            @if (review.comment) {
+                                <p class="text-color mt-1 mb-0">{{ review.comment }}</p>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+
+            @if (data.totalCount > rows) {
+                <p-paginator
+                    (onPageChange)="onPageChange($event)"
+                    [first]="first()"
+                    [rows]="rows"
+                    [totalRecords]="data.totalCount"
+                    [rowsPerPageOptions]="[5, 10]">
+                </p-paginator>
+            }
+        }
+    }
+</div>

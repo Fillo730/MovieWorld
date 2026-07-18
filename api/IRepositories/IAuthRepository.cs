@@ -7,6 +7,8 @@ public interface IAuthRepository
 {
     Task<User?> GetUserAsync(string email);
 
+    Task<User?> GetUserByPasswordResetTokenAsync(string token);
+
     Task<User> CreateUserAsync(User user);
 
     Task SaveChangesAsync();

@@ -53,15 +53,28 @@ export class Catalog implements OnInit {
 
   public lang = this.languageService.currentLanguage;
 
+  sortOptions: { value: string; label: string }[] = [];
+
   ngOnInit() {
     this.loadMovies();
     this.loadGenres();
+    this.buildSortOptions();
 
     this.translateService.onLangChange.subscribe(() => {
       this.lang();
       this.loadMovies();
       this.loadGenres();
+      this.buildSortOptions();
     })
+  }
+
+  buildSortOptions() {
+    this.sortOptions = [
+      { value: "", label: this.translateService.instant("Catalog.SortRelevance") },
+      { value: "rating_desc", label: this.translateService.instant("Catalog.SortRatingDesc") },
+      { value: "price_asc", label: this.translateService.instant("Catalog.SortPriceAsc") },
+      { value: "price_desc", label: this.translateService.instant("Catalog.SortPriceDesc") },
+    ];
   }
 
   loadMovies() {

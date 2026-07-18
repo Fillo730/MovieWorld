@@ -35,6 +35,40 @@
         </li>
       </ul>
 
+      <div class="search-wrapper position-relative me-4">
+        <span class="p-input-icon-left search-input-container">
+          <i class="pi pi-search"></i>
+          <input
+            type="text"
+            class="search-input text-color"
+            [(ngModel)]="searchQuery"
+            (input)="handleSearchInput()"
+            (focus)="handleSearchFocus()"
+            (blur)="handleSearchBlur()"
+            [placeholder]="'Header.SearchPlaceholder' | translate"
+          />
+        </span>
+
+        @if (showSearchResults) {
+          <div class="search-results-dropdown background-color-custom text-color">
+            @if (isSearching) {
+              <div class="search-result-message">
+                <i class="pi pi-spin pi-spinner me-2"></i> {{ 'Header.SearchLoading' | translate }}
+              </div>
+            } @else if (searchResults.length === 0) {
+              <div class="search-result-message">{{ 'Header.SearchNoResults' | translate }}</div>
+            } @else {
+              @for (movie of searchResults; track movie.movieId) {
+                <div class="search-result-item cursor-pointer" (mousedown)="handleSelectSearchResult(movie)">
+                  <img [src]="movie.imagePath" [alt]="movie.title" class="search-result-image" />
+                  <span class="search-result-title">{{ movie.title }}</span>
+                </div>
+              }
+            }
+          </div>
+        }
+      </div>
+
       <div class="d-flex flex-row align-items-center gap-4 text-color nav-icons-wrapper">
 
         <language-selector></language-selector>
@@ -62,6 +96,12 @@
             <li>
               <a class="dropdown-item cursor-pointer" routerLink="/your-orders">
                 <i class="pi pi-box me-2"></i> {{ 'Header.OrdersNavBar' | translate }}
+              </a>
+            </li>
+
+            <li>
+              <a class="dropdown-item cursor-pointer" routerLink="/wishlist">
+                <i class="pi pi-heart me-2"></i> {{ 'Header.WishlistNavBar' | translate }}
               </a>
             </li>
 

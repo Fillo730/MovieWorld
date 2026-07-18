@@ -57,6 +57,14 @@ export class AuthService {
     );
   }
   
+  public forgotPassword(email: string): Observable<ApiResponse<string>> {
+    return this.http.post<ApiResponse<string>>(`${this.apiUrl}/forgot-password`, { email });
+  }
+
+  public resetPassword(token: string, newPassword: string): Observable<ApiResponse<string>> {
+    return this.http.post<ApiResponse<string>>(`${this.apiUrl}/reset-password`, { token, newPassword });
+  }
+
   public updateLocalUser(name: string, imagePath: string, preferredSellPointId?: number | null): void {
     const user = this._currentUser();
     if (!user) return;

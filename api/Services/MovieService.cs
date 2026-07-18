@@ -6,8 +6,8 @@ using MovieWorld.IServices;
 
 namespace MovieWorld.Services;
 
-public class MovieService(IMovieRepository movieRepository, IMovieMapper movieMapper, IPagedMapper pageMapper, 
-    IStatisticsMapper statisticsMapper) : IMovieService
+public class MovieService(IMovieRepository movieRepository, IMovieMapper movieMapper, IPagedMapper pageMapper,
+    IStatisticsMapper statisticsMapper, IReviewsRepository reviewsRepository) : IMovieService
 {
     private readonly IMovieRepository _movieRepository = movieRepository;
 
@@ -17,26 +17,36 @@ public class MovieService(IMovieRepository movieRepository, IMovieMapper movieMa
 
     private readonly IStatisticsMapper _statisticsMapper = statisticsMapper;
 
+    private readonly IReviewsRepository _reviewsRepository = reviewsRepository;
+
     public async Task<PagedResult<MovieDto>> GetMoviesAsync(string lang, MovieFilterDto movieFilterDto, int? pageIndex = null, int? pageSize = null)
     {
         var (movies, totalCount) = await _movieRepository.GetAllMoviesAsync(movieFilterDto, pageIndex, pageSize);
 
+        PagedResult<MovieDto> result;
+
         if(pageIndex == null || pageSize == null)
         {
-            return _pageMapper.MapToPagedResult(
+            result = _pageMapper.MapToPagedResult(
             movies,
             totalCount,
             -1,
             -1,
             movie => _movieMapper.MapToDto(movie, lang));
         }
+        else
+        {
+            result = _pageMapper.MapToPagedResult(
+                movies,
+                totalCount,
+                pageIndex.Value,
+                pageSize.Value,
+                movie => _movieMapper.MapToDto(movie, lang));
+        }
 
-        return _pageMapper.MapToPagedResult(
-            movies,
-            totalCount,
-            pageIndex.Value,
-            pageSize.Value,
-            movie => _movieMapper.MapToDto(movie, lang));
+        await ApplyRatingSummaryAsync(result.Items);
+
+        return result;
     }
 
     public async Task<MovieDto?> GetMovieByIdAsync(int id, string lang)
@@ -48,7 +58,33 @@ public class MovieService(IMovieRepository movieRepository, IMovieMapper movieMa
             return null;
         }
 
-        return _movieMapper.MapToDto(movie, lang);
+        var movieDto = _movieMapper.MapToDto(movie, lang);
+
+        await ApplyRatingSummaryAsync(new[] { movieDto });
+
+        return movieDto;
+    }
+
+    private async Task ApplyRatingSummaryAsync(IEnumerable<MovieDto> movieDtos)
+    {
+        var movieIds = movieDtos.Select(m => m.MovieId).ToList();
+
+        if (movieIds.Count == 0)
+        {
+            return;
+        }
+
+        var ratingSummaries = await _reviewsRepository.GetRatingSummaryForMoviesAsync(movieIds);
+        var ratingsByMovieId = ratingSummaries.ToDictionary(r => r.MovieId, r => r);
+
+        foreach (var movieDto in movieDtos)
+        {
+            if (ratingsByMovieId.TryGetValue(movieDto.MovieId, out var summary))
+            {
+                movieDto.AverageRating = Math.Round(summary.AverageRating, 1);
+                movieDto.ReviewCount = summary.ReviewCount;
+            }
+        }
     }
 
     public async Task<bool> DeleteMovieAsync(int id)
@@ -72,6 +108,17 @@ public class MovieService(IMovieRepository movieRepository, IMovieMapper movieMa
         var movies = await _movieRepository.GetCultMoviesAsync(limit);
 
         return _movieMapper.MapToDtoList(movies, lang);
+    }
+
+    public async Task<IEnumerable<MovieDto>> GetTopRatedMoviesAsync(string lang, int limit)
+    {
+        var movies = await _movieRepository.GetTopRatedMoviesAsync(limit);
+
+        var movieDtos = _movieMapper.MapToDtoList(movies, lang).ToList();
+
+        await ApplyRatingSummaryAsync(movieDtos);
+
+        return movieDtos;
     }
 
     public async Task<int> GetTotalCountAsync()

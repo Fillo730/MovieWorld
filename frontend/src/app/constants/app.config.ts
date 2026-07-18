@@ -15,6 +15,7 @@ export const APP_CONFIG = {
     MOVIES: {
         SAME_GENRE_QUANTITY: 5,
         CULT_QUANTITY: 6,
+        TOP_RATED_QUANTITY: 6,
         DEFAULT_PAGE_SIZE: 10
     }
 } as const;
@@ -33,7 +34,10 @@ export const API_ENDPOINTS =  {
     NEWS: "news",
     CART: "cart",
     AUTH: "auth",
-    USERS: "users"
+    USERS: "users",
+    REVIEWS: "reviews",
+    WISHLIST: "wishlist",
+    COUPONS: "coupons"
 } as const;
 
 export function getApiUrl (key : keyof typeof API_ENDPOINTS) : string {

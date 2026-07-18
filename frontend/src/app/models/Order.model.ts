@@ -20,5 +20,8 @@ export interface Order {
   user: User;
   sellPoint: SellPoint;
   totalAmount: number;
+  couponCode: string | null;
+  discountAmount: number;
+  finalAmount: number;
   items: OrderItem[];
 }

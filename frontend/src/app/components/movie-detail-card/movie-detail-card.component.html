@@ -10,15 +10,34 @@
     </div>
 
     <div class="movie-info">
-      <p-button 
-        [label]="watchTrailerLabel"
-        icon="pi pi-play"
-        severity="danger"
-        class="btn-trailer"
-        (onClick)="handleOpenYoutubeTrailer()"
-      />
+      <div class="d-flex align-items-center gap-2">
+        <p-button
+          [label]="watchTrailerLabel"
+          icon="pi pi-play"
+          severity="danger"
+          class="btn-trailer"
+          (onClick)="handleOpenYoutubeTrailer()"
+        />
+
+        @if (isLoggedIn()) {
+          <p-button
+            [icon]="isWishlisted() ? 'pi pi-heart-fill' : 'pi pi-heart'"
+            [severity]="isWishlisted() ? 'danger' : 'secondary'"
+            [outlined]="!isWishlisted()"
+            [rounded]="true"
+            [pTooltip]="isWishlisted() ? ('MovieDetail.Wishlist.Remove' | translate) : ('MovieDetail.Wishlist.Add' | translate)"
+            (onClick)="handleToggleWishlist()"
+          />
+        }
+      </div>
 
       <h1 class="movie-title">{{ movie.title }}</h1>
+      @if (movie.reviewCount > 0) {
+        <div class="movie-rating d-flex align-items-center gap-2">
+          <p-rating [ngModel]="movie.averageRating" [readonly]="true" [stars]="5"></p-rating>
+          <span class="movie-rating-count">{{ movie.averageRating }} ({{ movie.reviewCount }})</span>
+        </div>
+      }
       <div class="movie-genre">
         @for (genre of movie.genres; track $index; let last = $last) {
           {{ genre.name }} {{ last ? '' : ',' }}

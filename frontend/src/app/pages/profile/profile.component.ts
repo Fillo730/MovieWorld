@@ -19,6 +19,7 @@ import { Header } from '../../components/header/header.component';
 import { Footer } from '../../components/footer/footer.component';
 import { StateHandlerComponent } from '../../components/state-handler/state-handler.component';
 import { ImageTitleCard } from '../../components/image-title-card/image-title-card.component';
+import { MyReviewsComponent } from '../../components/my-reviews/my-reviews.component';
 import { AuthService } from '../../services/auth.service';
 import { UserService } from '../../services/user-service.server';
 import { OrdersService } from '../../services/orders.service';
@@ -56,6 +57,7 @@ import { ThemeService } from '../../services/theme.service';
     ToggleSwitchModule,
     StateHandlerComponent,
     ImageTitleCard,
+    MyReviewsComponent,
     TranslatePipe,
     DatePipe
   ],

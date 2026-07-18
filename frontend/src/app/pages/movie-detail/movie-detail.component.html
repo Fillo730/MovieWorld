@@ -38,6 +38,7 @@
         @if(moviesWithSameGenre.length > 0) {
           <p-tab [value]="2" class="text-color">{{ 'MovieDetail.Recommended' | translate }}</p-tab>
         }
+        <p-tab [value]="3" class="text-color">{{ 'MovieDetail.Reviews.Tab' | translate }}</p-tab>
       </p-tablist>
 
       <p-tabpanels class="background-color-custom-ligher">
@@ -79,6 +80,10 @@
             </div>
           </p-tabpanel>
         }
+
+        <p-tabpanel [value]="3">
+          <movie-reviews-component [movieId]="movie.movieId"></movie-reviews-component>
+        </p-tabpanel>
       </p-tabpanels>
     </p-tabs>
   </div>

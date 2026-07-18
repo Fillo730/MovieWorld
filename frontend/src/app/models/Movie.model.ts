@@ -15,4 +15,6 @@ export interface Movie {
     isCult: boolean;
     director: Person | null;
     actors: Person[];
+    averageRating: number;
+    reviewCount: number;
 }

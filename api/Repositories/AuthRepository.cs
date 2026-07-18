@@ -20,7 +20,12 @@ public class AuthRepository : BaseRepository, IAuthRepository
     }
 
     public async Task<User?> GetUserAsync(string email)
-    { 
+    {
         return await _dbContext.Users.FirstOrDefaultAsync(u => u.Email.ToLower() == email.ToLower());
+    }
+
+    public async Task<User?> GetUserByPasswordResetTokenAsync(string token)
+    {
+        return await _dbContext.Users.FirstOrDefaultAsync(u => u.PasswordResetToken == token);
     }
 }

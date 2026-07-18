@@ -54,9 +54,20 @@
       }
     </div>
 
+    @if (order.discountAmount > 0) {
+      <div class="d-flex justify-content-between align-items-center mt-3 text-color opacity-7">
+        <span>{{ 'YourOrders.OrderDetail.SubtotalLabel' | translate }}</span>
+        <span>{{ order.totalAmount | currency:'EUR' }}</span>
+      </div>
+      <div class="d-flex justify-content-between align-items-center discount-row">
+        <span>{{ 'YourOrders.OrderDetail.DiscountLabel' | translate }} ({{ order.couponCode }})</span>
+        <span>-{{ order.discountAmount | currency:'EUR' }}</span>
+      </div>
+    }
+
     <div class="order-total d-flex justify-content-between align-items-center mt-4 pt-3">
       <span class="text-color font-bold">{{ 'YourOrders.TotalLabel' | translate | uppercase }}</span>
-      <span class="text-primary text-xl font-bold">{{ order.totalAmount | currency:'EUR' }}</span>
+      <span class="text-primary text-xl font-bold">{{ order.finalAmount | currency:'EUR' }}</span>
     </div>
 
     <ng-template pTemplate="footer">

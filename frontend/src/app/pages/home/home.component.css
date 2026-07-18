@@ -1,4 +1,61 @@
 .carousel-section {
-    background-color: #00284d; 
-    color: white;  
+    background-color: #00284d;
+    color: white;
+}
+
+.hero-section {
+    background: linear-gradient(180deg, var(--bg-lighter) 0%, var(--bg) 100%);
+    padding: 3rem 1rem 3.5rem;
+}
+
+.hero-heading {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.hero-title {
+    font-size: 2.6rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+.hero-subtitle {
+    font-size: 1.1rem;
+    opacity: 0.75;
+}
+
+.top-rated-section {
+    padding: 3rem 1rem;
+}
+
+.section-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+}
+
+.top-rated-icon {
+    color: #f5b301;
+}
+
+.top-rated-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+@media (max-width: 576px) {
+    .hero-title {
+        font-size: 2rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1rem;
+    }
 }

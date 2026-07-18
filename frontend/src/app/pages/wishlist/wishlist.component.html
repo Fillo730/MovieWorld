@@ -1,0 +1,47 @@
+<header-component></header-component>
+
+<div class="header-row background-color-custom-ligher text-color p-3">
+    <h1>{{ 'Wishlist.MainTitle' | translate }}</h1>
+</div>
+
+@if (isLoading && movies.length === 0) {
+    <state-handler-component type="loading" message="Wishlist.Loading"></state-handler-component>
+}
+@else if (error) {
+    <state-handler-component
+        type="error"
+        title="Wishlist.ErrorTitle"
+        message="Wishlist.ErrorMessage"
+        buttonLabel="Wishlist.RetryButton"
+        [buttonSeverity]="getButtonTheme()"
+        (action)="loadWishlist()">
+    </state-handler-component>
+}
+@else if (movies.length === 0) {
+    <div class="d-flex align-items-center justify-content-center py-5 background-color-custom-ligher" style="min-height: 400px;">
+        <state-handler-component
+            type="empty"
+            title="Wishlist.EmptyTitle"
+            message="Wishlist.EmptyMessage"
+            buttonLabel="Wishlist.BrowseCatalogButton"
+            [buttonSeverity]="getButtonTheme()"
+            (action)="goToCatalog()">
+        </state-handler-component>
+    </div>
+}
+@else {
+    <movies-list-component
+        [movies]="movies"
+        [totalRecords]="totalRecords"
+        [rows]="rows"
+        [first]="first"
+        (onPageChange)="onPageChange($event)"
+        [discoverLabel]="'Catalog.FindMoreButtonText' | translate"
+        [addLabel]="'Catalog.AddToTheCart' | translate"
+        [removeLabel]="'Catalog.RemoveFromTheCart' | translate"
+        [toastAddLabel]="'Catalog.ToastAddToCart' | translate"
+        [toastRemoveLabel]="'Catalog.ToastRemoveFromCart' | translate">
+    </movies-list-component>
+}
+
+<footer-component></footer-component>

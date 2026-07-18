@@ -21,6 +21,10 @@ public class MovieDto
 
     public List<PersonDto> Actors { get; set; } = new();
 
+    public double AverageRating { get; set; }
+
+    public int ReviewCount { get; set; }
+
     public static List<string> GetExcelHeaders() => new()
     {
         "ID", "Title", "Story", "Cost", "Release Year", "Genre",

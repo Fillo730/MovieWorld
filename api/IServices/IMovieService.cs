@@ -12,6 +12,7 @@ public interface IMovieService
     Task<IEnumerable<GenreRevenueStatisticDto>> GetRevenuePerGenreAsync(string lang);
     Task<MovieDto?> GetMovieByIdAsync(int id, string lang);
     Task<IEnumerable<MovieDto>> GetCultMoviesAsync(string lang, int limit);
+    Task<IEnumerable<MovieDto>> GetTopRatedMoviesAsync(string lang, int limit);
     Task<MovieDto> CreateMovieAsync(MovieDto movieDto, string lang);
     Task<MovieDto?> UpdateMovieAsync(int id, MovieDto movieDto,string lang);
 

@@ -15,12 +15,14 @@ import { ThemeService } from '../../services/theme.service';
 import { AuthService } from '../../services/auth.service';
 import { LanguageService } from '../../services/language.service';
 import { SellPointsService } from '../../services/sell-points.service';
+import { CouponService } from '../../services/coupon.service';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
 //Models & Utils
 import { Movie } from '../../models/Movie.model';
 import { SellPoint } from '../../models/SellPoint.model';
 import { UserCreateOrderRequest } from '../../models/UserCreateOrderRequest.model';
+import { CouponValidationResult } from '../../models/CouponValidationResult.model';
 import { getLatLngUser } from '../../utils/findDidstanceMaps';
 import { getButtonTypeBasedOnTheme } from '../../utils/themeFunctions';
 
@@ -46,6 +48,7 @@ export class Cart implements OnInit {
   public readonly authService = inject(AuthService);
   public readonly cartService = inject(CartService);
   private readonly sellPointsService = inject(SellPointsService);
+  private readonly couponService = inject(CouponService);
   private readonly themeService = inject(ThemeService);
   private readonly toastService = inject(ToastService);
   private readonly translate = inject(TranslateService);
@@ -78,11 +81,28 @@ export class Cart implements OnInit {
 
   public readonly cartTotal = this.cartService.totalPrice;
 
+  couponCode = signal<string>('');
+  appliedCoupon = signal<CouponValidationResult | null>(null);
+  isValidatingCoupon = signal(false);
+  couponError = signal<string | null>(null);
+
+  public readonly finalTotal = computed(() => {
+    const total = this.cartTotal();
+    const discount = this.appliedCoupon()?.discountAmount ?? 0;
+    return Math.max(0, total - discount);
+  });
+
   constructor() {
     effect(() => {
-      if (this.cartService.isEmpty() && this.router.url === '/cart') {
+      const cartLoaded = this.cartService.cart() !== null;
+      if (cartLoaded && this.cartService.isEmpty() && this.router.url === '/cart') {
         this.goToCatalog();
       }
+    });
+
+    effect(() => {
+      this.cartTotal();
+      this.appliedCoupon.set(null);
     });
   }
 
@@ -146,13 +166,47 @@ export class Cart implements OnInit {
     });
   }
 
+  handleApplyCoupon() {
+    const code = this.couponCode().trim();
+
+    if (!code) return;
+
+    this.isValidatingCoupon.set(true);
+    this.couponError.set(null);
+
+    this.couponService.validateCoupon(code, this.cartTotal()).subscribe({
+      next: (res) => {
+        this.isValidatingCoupon.set(false);
+
+        if (res.success && res.data.isValid) {
+          this.appliedCoupon.set(res.data);
+          this.toastService.success(this.translate.instant('Cart.CouponApplied'));
+        } else {
+          this.appliedCoupon.set(null);
+          this.couponError.set(res.data?.errorMessage ?? res.message);
+        }
+      },
+      error: () => {
+        this.isValidatingCoupon.set(false);
+        this.couponError.set(this.translate.instant('Cart.CouponGenericError'));
+      }
+    });
+  }
+
+  handleRemoveCoupon() {
+    this.appliedCoupon.set(null);
+    this.couponCode.set('');
+    this.couponError.set(null);
+  }
+
   handleCompleteOrder() {
     if (!this.selectedSellPoint) return;
 
     const request: UserCreateOrderRequest = {
       orderStateId: 1,
       sellPointId: this.selectedSellPoint.id,
-      items: this.moviesInTheCart()
+      items: this.moviesInTheCart(),
+      couponCode: this.appliedCoupon()?.code ?? null
     };
 
     this.cartService.addUserOrder(request).subscribe(res => {
@@ -162,7 +216,7 @@ export class Cart implements OnInit {
           this.goToCatalog();
         });
       } else {
-        this.toastService.error(this.translate.instant('Cart.ErrorAddCart'));
+        this.toastService.error(res.message || this.translate.instant('Cart.ErrorAddCart'));
       }
     });
   }

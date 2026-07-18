@@ -7,6 +7,7 @@ import { Footer } from '../../components/footer/footer.component';
 import { ImageTitleCard } from '../../components/image-title-card/image-title-card.component';
 import { MovieDetailCard } from '../../components/movie-detail-card/movie-detail-card.component';
 import { StateHandlerComponent } from '../../components/state-handler/state-handler.component';
+import { MovieReviewsComponent } from '../../components/movie-reviews/movie-reviews.component';
 import { TranslatePipe } from '@ngx-translate/core';
 import { CartService } from '../../services/cart.service';
 import { MovieService } from '../../services/movie.service';
@@ -17,6 +18,7 @@ import { goToMovieDetail } from '../../utils/navigationFunctions';
 import { AuthService } from '../../services/auth.service';
 import { getButtonTypeBasedOnTheme } from '../../utils/themeFunctions';
 import { ThemeService } from '../../services/theme.service';
+import { RecentlyViewedService } from '../../services/recently-viewed.service';
 
 @Component({
   selector: 'app-movie-detail',
@@ -26,9 +28,10 @@ import { ThemeService } from '../../services/theme.service';
     Footer, 
     ButtonModule, 
     TabsModule, 
-    ImageTitleCard, 
-    MovieDetailCard, 
+    ImageTitleCard,
+    MovieDetailCard,
     StateHandlerComponent,
+    MovieReviewsComponent,
     TranslatePipe
   ],
   templateUrl: './movie-detail.component.html',
@@ -42,7 +45,8 @@ export class MovieDetail implements OnInit {
   private readonly languageService = inject(LanguageService);
   private readonly authService = inject(AuthService);
   private readonly themeService = inject(ThemeService);
-  
+  private readonly recentlyViewedService = inject(RecentlyViewedService);
+
   movie!: Movie;
   moviesWithSameGenre: Movie[] = [];
   value = 0;
@@ -68,6 +72,7 @@ export class MovieDetail implements OnInit {
           next: (dbMovie) => {
             if (dbMovie) {
               this.movie = dbMovie;
+              this.recentlyViewedService.addMovie(dbMovie);
               this.loadRelatedMovies(id, this.lang());
             } else {
               this.error = true;

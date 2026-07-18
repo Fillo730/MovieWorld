@@ -2,18 +2,22 @@ import { Component, EventEmitter, Input, Output, OnChanges } from '@angular/core
 import { Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { RatingModule } from 'primeng/rating';
+import { TooltipModule } from 'primeng/tooltip';
 import { FormsModule } from '@angular/forms';
 import { CurrencyPipe } from '@angular/common';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
 import { CartService } from '../../services/cart.service';
 import { ToastService } from '../../services/toast.service';
 import { Movie } from '../../models/Movie.model';
 import { AuthService } from '../../services/auth.service';
+import { WishlistService } from '../../services/wishlist.service';
 
 @Component({
   selector: 'movie-detail-card-component',
   standalone: true,
-  imports: [ButtonModule, InputNumberModule, FormsModule, CurrencyPipe],
+  imports: [ButtonModule, InputNumberModule, RatingModule, TooltipModule, FormsModule, CurrencyPipe, TranslatePipe],
   templateUrl: './movie-detail-card.component.html',
   styleUrl: './movie-detail-card.component.css',
 })
@@ -37,7 +41,9 @@ export class MovieDetailCard implements OnChanges {
     private cartService: CartService,
     private toastService: ToastService,
     private router: Router,
-    private authService : AuthService
+    private authService : AuthService,
+    private wishlistService : WishlistService,
+    private translate : TranslateService
   ) {}
 
   ngOnChanges() {
@@ -97,5 +103,29 @@ export class MovieDetailCard implements OnChanges {
 
   isLoggedIn() : boolean {
     return this.authService.isLoggedIn();
+  }
+
+  isWishlisted(): boolean {
+    return this.wishlistService.isWishlisted(this.movie.movieId);
+  }
+
+  handleToggleWishlist(): void {
+    if (!this.isLoggedIn()) return;
+
+    if (this.isWishlisted()) {
+      this.wishlistService.removeFromWishlist(this.movie.movieId).subscribe({
+        next: (res) => {
+          if (res.success) this.toastService.success(this.translate.instant('MovieDetail.Wishlist.RemoveSuccess'));
+        },
+        error: () => this.toastService.error(this.translate.instant('MovieDetail.Wishlist.Error'))
+      });
+    } else {
+      this.wishlistService.addToWishlist(this.movie.movieId).subscribe({
+        next: (res) => {
+          if (res.success) this.toastService.success(this.translate.instant('MovieDetail.Wishlist.AddSuccess'));
+        },
+        error: () => this.toastService.error(this.translate.instant('MovieDetail.Wishlist.Error'))
+      });
+    }
   }
 }

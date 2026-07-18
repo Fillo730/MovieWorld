@@ -25,3 +25,8 @@
 .mr-1 {
     margin-right: 0.25rem;
 }
+
+.discount-row {
+    color: #2e7d32;
+    font-weight: 600;
+}

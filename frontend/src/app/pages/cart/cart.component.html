@@ -34,15 +34,58 @@
       }
     </div>
 
+    <div class="coupon-container background-color-custom-ligher p-3 mb-4">
+      <label class="fw-semibold d-block mb-2">{{ 'Cart.CouponLabel' | translate }}</label>
+
+      @if (appliedCoupon()) {
+        <div class="d-flex align-items-center gap-3 flex-wrap">
+          <span class="coupon-applied-badge">
+            <i class="pi pi-check-circle me-1"></i>
+            {{ appliedCoupon()!.code }} (-{{ appliedCoupon()!.discountPercentage }}%)
+          </span>
+          <p-button
+            [label]="'Cart.CouponRemoveButton' | translate"
+            severity="danger"
+            [text]="true"
+            (onClick)="handleRemoveCoupon()"/>
+        </div>
+      } @else {
+        <div class="d-flex align-items-start gap-2 flex-wrap">
+          <input
+            type="text"
+            class="form-control coupon-input"
+            [placeholder]="'Cart.CouponPlaceholder' | translate"
+            [ngModel]="couponCode()"
+            (ngModelChange)="couponCode.set($event)"
+          />
+          <p-button
+            [label]="'Cart.CouponApplyButton' | translate"
+            [severity]="buttonTheme"
+            [loading]="isValidatingCoupon()"
+            [disabled]="!couponCode().trim()"
+            (onClick)="handleApplyCoupon()"/>
+        </div>
+        @if (couponError()) {
+          <p class="coupon-error mt-2 mb-0">{{ couponError() }}</p>
+        }
+      }
+    </div>
+
     <div class="recap-container">
-      <p-button 
-        [label]="'Cart.ClearCartButtonText' | translate" 
-        [severity]="buttonTheme" 
+      <p-button
+        [label]="'Cart.ClearCartButtonText' | translate"
+        [severity]="buttonTheme"
         (onClick)="handleClearCart()"/>
-        
-      <h3 class="fw-bold m-0">
-        {{ 'Cart.TotalLabel' | translate }}: {{ cartTotal() | currency:'EUR':'symbol' }}
-      </h3>
+
+      <div class="text-end">
+        @if (appliedCoupon()) {
+          <p class="m-0 subtotal-label">{{ 'Cart.SubtotalLabel' | translate }}: {{ cartTotal() | currency:'EUR':'symbol' }}</p>
+          <p class="m-0 discount-label">{{ 'Cart.DiscountLabel' | translate }}: -{{ appliedCoupon()!.discountAmount | currency:'EUR':'symbol' }}</p>
+        }
+        <h3 class="fw-bold m-0">
+          {{ 'Cart.TotalLabel' | translate }}: {{ finalTotal() | currency:'EUR':'symbol' }}
+        </h3>
+      </div>
     </div>
 
     <div class="select-container background-color-custom-ligher p-3">

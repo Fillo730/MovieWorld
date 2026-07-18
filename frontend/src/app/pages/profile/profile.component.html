@@ -195,6 +195,13 @@
                 }
             </form>
 
+            <div class="settings-card background-color-custom shadow-2 border-round p-4 mt-4">
+                <h4 class="text-color d-flex align-items-center gap-2 mb-3">
+                    <i class="pi pi-comment text-primary"></i>{{ 'Profile.MyReviewsTitle' | translate }}
+                </h4>
+                <my-reviews-component></my-reviews-component>
+            </div>
+
             @if (recommendedMovies().length > 0) {
                 <div class="settings-card background-color-custom shadow-2 border-round p-4 mt-4">
                     <h4 class="text-color d-flex align-items-center gap-2 mb-3">

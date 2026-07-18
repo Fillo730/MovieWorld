@@ -69,6 +69,14 @@
   font-size: 18px;
 }
 
+.movie-rating {
+  margin: 0.35rem 0;
+}
+
+.movie-rating-count {
+  opacity: 0.8;
+}
+
 .movie-story {
   line-height: 1.6;
 }

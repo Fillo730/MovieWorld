@@ -7,6 +7,8 @@ public static class AppConstants
 
     public const int DefaultMoviesCultNumber = 6;
 
+    public const int DefaultMoviesTopRatedNumber = 6;
+
     public const int DefaultMoviesWithSameGenreNumber = 6;
 
     public const int MaxDownloadExcelMovies = 50;

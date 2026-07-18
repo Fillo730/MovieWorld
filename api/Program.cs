@@ -94,6 +94,14 @@ builder.Services.AddScoped<IOrdersMapper, OrdersMapper>();
 builder.Services.AddScoped<IOrdersRepository, OrdersRepository>();
 builder.Services.AddScoped<IOrdersService, OrdersService>();
 builder.Services.AddSingleton<IStatisticsMapper, StatisticsMapper>();
+builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<IReviewsMapper, ReviewsMapper>();
+builder.Services.AddScoped<IReviewsRepository, ReviewsRepository>();
+builder.Services.AddScoped<IReviewsService, ReviewsService>();
+builder.Services.AddScoped<IWishlistRepository, WishlistRepository>();
+builder.Services.AddScoped<IWishlistService, WishlistService>();
+builder.Services.AddScoped<ICouponRepository, CouponRepository>();
+builder.Services.AddScoped<ICouponService, CouponService>();
 
 var app = builder.Build();
 app.UseCors();

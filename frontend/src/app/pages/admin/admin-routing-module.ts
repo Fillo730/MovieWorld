@@ -10,6 +10,7 @@ import { MoviesAdmimComponent } from './movies/movies';
 import { CastAdminComponent } from './cast/cast.component';
 import { NewsComponent } from './news/news';
 import { OrdersComponent } from './orders/orders';
+import { CouponsComponent } from './coupons/coupons';
 import { adminGuard } from '../../guards/admin.guard';
 
 const routes: Routes = [
@@ -24,6 +25,7 @@ const routes: Routes = [
       { path: 'cast', component: CastAdminComponent},
       { path: 'news', component: NewsComponent},
       { path: 'orders', component: OrdersComponent},
+      { path: 'coupons', component: CouponsComponent},
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
     ]
   }

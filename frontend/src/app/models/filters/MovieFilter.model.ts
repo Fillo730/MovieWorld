@@ -5,6 +5,7 @@ export interface MovieFilter {
   year: number | null;
   director: string;
   actor: string;
+  sortBy: string;
 }
 
 export const DEFAULT_MOVIES_FILTERS: MovieFilter = {
@@ -14,4 +15,5 @@ export const DEFAULT_MOVIES_FILTERS: MovieFilter = {
   year: null,
   director: "",
   actor: "",
+  sortBy: "",
 };

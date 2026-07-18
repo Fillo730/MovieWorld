@@ -112,6 +112,20 @@ public class MoviesController(IMovieService movieService) : BaseController
         }
     }
 
+    [HttpGet("top-rated")]
+    public async Task<IActionResult> GetTopRatedMovies([FromQuery] string? lang, [FromQuery] int? quantity)
+    {
+        try
+        {
+            var topRatedMovies = await _movieService.GetTopRatedMoviesAsync(GetCurrentLanguage(lang), quantity ?? AppConstants.DefaultMoviesTopRatedNumber);
+            return Ok(ApiResponse<IEnumerable<MovieDto>>.CreateSuccessResponse(topRatedMovies));
+        }
+        catch (Exception ex)
+        {
+            return Ok(ApiResponse<IEnumerable<MovieDto>>.CreateFailureResponse(ex.Message));
+        }
+    }
+
     [HttpGet("count")]
     public async Task<IActionResult> GetMoviesCount()
     {

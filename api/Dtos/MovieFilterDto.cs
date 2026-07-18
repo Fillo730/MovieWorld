@@ -9,6 +9,7 @@ public class MovieFilterDto
     public decimal? MaxPrice { get; set; }
     public string? Director { get; set; }
     public string? Actor { get; set; }
+    public string? SortBy { get; set; }
 
     public static MovieFilterDto CreateEmpty() => new MovieFilterDto();
 }

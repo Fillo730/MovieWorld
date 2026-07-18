@@ -15,5 +15,11 @@ public class OrderDto
 
     public decimal TotalAmount { get; set; } = 0;
 
+    public string? CouponCode { get; set; }
+
+    public decimal DiscountAmount { get; set; } = 0;
+
+    public decimal FinalAmount { get; set; } = 0;
+
     public List<OrderItemDto> Items { get; set; } = new List<OrderItemDto>();
 }
