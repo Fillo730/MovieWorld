@@ -16,6 +16,8 @@ public interface IUsersService
     public Task<UserDto> CreateUserAsync(UserDto user);
     Task<UserDto?> UpdateUserAsync(UserDto user);
     Task<UserDto?> UpdateOwnProfileAsync(int userId, UpdateProfileDto profile);
+    Task<(bool Success, string? Error)> ChangePasswordAsync(int userId, ChangePasswordDto dto);
+    Task<(bool Success, string? Error)> DeleteOwnAccountAsync(int userId, string password);
     Task<int> GetStandardUsersCountAsync();
     Task<int> GetAdminsCountAsync();
 

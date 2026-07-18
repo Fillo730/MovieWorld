@@ -4,13 +4,64 @@
     align-items: center;
 }
 
-.profile-card {
+.profile-page {
     width: 100%;
-    max-width: 500px;
+    max-width: 900px;
+}
+
+.profile-hero {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.profile-hero-info {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.profile-hero-info h1 {
+    font-size: 1.5rem;
+}
+
+.profile-hero-action {
+    flex-shrink: 0;
+}
+
+.small-text {
+    font-size: 0.85rem;
+}
+
+.profile-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+}
+
+.settings-card {
+    display: flex;
+    flex-direction: column;
+}
+
+.settings-card h4 {
+    font-size: 1.05rem;
+    margin: 0;
 }
 
 .info-row:not(:last-of-type) {
     border-bottom: 1px solid rgba(128, 128, 128, 0.15);
+}
+
+.recommended-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.danger-zone {
+    background-color: rgba(220, 53, 69, 0.08);
+    border: 1px solid rgba(220, 53, 69, 0.3);
 }
 
 :host ::ng-deep .profile-avatar {
@@ -22,8 +73,21 @@
     object-fit: cover;
 }
 
-@media (max-width: 576px) {
-    .profile-card {
-        max-width: 100%;
+@media (max-width: 768px) {
+    .profile-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .profile-hero {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .profile-hero-action {
+        width: 100%;
+    }
+
+    :host ::ng-deep .profile-hero-action .p-button {
+        width: 100%;
     }
 }

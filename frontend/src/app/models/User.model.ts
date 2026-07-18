@@ -5,5 +5,7 @@ export interface User {
     surname: string;
     imagePath: string;
     role: number;
-    createdAt?: string;  
+    createdAt?: string;
+    preferredSellPointId?: number | null;
+    emailNotificationsEnabled: boolean;
 }

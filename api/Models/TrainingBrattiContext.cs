@@ -464,6 +464,12 @@ public partial class TrainingBrattiContext : DbContext
                 .HasMaxLength(255);
             entity.Property(e => e.Name).HasMaxLength(255);
             entity.Property(e => e.Surname).HasMaxLength(255);
+            entity.Property(e => e.EmailNotificationsEnabled).HasDefaultValue(true);
+
+            entity.HasOne(e => e.PreferredSellPoint)
+                .WithMany()
+                .HasForeignKey(e => e.PreferredSellPointId)
+                .OnDelete(DeleteBehavior.SetNull);
         });
 
         OnModelCreatingPartial(modelBuilder);

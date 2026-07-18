@@ -4,8 +4,13 @@
   [class.cursor-pointer]="isSelectable"
   (click)="isSelectable && handleClickSellPoint()"
 >
-  <div class="d-flex justify-content-between text-color">
-    <h3 class="sell-title">{{ sellPoint.name }}</h3>
+  <div class="d-flex justify-content-between align-items-start text-color">
+    <div class="d-flex align-items-center gap-2 flex-wrap">
+      <h3 class="sell-title m-0">{{ sellPoint.name }}</h3>
+      @if (isPreferred) {
+        <p-tag [value]="preferredLabel" icon="pi pi-star-fill" severity="warn"></p-tag>
+      }
+    </div>
 
     @if (isDistanzaVisible) {
       <p class="distance-badge">{{ sellPoint.distance | KmLabelPipe:'postfix' }}</p>

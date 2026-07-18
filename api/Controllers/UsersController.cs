@@ -110,6 +110,52 @@ public class UsersController(IUsersService usersService) : BaseController
         }
     }
 
+    [Authorize]
+    [HttpPut("me/password")]
+    public async Task<IActionResult> ChangeOwnPassword([FromBody] ChangePasswordDto dto)
+    {
+        try
+        {
+            var userId = GetUserIdFromToken();
+
+            var (success, error) = await _usersService.ChangePasswordAsync(userId, dto);
+
+            if (!success)
+            {
+                return Ok(ApiResponse<string>.CreateFailureResponse(error ?? "Errore durante il cambio password."));
+            }
+
+            return Ok(ApiResponse<string>.CreateSuccessResponse("Password aggiornata con successo."));
+        }
+        catch (Exception ex)
+        {
+            return Ok(ApiResponse<string>.CreateFailureResponse($"Errore durante il cambio password: {ex.Message}"));
+        }
+    }
+
+    [Authorize]
+    [HttpDelete("me")]
+    public async Task<IActionResult> DeleteOwnAccount([FromBody] DeleteAccountDto dto)
+    {
+        try
+        {
+            var userId = GetUserIdFromToken();
+
+            var (success, error) = await _usersService.DeleteOwnAccountAsync(userId, dto.Password);
+
+            if (!success)
+            {
+                return Ok(ApiResponse<string>.CreateFailureResponse(error ?? "Errore durante l'eliminazione dell'account."));
+            }
+
+            return Ok(ApiResponse<string>.CreateSuccessResponse("Account eliminato con successo."));
+        }
+        catch (Exception ex)
+        {
+            return Ok(ApiResponse<string>.CreateFailureResponse($"Errore durante l'eliminazione dell'account: {ex.Message}"));
+        }
+    }
+
     [HttpGet("{userId}")]
     public async Task<IActionResult> GetUserById(int userId)
     {

@@ -1,11 +1,13 @@
 <div>
   <div class="display-horizontal-center background-color-custom-ligher gap-5 mb-3">
     @for (sellPoint of sellPoints; track sellPoint.id) {
-      <sell-point-card 
+      <sell-point-card
         [sellPoint]="sellPoint"
         [isSelected]="selectedSellPoint?.id === sellPoint.id"
         [isSelectable]="isSelectable"
         [isDistanzaVisible]="isDistanceOnCardsVisible"
+        [isPreferred]="preferredSellPointId === sellPoint.id"
+        [preferredLabel]="preferredLabel"
         [searchOnMapsLabel]="searchOnMapsLabel"
         (clickedSellPoint)="handleClickedSellPoint($event)"
       ></sell-point-card>

@@ -39,6 +39,8 @@ export class AuthService {
 
   public readonly userId = computed(() => this._currentUser()?.id);
 
+  public readonly preferredSellPointId = computed(() => this._currentUser()?.preferredSellPointId);
+
   public login(credentials: LoginRequest): Observable<ApiResponse<LoginRegisterResponse>> {
     return this.http.post<ApiResponse<LoginRegisterResponse>>(`${this.apiUrl}/login`, credentials).pipe(
       tap(response => {
@@ -55,11 +57,11 @@ export class AuthService {
     );
   }
   
-  public updateLocalUser(name: string, imagePath: string): void {
+  public updateLocalUser(name: string, imagePath: string, preferredSellPointId?: number | null): void {
     const user = this._currentUser();
     if (!user) return;
 
-    this.saveUser({ ...user, name, imagePath });
+    this.saveUser({ ...user, name, imagePath, preferredSellPointId });
   }
 
   private saveUser(data: LoginRegisterResponse): void {

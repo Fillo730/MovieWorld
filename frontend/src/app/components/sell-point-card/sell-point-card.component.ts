@@ -3,6 +3,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 //External Libraries
 import { ButtonModule } from 'primeng/button';
+import { TagModule } from 'primeng/tag';
 
 //Services
 import { ThemeService } from '../../services/theme.service';
@@ -19,7 +20,7 @@ import { SellPoint } from '../../models/SellPoint.model';
 @Component({
   selector: 'sell-point-card',
   standalone: true,
-  imports: [ButtonModule,KmLabelPipe],
+  imports: [ButtonModule, TagModule, KmLabelPipe],
   templateUrl: './sell-point-card.component.html',
   styleUrls: ['./sell-point-card.component.css']
 })
@@ -28,6 +29,8 @@ export class SellPointCardComponent {
   @Input() isDistanzaVisible : boolean = false;
   @Input() isSelectable : boolean = false;
   @Input() isSelected : boolean = false;
+  @Input() isPreferred : boolean = false;
+  @Input() preferredLabel : string = '';
   @Input() searchOnMapsLabel!: string;
 
   @Output() clickedSellPoint = new EventEmitter<SellPoint>();

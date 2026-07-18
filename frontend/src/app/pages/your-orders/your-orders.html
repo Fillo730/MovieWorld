@@ -2,7 +2,7 @@
 
 <div class="header-row background-color-custom-ligher text-color p-3">
     <h1 class="m-0">{{ "YourOrders.MainTitle" | translate }}</h1>
-    @if (!isLoading() && !error() && orders().length > 0) {
+    @if (hasLoadedOnce() && !error()) {
         <div class="buttons-container">
             <p-button
                 label="{{ 'YourOrders.FiltersTitle' | translate }}"
@@ -17,7 +17,7 @@
 </div>
 
 <div class="list-container background-color-custom-ligher occupy-space p-3">
-    @if (isLoading() && orders().length === 0) {
+    @if (isLoading() && !hasLoadedOnce()) {
         <state-handler-component
             type="loading"
             message="YourOrders.Loading">

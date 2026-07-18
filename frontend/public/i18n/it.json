@@ -96,16 +96,44 @@
     "ImagePathPlaceholder": "https://esempio.com/foto.jpg",
     "UpdateSuccess": "Profilo aggiornato con successo",
     "UpdateError": "Errore durante l'aggiornamento del profilo",
+    "PersonalInfoTitle": "Informazioni personali",
+    "PreferencesTitle": "Preferenze",
+    "SecurityTitle": "Sicurezza",
+    "SecurityDescription": "Gestisci la password del tuo account.",
+    "DangerZoneTitle": "Zona pericolosa",
+    "DangerZoneDescription": "Esci dal tuo account o eliminalo definitivamente.",
+    "NoOrdersYet": "Nessun ordine ancora effettuato",
+    "RecommendedTitle": "Film che potrebbero piacerti",
     "OrdersSummaryTitle": "I tuoi ordini",
     "OrdersCountLabel": "ordini effettuati",
     "OrderCountLabelSingular": "ordine effettuato",
     "ViewOrdersButton": "Vai ai miei ordini",
     "LogoutButton": "Esci",
+    "PreferredSellPointLabel": "Punto vendita preferito",
+    "NotSetLabel": "Non impostato",
+    "NotificationsLabel": "Notifiche email ordini",
+    "NotificationsOn": "Attive",
+    "NotificationsOff": "Disattivate",
+    "ChangePasswordButton": "Cambia Password",
+    "ChangePasswordTitle": "Cambia Password",
+    "CurrentPasswordLabel": "Password attuale",
+    "NewPasswordLabel": "Nuova password",
+    "ConfirmPasswordLabel": "Conferma nuova password",
+    "PasswordChangeSuccess": "Password aggiornata con successo",
+    "PasswordChangeError": "Password attuale non corretta o errore durante l'aggiornamento",
+    "DeleteAccountButton": "Elimina Account",
+    "DeleteAccountTitle": "Elimina il tuo account",
+    "DeleteAccountWarning": "Questa azione è irreversibile: verranno eliminati definitivamente il tuo account e lo storico dei tuoi ordini. Inserisci la password per confermare.",
+    "DeleteAccountSuccess": "Account eliminato con successo",
+    "DeleteAccountError": "Password non corretta o errore durante l'eliminazione dell'account",
     "Errors": {
       "NameRequired": "Nome richiesto.",
       "NameInvalid": "Nome non valido.",
       "SurnameRequired": "Cognome richiesto.",
-      "SurnameInvalid": "Cognome non valido."
+      "SurnameInvalid": "Cognome non valido.",
+      "CurrentPasswordRequired": "Password richiesta.",
+      "NewPasswordInvalid": "La password deve contenere almeno 8 caratteri, una maiuscola, una minuscola, un numero e un carattere speciale.",
+      "PasswordMismatch": "Le password non coincidono."
     }
   },
   "MovieDetail": {
@@ -122,6 +150,7 @@
   },
   "Home": {
     "MainTitle": "Film Cult",
+    "HeroSubtitle": "I titoli più amati dai nostri clienti, scelti per te",
     "EsploreCatalogTitle": "Esplora il nostro Catalogo",
     "GoToCatalogButtonText": "Vai al Catalogo",
     "CatalogDescription": "Nel nostro catalogo trovi una vasta selezione di film scelti con cura negli ultimi anni.<br/>In totale hai a disposizione <span class=\"catalog-number\">{{total}}</span> titoli da esplorare.",
@@ -176,7 +205,8 @@
     "ErrorMessage": "Non è stato possibile caricare i punti vendita. Verifica la connessione o riprova.",
     "RetryButton": "Riprova",
     "FiltersResetButton": "Resetta Filtri",
-    "FileExcelName": "Punti Vendita"
+    "FileExcelName": "Punti Vendita",
+    "PreferredLabel": "Preferito"
   },
   "Cart": {
     "MainTitle": "Il tuo Carrello",

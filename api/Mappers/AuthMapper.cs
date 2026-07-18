@@ -16,6 +16,7 @@ public class AuthMapper : IAuthMapper
             Role = 0,
             Name = request.FirstName,
             Surname = request.LastName,
+            ImagePath = $"https://api.dicebear.com/7.x/avataaars/svg?seed={Uri.EscapeDataString(request.FirstName + request.LastName)}",
             CreatedAt = DateTime.UtcNow,
         };
     }
@@ -31,6 +32,7 @@ public class AuthMapper : IAuthMapper
             Expiration = DateTime.UtcNow.AddHours(2),
             Role = user.Role == 1 ? UserRole.Admin : UserRole.User,
             ImagePath = user.ImagePath,
+            PreferredSellPointId = user.PreferredSellPointId,
         };
     }
 }

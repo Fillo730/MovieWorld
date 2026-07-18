@@ -42,7 +42,9 @@ public class UsersMapper : IUsersMapper
             Surname = user.Surname,
             ImagePath = user.ImagePath,
             Role = user.Role,
-            CreatedAt = user.CreatedAt
+            CreatedAt = user.CreatedAt,
+            PreferredSellPointId = user.PreferredSellPointId,
+            EmailNotificationsEnabled = user.EmailNotificationsEnabled
         };
     }
 
@@ -72,5 +74,7 @@ public class UsersMapper : IUsersMapper
         user.Name = profileDto.Name;
         user.Surname = profileDto.Surname;
         user.ImagePath = profileDto.ImagePath;
+        user.PreferredSellPointId = profileDto.PreferredSellPointId;
+        user.EmailNotificationsEnabled = profileDto.EmailNotificationsEnabled;
     }
 }

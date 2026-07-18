@@ -18,82 +18,163 @@
         </state-handler-component>
     }
     @else if (user(); as currentUser) {
-        <h1 class="text-color mb-4 text-center">
-            {{ 'Profile.Title' | translate: { currentUser: currentUser.name } }}
-        </h1>
-
-        <div class="profile-card background-color-custom shadow-2 border-round p-4">
-            <div class="d-flex flex-column align-items-center mb-4">
+        <div class="profile-page">
+            <div class="profile-hero background-color-custom shadow-2 border-round p-4 mb-4">
                 <p-avatar [image]="getAvatarImage(isEditing() ? editForm.value.imagePath : currentUser.imagePath)"
-                    size="xlarge" shape="circle" styleClass="profile-avatar mb-3">
+                    size="xlarge" shape="circle" styleClass="profile-avatar">
                 </p-avatar>
-                <p-tag [value]="(isAdmin() ? 'Profile.Admin' : 'Profile.User') | translate"
-                    [severity]="isAdmin() ? 'warn' : 'info'">
-                </p-tag>
-            </div>
-
-            <p-divider></p-divider>
-
-            @if (!isEditing()) {
-                <div class="info-row d-flex justify-content-between align-items-center py-2">
-                    <span class="text-color opacity-7">{{ 'Profile.NameLabel' | translate }}</span>
-                    <span class="text-color fw-bold">{{ currentUser.name }}</span>
-                </div>
-                <div class="info-row d-flex justify-content-between align-items-center py-2">
-                    <span class="text-color opacity-7">{{ 'Profile.SurnameLabel' | translate }}</span>
-                    <span class="text-color fw-bold">{{ currentUser.surname }}</span>
-                </div>
-                <div class="info-row d-flex justify-content-between align-items-center py-2">
-                    <span class="text-color opacity-7">{{ 'Profile.EmailLabel' | translate }}</span>
-                    <span class="text-color fw-bold">{{ currentUser.email }}</span>
-                </div>
-                @if (currentUser.createdAt) {
-                    <div class="info-row d-flex justify-content-between align-items-center py-2">
-                        <span class="text-color opacity-7">{{ 'Profile.MemberSinceLabel' | translate }}</span>
-                        <span class="text-color fw-bold">{{ currentUser.createdAt | date:'dd/MM/yyyy' }}</span>
+                <div class="profile-hero-info">
+                    <div class="d-flex align-items-center gap-2 flex-wrap">
+                        <h1 class="text-color m-0">{{ currentUser.name }} {{ currentUser.surname }}</h1>
+                        <p-tag [value]="(isAdmin() ? 'Profile.Admin' : 'Profile.User') | translate"
+                            [severity]="isAdmin() ? 'warn' : 'info'">
+                        </p-tag>
                     </div>
-                }
-
-                <div class="d-flex justify-content-center mt-4">
+                    <p class="text-color opacity-7 m-0 mt-1">
+                        <i class="pi pi-envelope mr-1"></i>{{ currentUser.email }}
+                    </p>
+                    @if (currentUser.createdAt) {
+                        <p class="text-color opacity-7 m-0 mt-1 small-text">
+                            <i class="pi pi-calendar mr-1"></i>{{ 'Profile.MemberSinceLabel' | translate }}: {{ currentUser.createdAt | date:'dd/MM/yyyy' }}
+                        </p>
+                    }
+                </div>
+                @if (!isEditing()) {
                     <p-button
+                        class="profile-hero-action"
                         [label]="'Profile.EditButton' | translate"
                         icon="pi pi-pencil"
                         [severity]="getButtonTheme()"
                         (onClick)="startEdit()">
                     </p-button>
-                </div>
-            } @else {
-                <form [formGroup]="editForm" (ngSubmit)="saveProfile()">
-                    <div class="edit-field mb-3">
-                        <label class="form-label fw-semibold text-color">{{ 'Profile.NameLabel' | translate }}</label>
-                        <input pInputText type="text" class="w-100" formControlName="name" [invalid]="isInvalid('name')">
-                        @if (isInvalid('name')) {
-                            @if (editForm.get('name')?.errors?.['required']) {
-                                <p-message severity="error" size="small">{{ 'Profile.Errors.NameRequired' | translate }}</p-message>
-                            }
-                            @if (editForm.get('name')?.errors?.['nameInvalid']) {
-                                <p-message severity="error" size="small">{{ 'Profile.Errors.NameInvalid' | translate }}</p-message>
-                            }
+                }
+            </div>
+
+            <form [formGroup]="editForm" (ngSubmit)="saveProfile()">
+                <div class="profile-grid">
+                    <div class="settings-card background-color-custom shadow-2 border-round p-4">
+                        <h4 class="text-color d-flex align-items-center gap-2 mb-3">
+                            <i class="pi pi-user text-primary"></i>{{ 'Profile.PersonalInfoTitle' | translate }}
+                        </h4>
+
+                        @if (!isEditing()) {
+                            <div class="info-row d-flex justify-content-between align-items-center py-2">
+                                <span class="text-color opacity-7">{{ 'Profile.NameLabel' | translate }}</span>
+                                <span class="text-color fw-bold">{{ currentUser.name }}</span>
+                            </div>
+                            <div class="info-row d-flex justify-content-between align-items-center py-2">
+                                <span class="text-color opacity-7">{{ 'Profile.SurnameLabel' | translate }}</span>
+                                <span class="text-color fw-bold">{{ currentUser.surname }}</span>
+                            </div>
+                        } @else {
+                            <div class="edit-field mb-3">
+                                <label class="form-label fw-semibold text-color">{{ 'Profile.NameLabel' | translate }}</label>
+                                <input pInputText type="text" class="w-100" formControlName="name" [invalid]="isInvalid('name')">
+                                @if (isInvalid('name')) {
+                                    @if (editForm.get('name')?.errors?.['required']) {
+                                        <p-message severity="error" size="small">{{ 'Profile.Errors.NameRequired' | translate }}</p-message>
+                                    }
+                                    @if (editForm.get('name')?.errors?.['nameInvalid']) {
+                                        <p-message severity="error" size="small">{{ 'Profile.Errors.NameInvalid' | translate }}</p-message>
+                                    }
+                                }
+                            </div>
+                            <div class="edit-field mb-3">
+                                <label class="form-label fw-semibold text-color">{{ 'Profile.SurnameLabel' | translate }}</label>
+                                <input pInputText type="text" class="w-100" formControlName="surname" [invalid]="isInvalid('surname')">
+                                @if (isInvalid('surname')) {
+                                    @if (editForm.get('surname')?.errors?.['required']) {
+                                        <p-message severity="error" size="small">{{ 'Profile.Errors.SurnameRequired' | translate }}</p-message>
+                                    }
+                                    @if (editForm.get('surname')?.errors?.['surnameInvalid']) {
+                                        <p-message severity="error" size="small">{{ 'Profile.Errors.SurnameInvalid' | translate }}</p-message>
+                                    }
+                                }
+                            </div>
+                            <div class="edit-field">
+                                <label class="form-label fw-semibold text-color">{{ 'Profile.ImagePathLabel' | translate }}</label>
+                                <input pInputText type="text" class="w-100" formControlName="imagePath"
+                                    [placeholder]="'Profile.ImagePathPlaceholder' | translate">
+                            </div>
                         }
-                    </div>
-                    <div class="edit-field mb-3">
-                        <label class="form-label fw-semibold text-color">{{ 'Profile.SurnameLabel' | translate }}</label>
-                        <input pInputText type="text" class="w-100" formControlName="surname" [invalid]="isInvalid('surname')">
-                        @if (isInvalid('surname')) {
-                            @if (editForm.get('surname')?.errors?.['required']) {
-                                <p-message severity="error" size="small">{{ 'Profile.Errors.SurnameRequired' | translate }}</p-message>
-                            }
-                            @if (editForm.get('surname')?.errors?.['surnameInvalid']) {
-                                <p-message severity="error" size="small">{{ 'Profile.Errors.SurnameInvalid' | translate }}</p-message>
-                            }
-                        }
-                    </div>
-                    <div class="edit-field mb-3">
-                        <label class="form-label fw-semibold text-color">{{ 'Profile.ImagePathLabel' | translate }}</label>
-                        <input pInputText type="text" class="w-100" formControlName="imagePath"
-                            [placeholder]="'Profile.ImagePathPlaceholder' | translate">
                     </div>
 
+                    <div class="settings-card background-color-custom shadow-2 border-round p-4">
+                        <h4 class="text-color d-flex align-items-center gap-2 mb-3">
+                            <i class="pi pi-sliders-h text-primary"></i>{{ 'Profile.PreferencesTitle' | translate }}
+                        </h4>
+
+                        @if (!isEditing()) {
+                            <div class="info-row d-flex justify-content-between align-items-center py-2">
+                                <span class="text-color opacity-7">
+                                    <i class="pi pi-map-marker mr-1"></i>{{ 'Profile.PreferredSellPointLabel' | translate }}
+                                </span>
+                                <span class="text-color fw-bold">{{ getPreferredSellPointName(currentUser.preferredSellPointId) }}</span>
+                            </div>
+                            <div class="info-row d-flex justify-content-between align-items-center py-2">
+                                <span class="text-color opacity-7">
+                                    <i class="pi pi-bell mr-1"></i>{{ 'Profile.NotificationsLabel' | translate }}
+                                </span>
+                                <span class="text-color fw-bold">
+                                    {{ (currentUser.emailNotificationsEnabled ? 'Profile.NotificationsOn' : 'Profile.NotificationsOff') | translate }}
+                                </span>
+                            </div>
+                        } @else {
+                            <div class="edit-field mb-3">
+                                <label class="form-label fw-semibold text-color">{{ 'Profile.PreferredSellPointLabel' | translate }}</label>
+                                <select class="form-select" formControlName="preferredSellPointId">
+                                    <option [ngValue]="null">{{ 'Profile.NotSetLabel' | translate }}</option>
+                                    @for (sellPoint of sellPoints(); track sellPoint.id) {
+                                        <option [ngValue]="sellPoint.id">{{ sellPoint.name }} ({{ sellPoint.city }})</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="edit-field d-flex align-items-center justify-content-between">
+                                <label class="form-label fw-semibold text-color m-0">{{ 'Profile.NotificationsLabel' | translate }}</label>
+                                <p-toggleswitch formControlName="emailNotificationsEnabled"></p-toggleswitch>
+                            </div>
+                        }
+                    </div>
+
+                    <div class="settings-card background-color-custom shadow-2 border-round p-4">
+                        <h4 class="text-color d-flex align-items-center gap-2 mb-3">
+                            <i class="pi pi-box text-primary"></i>{{ 'Profile.OrdersSummaryTitle' | translate }}
+                        </h4>
+                        @if (ordersCount(); as count) {
+                            <p class="text-color opacity-7 mb-3">
+                                {{ count }} {{ (count === 1 ? 'Profile.OrderCountLabelSingular' : 'Profile.OrdersCountLabel') | translate }}
+                            </p>
+                        } @else {
+                            <p class="text-color opacity-7 mb-3">{{ 'Profile.NoOrdersYet' | translate }}</p>
+                        }
+                        <p-button
+                            [label]="'Profile.ViewOrdersButton' | translate"
+                            icon="pi pi-arrow-right"
+                            iconPos="right"
+                            [outlined]="true"
+                            styleClass="w-100"
+                            [severity]="getButtonTheme()"
+                            (onClick)="goToOrders()">
+                        </p-button>
+                    </div>
+
+                    <div class="settings-card background-color-custom shadow-2 border-round p-4">
+                        <h4 class="text-color d-flex align-items-center gap-2 mb-3">
+                            <i class="pi pi-shield text-primary"></i>{{ 'Profile.SecurityTitle' | translate }}
+                        </h4>
+                        <p class="text-color opacity-7 mb-3">{{ 'Profile.SecurityDescription' | translate }}</p>
+                        <p-button
+                            [label]="'Profile.ChangePasswordButton' | translate"
+                            icon="pi pi-lock"
+                            [outlined]="true"
+                            styleClass="w-100"
+                            severity="secondary"
+                            (onClick)="openChangePassword()">
+                        </p-button>
+                    </div>
+                </div>
+
+                @if (isEditing()) {
                     <div class="d-flex justify-content-center gap-2 mt-4">
                         <p-button
                             type="button"
@@ -111,42 +192,145 @@
                             [loading]="isSaving()">
                         </p-button>
                     </div>
-                </form>
-            }
-        </div>
+                }
+            </form>
 
-        <div class="profile-card background-color-custom shadow-2 border-round p-4 mt-4 d-flex align-items-center justify-content-between">
-            <div class="d-flex align-items-center gap-3 text-color">
-                <i class="pi pi-box text-primary" style="font-size: 1.5rem"></i>
+            @if (recommendedMovies().length > 0) {
+                <div class="settings-card background-color-custom shadow-2 border-round p-4 mt-4">
+                    <h4 class="text-color d-flex align-items-center gap-2 mb-3">
+                        <i class="pi pi-star text-primary"></i>{{ 'Profile.RecommendedTitle' | translate }}
+                    </h4>
+                    <div class="recommended-grid">
+                        @for (movie of recommendedMovies(); track movie.movieId) {
+                            <image-title-card-component
+                                [name]="movie.title"
+                                [imagePath]="movie.imagePath ?? ''"
+                                [movieClicked]="movie"
+                                [isClicable]="true"
+                                [isActorLabelDark]="true"
+                                (cardClicked)="handleMovieClick($event)">
+                            </image-title-card-component>
+                        }
+                    </div>
+                </div>
+            }
+
+            <div class="danger-zone border-round p-4 mt-4 d-flex align-items-center justify-content-between flex-wrap gap-3">
                 <div>
-                    <div class="fw-bold">{{ 'Profile.OrdersSummaryTitle' | translate }}</div>
-                    @if (ordersCount(); as count) {
-                        <small class="opacity-7">
-                            {{ count }} {{ (count === 1 ? 'Profile.OrderCountLabelSingular' : 'Profile.OrdersCountLabel') | translate }}
-                        </small>
-                    }
+                    <h4 class="text-color m-0 d-flex align-items-center gap-2">
+                        <i class="pi pi-exclamation-triangle text-danger"></i>{{ 'Profile.DangerZoneTitle' | translate }}
+                    </h4>
+                    <p class="text-color opacity-7 m-0 mt-1 small-text">{{ 'Profile.DangerZoneDescription' | translate }}</p>
+                </div>
+                <div class="d-flex gap-2">
+                    <p-button
+                        [label]="'Profile.LogoutButton' | translate"
+                        icon="pi pi-sign-out"
+                        severity="danger"
+                        [outlined]="true"
+                        (onClick)="handleLogout()">
+                    </p-button>
+                    <p-button
+                        [label]="'Profile.DeleteAccountButton' | translate"
+                        icon="pi pi-trash"
+                        severity="danger"
+                        (onClick)="openDeleteAccount()">
+                    </p-button>
                 </div>
             </div>
-            <p-button
-                [label]="'Profile.ViewOrdersButton' | translate"
-                icon="pi pi-arrow-right"
-                iconPos="right"
-                [outlined]="true"
-                [severity]="getButtonTheme()"
-                (onClick)="goToOrders()">
-            </p-button>
-        </div>
-
-        <div class="d-flex justify-content-center mt-4">
-            <p-button
-                [label]="'Profile.LogoutButton' | translate"
-                icon="pi pi-sign-out"
-                severity="danger"
-                [outlined]="true"
-                (onClick)="handleLogout()">
-            </p-button>
         </div>
     }
 </div>
+
+<p-dialog
+    [modal]="true"
+    [visible]="isChangingPassword()"
+    (visibleChange)="isChangingPassword.set($event)"
+    [style]="{ width: '450px', maxWidth: '95vw' }"
+    [header]="'Profile.ChangePasswordTitle' | translate"
+    contentStyleClass="background-color-custom text-color">
+    <form [formGroup]="passwordForm" (ngSubmit)="submitChangePassword()">
+        <div class="edit-field mb-3">
+            <label class="form-label fw-semibold text-color">{{ 'Profile.CurrentPasswordLabel' | translate }}</label>
+            <input pInputText type="password" class="w-100" formControlName="currentPassword"
+                [invalid]="isPasswordFieldInvalid('currentPassword')">
+            @if (isPasswordFieldInvalid('currentPassword')) {
+                <p-message severity="error" size="small">{{ 'Profile.Errors.CurrentPasswordRequired' | translate }}</p-message>
+            }
+        </div>
+        <div class="edit-field mb-3">
+            <label class="form-label fw-semibold text-color">{{ 'Profile.NewPasswordLabel' | translate }}</label>
+            <input pInputText type="password" class="w-100" formControlName="newPassword"
+                [invalid]="isPasswordFieldInvalid('newPassword')">
+            @if (isPasswordFieldInvalid('newPassword')) {
+                <p-message severity="error" size="small">{{ 'Profile.Errors.NewPasswordInvalid' | translate }}</p-message>
+            }
+        </div>
+        <div class="edit-field mb-3">
+            <label class="form-label fw-semibold text-color">{{ 'Profile.ConfirmPasswordLabel' | translate }}</label>
+            <input pInputText type="password" class="w-100" formControlName="confirmPassword"
+                [invalid]="isPasswordFieldInvalid('confirmPassword')">
+            @if (passwordsMismatch()) {
+                <p-message severity="error" size="small">{{ 'Profile.Errors.PasswordMismatch' | translate }}</p-message>
+            }
+        </div>
+
+        <div class="d-flex justify-content-center gap-2 mt-4">
+            <p-button
+                type="button"
+                [label]="'Profile.CancelButton' | translate"
+                [outlined]="true"
+                severity="secondary"
+                [disabled]="isSavingPassword()"
+                (onClick)="closeChangePassword()">
+            </p-button>
+            <p-button
+                type="submit"
+                [label]="'Profile.SaveButton' | translate"
+                icon="pi pi-check"
+                [severity]="getButtonTheme()"
+                [loading]="isSavingPassword()">
+            </p-button>
+        </div>
+    </form>
+</p-dialog>
+
+<p-dialog
+    [modal]="true"
+    [visible]="isDeletingAccount()"
+    (visibleChange)="isDeletingAccount.set($event)"
+    [style]="{ width: '450px', maxWidth: '95vw' }"
+    [header]="'Profile.DeleteAccountTitle' | translate"
+    contentStyleClass="background-color-custom text-color">
+    <p class="text-color mb-3">{{ 'Profile.DeleteAccountWarning' | translate }}</p>
+    <form [formGroup]="deleteForm" (ngSubmit)="confirmDeleteAccount()">
+        <div class="edit-field mb-3">
+            <label class="form-label fw-semibold text-color">{{ 'Profile.CurrentPasswordLabel' | translate }}</label>
+            <input pInputText type="password" class="w-100" formControlName="password"
+                [invalid]="isDeleteFieldInvalid('password')">
+            @if (isDeleteFieldInvalid('password')) {
+                <p-message severity="error" size="small">{{ 'Profile.Errors.CurrentPasswordRequired' | translate }}</p-message>
+            }
+        </div>
+
+        <div class="d-flex justify-content-center gap-2 mt-4">
+            <p-button
+                type="button"
+                [label]="'Profile.CancelButton' | translate"
+                [outlined]="true"
+                severity="secondary"
+                [disabled]="isConfirmingDelete()"
+                (onClick)="closeDeleteAccount()">
+            </p-button>
+            <p-button
+                type="submit"
+                [label]="'Profile.DeleteAccountButton' | translate"
+                icon="pi pi-trash"
+                severity="danger"
+                [loading]="isConfirmingDelete()">
+            </p-button>
+        </div>
+    </form>
+</p-dialog>
 
 <footer-component></footer-component>

@@ -147,4 +147,45 @@ public class UsersService(IUserRepository userRepository, IUsersMapper usersMapp
 
         return _usersMapper.MapToDto(existingUser);
     }
+
+    public async Task<(bool Success, string? Error)> ChangePasswordAsync(int userId, ChangePasswordDto dto)
+    {
+        var existingUser = await _userRepository.GetUserByIdAsync(userId);
+
+        if (existingUser is null)
+        {
+            return (false, "User not found.");
+        }
+
+        if (!BCrypt.Net.BCrypt.Verify(dto.CurrentPassword, existingUser.HashPassword))
+        {
+            return (false, "Current password is not correct.");
+        }
+
+        existingUser.HashPassword = BCrypt.Net.BCrypt.HashPassword(dto.NewPassword);
+
+        await _userRepository.SaveChangesAsync();
+
+        return (true, null);
+    }
+
+    public async Task<(bool Success, string? Error)> DeleteOwnAccountAsync(int userId, string password)
+    {
+        var existingUser = await _userRepository.GetUserByIdAsync(userId);
+
+        if (existingUser is null)
+        {
+            return (false, "User not found.");
+        }
+
+        if (!BCrypt.Net.BCrypt.Verify(password, existingUser.HashPassword))
+        {
+            return (false, "Password is not correct.");
+        }
+
+        await _userRepository.DeleteUserAsync(existingUser);
+        await _userRepository.SaveChangesAsync();
+
+        return (true, null);
+    }
 }

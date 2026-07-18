@@ -68,8 +68,11 @@
           (action)="goToCatalog()">
         </state-handler-component>
       } @else {
-        <sell-points-list-component 
+        <sell-points-list-component
           [sellPoints]="sellPoints()"
+          [selectedSellPoint]="selectedSellPoint"
+          [preferredSellPointId]="authService.preferredSellPointId()"
+          [preferredLabel]="'SellPoints.PreferredLabel' | translate"
           [first]="first"
           [rows]="rows"
           [totalRecords]="totalRecords()"

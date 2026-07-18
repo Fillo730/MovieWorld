@@ -49,8 +49,16 @@ export class UserService {
     return this.http.put<ApiResponse<User>>(`${this.apiUrl}/${user.userId}`, user);
   }
 
-  updateOwnProfile(profile: { name: string; surname: string; imagePath: string }): Observable<ApiResponse<User>> {
+  updateOwnProfile(profile: { name: string; surname: string; imagePath: string; preferredSellPointId: number | null; emailNotificationsEnabled: boolean }): Observable<ApiResponse<User>> {
     return this.http.put<ApiResponse<User>>(`${this.apiUrl}/me`, profile);
+  }
+
+  changeOwnPassword(dto: { currentPassword: string; newPassword: string }): Observable<ApiResponse<string>> {
+    return this.http.put<ApiResponse<string>>(`${this.apiUrl}/me/password`, dto);
+  }
+
+  deleteOwnAccount(password: string): Observable<ApiResponse<string>> {
+    return this.http.delete<ApiResponse<string>>(`${this.apiUrl}/me`, { body: { password } });
   }
 
   deleteUser(userId: number): Observable<ApiResponse<string>> {

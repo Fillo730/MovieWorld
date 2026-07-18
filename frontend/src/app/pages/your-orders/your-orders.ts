@@ -52,6 +52,7 @@ export class YourOrders {
   public readonly lang = this.languageService.currentLanguage;
   public isLoading = signal<boolean>(false);
   public error = signal<boolean>(false);
+  public hasLoadedOnce = signal<boolean>(false);
 
   public first = signal<number>(0)
   public rows = signal<number>(10);
@@ -83,7 +84,10 @@ export class YourOrders {
     this.error.set(false);
 
     this.ordersService.getUsersOrders(this.pageIndex(), this.rows(), this.filters()).pipe(
-      finalize(() => this.isLoading.set(false))
+      finalize(() => {
+        this.isLoading.set(false);
+        this.hasLoadedOnce.set(true);
+      })
     ).subscribe({
       next: (response) => {
         if (response.success) {

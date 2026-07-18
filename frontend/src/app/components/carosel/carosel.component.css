@@ -8,6 +8,35 @@
     height: 800px;
 }
 
+.carousel-card {
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+.carousel-card:hover {
+    transform: scale(1.03);
+}
+
+.carousel-card .carousel-image {
+    object-fit: cover;
+}
+
+.carousel-caption {
+    position: absolute;
+    left: 1rem;
+    right: 1rem;
+    bottom: 0;
+    padding: 1rem 0.75rem 0.5rem;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.85), transparent);
+}
+
+.carousel-title {
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
 @media (max-width: 576px) {
     .wrapper {
         width: 280px;

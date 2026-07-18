@@ -16,5 +16,7 @@ public class LoginResponseDto
     public UserRole Role { get; set; }
 
     public string ImagePath { get; set; } = AppConstants.DEFAULT_USER_IMAGE;
+
+    public int? PreferredSellPointId { get; set; }
 }
 

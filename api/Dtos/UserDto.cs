@@ -15,4 +15,8 @@ public class UserDto
     public int Role { get; set; }
 
     public DateTime? CreatedAt { get; set; }
+
+    public int? PreferredSellPointId { get; set; }
+
+    public bool EmailNotificationsEnabled { get; set; } = true;
 }

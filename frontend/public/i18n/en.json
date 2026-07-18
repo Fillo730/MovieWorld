@@ -78,16 +78,44 @@
     "ImagePathPlaceholder": "https://example.com/photo.jpg",
     "UpdateSuccess": "Profile updated successfully",
     "UpdateError": "Error updating profile",
+    "PersonalInfoTitle": "Personal information",
+    "PreferencesTitle": "Preferences",
+    "SecurityTitle": "Security",
+    "SecurityDescription": "Manage your account password.",
+    "DangerZoneTitle": "Danger zone",
+    "DangerZoneDescription": "Log out of your account or delete it permanently.",
+    "NoOrdersYet": "No orders placed yet",
+    "RecommendedTitle": "Movies you might like",
     "OrdersSummaryTitle": "Your orders",
     "OrdersCountLabel": "orders placed",
     "OrderCountLabelSingular": "order placed",
     "ViewOrdersButton": "Go to my orders",
     "LogoutButton": "Logout",
+    "PreferredSellPointLabel": "Preferred sell point",
+    "NotSetLabel": "Not set",
+    "NotificationsLabel": "Order email notifications",
+    "NotificationsOn": "On",
+    "NotificationsOff": "Off",
+    "ChangePasswordButton": "Change Password",
+    "ChangePasswordTitle": "Change Password",
+    "CurrentPasswordLabel": "Current password",
+    "NewPasswordLabel": "New password",
+    "ConfirmPasswordLabel": "Confirm new password",
+    "PasswordChangeSuccess": "Password updated successfully",
+    "PasswordChangeError": "Current password is incorrect or an error occurred while updating",
+    "DeleteAccountButton": "Delete Account",
+    "DeleteAccountTitle": "Delete your account",
+    "DeleteAccountWarning": "This action is irreversible: your account and your entire order history will be permanently deleted. Enter your password to confirm.",
+    "DeleteAccountSuccess": "Account deleted successfully",
+    "DeleteAccountError": "Incorrect password or an error occurred while deleting the account",
     "Errors": {
       "NameRequired": "Name is required.",
       "NameInvalid": "Invalid name.",
       "SurnameRequired": "Surname is required.",
-      "SurnameInvalid": "Invalid surname."
+      "SurnameInvalid": "Invalid surname.",
+      "CurrentPasswordRequired": "Password is required.",
+      "NewPasswordInvalid": "Password must be at least 8 characters and include an uppercase letter, a lowercase letter, a number and a special character.",
+      "PasswordMismatch": "Passwords do not match."
     }
   },
   "MovieDetail": {
@@ -104,6 +132,7 @@
   },
   "Home": {
     "MainTitle": "Cult Movies",
+    "HeroSubtitle": "The titles our customers love most, picked for you",
     "EsploreCatalogTitle": "Explore our Catalog",
     "GoToCatalogButtonText": "Go to Catalog",
     "CatalogDescription": "In our catalog, you will find a wide selection of carefully chosen movies from recent years.<br/>A total of <span class=\"catalog-number\">{{total}}</span> titles are available for you to explore.",
@@ -153,7 +182,8 @@
     "ErrorTitle": "Loading error",
     "ErrorMessage": "Could not load stores. Please check your connection and try again.",
     "RetryButton": "Retry",
-    "FiltersResetButton": "Reset Filters"
+    "FiltersResetButton": "Reset Filters",
+    "PreferredLabel": "Preferred"
   },
   "Cart": {
     "MainTitle": "Your Cart",

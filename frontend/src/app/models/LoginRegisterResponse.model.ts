@@ -6,4 +6,5 @@ export interface LoginRegisterResponse {
   expiration: string;
   role: number;
   imagePath?: string;
+  preferredSellPointId?: number | null;
 }

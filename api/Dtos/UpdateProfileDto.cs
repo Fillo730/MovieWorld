@@ -7,4 +7,8 @@ public class UpdateProfileDto
     public string Surname { get; set; }
 
     public string ImagePath { get; set; }
+
+    public int? PreferredSellPointId { get; set; }
+
+    public bool EmailNotificationsEnabled { get; set; } = true;
 }

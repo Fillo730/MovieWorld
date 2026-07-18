@@ -1,8 +1,11 @@
 //Angular Core
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 //PrimeNG
 import { Carousel, CarouselModule } from 'primeng/carousel';
+
+//Models
+import { Movie } from '../../models/Movie.model';
 
 @Component({
   selector: 'carosel-component',
@@ -12,6 +15,13 @@ import { Carousel, CarouselModule } from 'primeng/carousel';
 })
 export class CaroselComponent {
   @Input() images !: string[];
+  @Input() movies?: Movie[];
+
+  @Output() movieClicked = new EventEmitter<Movie>();
+
+  handleMovieClick(movie: Movie) {
+    this.movieClicked.emit(movie);
+  }
 
   responsiveOptions = [
     {

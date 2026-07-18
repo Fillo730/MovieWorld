@@ -26,6 +26,20 @@ public class UsersRepository : BaseRepository, IUserRepository
 
     public async Task DeleteUserAsync(User user)
     {
+        var charts = await _dbContext.Charts
+            .Where(c => c.UserId == user.UserId)
+            .Include(c => c.ChartItems)
+            .ToListAsync();
+
+        _dbContext.ChartItems.RemoveRange(charts.SelectMany(c => c.ChartItems));
+        _dbContext.Charts.RemoveRange(charts);
+
+        var orders = await _dbContext.Orders
+            .Where(o => o.UserId == user.UserId)
+            .ToListAsync();
+
+        _dbContext.Orders.RemoveRange(orders);
+
         _dbContext.Users.Remove(user);
     }
 

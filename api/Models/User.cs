@@ -23,7 +23,13 @@ public partial class User
 
     public DateTime CreatedAt { get; set; }
 
+    public int? PreferredSellPointId { get; set; }
+
+    public bool EmailNotificationsEnabled { get; set; } = true;
+
     public virtual ICollection<Chart> Charts { get; set; } = new List<Chart>();
 
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+
+    public virtual SellPoint PreferredSellPoint { get; set; }
 }

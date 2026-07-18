@@ -22,10 +22,12 @@ export class SellPointsListComponent {
   @Input() rows: number = 10;
   @Input() first: number = 0;
 
+  @Input() selectedSellPoint?: SellPoint;
+  @Input() preferredSellPointId?: number | null;
+  @Input() preferredLabel: string = '';
+
   @Output() clickedSellPoint = new EventEmitter<SellPoint>();
   @Output() pageChanged = new EventEmitter<any>();
-
-  selectedSellPoint?: SellPoint;
 
   handleClickedSellPoint(event: SellPoint) {
     this.selectedSellPoint = event;

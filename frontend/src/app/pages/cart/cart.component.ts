@@ -63,6 +63,7 @@ export class Cart implements OnInit {
   private lastLng?: number;
 
   selectedSellPoint!: SellPoint;
+  private preferredSellPointApplied = false;
 
   public readonly moviesInTheCart = computed(() => 
     this.cartService.cart()?.items.map(item => ({
@@ -107,6 +108,7 @@ export class Cart implements OnInit {
         this.error.set(false);
         this.isLoading.set(false);
         this.distanceCalculationLoading.set(false);
+        this.applyPreferredSellPoint();
       },
       error: () => {
         this.error.set(true);
@@ -180,6 +182,20 @@ export class Cart implements OnInit {
 
   handleClickedSellPoint(sellPoint: SellPoint) {
     this.selectedSellPoint = sellPoint;
+  }
+
+  private applyPreferredSellPoint(): void {
+    if (this.preferredSellPointApplied || this.selectedSellPoint) return;
+
+    const preferredId = this.authService.preferredSellPointId();
+    if (!preferredId) return;
+
+    const match = this.sellPoints().find(sp => sp.id === preferredId);
+    if (match) {
+      this.selectedSellPoint = match;
+    }
+
+    this.preferredSellPointApplied = true;
   }
 
   get buttonTheme() {
