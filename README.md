@@ -2,73 +2,83 @@
 
 ![CI](https://github.com/Fillo730/MovieWorld/actions/workflows/ci.yml/badge.svg)
 
-MovieWorld è un e-commerce full-stack per la vendita di film: catalogo con ricerca e filtri avanzati, carrello, checkout multi-punto-vendita, area utente con ordini/recensioni/wishlist e un pannello di amministrazione completo.
+MovieWorld is a full-stack e-commerce platform for selling movies: catalog with search and advanced filters, cart, multi-store checkout, a user area with orders/reviews/wishlist, and a full admin panel.
 
-## Stack tecnologico
+**Live demo:** [movieworld-9msm.onrender.com](https://movieworld-9msm.onrender.com)
+*(hosted on Render's free tier — the first request after a period of inactivity may take up to a minute to wake the instance up)*
+
+## Screenshots
+
+| Home | Movie detail | Admin dashboard |
+|---|---|---|
+| ![Home page](docs/screenshots/home.jpg) | ![Movie detail page](docs/screenshots/movie-detail.jpg) | ![Admin dashboard](docs/screenshots/admin-dashboard.jpg) |
+
+## Tech stack
 
 **Backend**
 - ASP.NET Core 8 Web API (C#)
 - Entity Framework Core 8 + SQLite
-- Autenticazione JWT
-- BCrypt.Net per l'hashing delle password
-- MailKit per l'invio email (relay SMTP, es. SendGrid)
-- ClosedXML per l'export Excel
+- JWT authentication
+- BCrypt.Net for password hashing
+- MailKit for sending email (SMTP relay, e.g. SendGrid)
+- ClosedXML for Excel export
 
 **Frontend**
 - Angular 20 (standalone components, Signals)
-- PrimeNG 20 + Bootstrap 5 per la UI pubblica
-- Angular Material per il pannello admin
-- ngx-translate per l'internazionalizzazione (it/en)
-- Chart.js (ng2-charts) per le statistiche in dashboard
+- PrimeNG 20 + Bootstrap 5 for the public UI
+- Angular Material for the admin panel
+- ngx-translate for internationalization (it/en)
+- Chart.js (ng2-charts) for dashboard statistics
 
 **Deploy**
-- Build unico Docker: il frontend Angular viene compilato e servito come file statici dallo stesso processo Kestrel dell'API (nessun Nginx separato)
-- `render.yaml` per il deploy su Render.com
+- Single Docker build: the Angular frontend is compiled and served as static files by the same Kestrel process as the API (no separate Nginx)
+- `render.yaml` for deployment on Render.com
 
-## Funzionalità principali
+## Main features
 
-- **Catalogo**: ricerca, filtri (nome, genere, anno, regista, attore, prezzo), ordinamento (rilevanza, voto, prezzo), export Excel
-- **Barra di ricerca globale** in header con risultati live
-- **Dettaglio film**: trailer, cast, film correlati, recensioni con voto a stelle, media voto
-- **Wishlist**: aggiunta/rimozione dai cuoricini su ogni card, pagina dedicata
-- **Home page**: hero con carosello film cult, sezione "Visti di recente" (localStorage), sezione "I più votati"
-- **Carrello e checkout**: selezione punto vendita (anche per distanza geografica), codici sconto/coupon, email di conferma ordine
-- **Area utente**: profilo con modifica dati, cambio password, reset password via email, notifiche email ordini, punto vendita preferito, storico ordini con filtri, storico recensioni, avatar generati automaticamente
-- **Notifiche**: campanella in header con notifiche in-app (+ email) quando un admin cambia lo stato di un ordine
-- **Pannello Admin**: gestione utenti, film, cast, news, ordini, coupon sconto (con statistiche di utilizzo/sconto erogato in dashboard); dashboard statistiche (vendite, generi, utenti)
+- **Catalog**: search, filters (name, genre, year, director, actor, price), sorting (relevance, rating, price), Excel export
+- **Global search bar** in the header with live results
+- **Movie detail**: trailer, cast, related movies, star-rating reviews, average rating
+- **Wishlist**: add/remove from the heart icon on every card, dedicated page
+- **Home page**: hero carousel of cult movies, "Recently viewed" section (localStorage), "Top rated" section
+- **Cart and checkout**: store selection (including by geographic distance), discount codes/coupons, order confirmation email
+- **User area**: profile with editable data, password change, email password reset, order email notifications, preferred store, order history with filters, review history, auto-generated avatars
+- **Notifications**: bell icon in the header with in-app notifications (+ email) whenever an admin changes an order's status
+- **Admin panel**: manage users, movies, cast, news, orders, discount coupons (with usage/discount stats in the dashboard); statistics dashboard (sales, genres, users)
 
-## Struttura del progetto
+## Project structure
 
 ```
 MovieWorld/
-├── api/            API .NET 8 (Controllers, Services, Repositories, Models, Migrations)
-├── api.Tests/        Test xUnit per la logica di business del backend
-├── frontend/        Applicazione Angular 20
-├── Dockerfile        Build multi-stage (frontend + backend in un'unica immagine)
+├── api/               .NET 8 API (Controllers, Services, Repositories, Models, Migrations)
+├── api.Tests/          xUnit tests for the backend business logic
+├── frontend/           Angular 20 application
+├── docs/screenshots/    Screenshots used in this README
+├── Dockerfile          Multi-stage build (frontend + backend in a single image)
 ├── docker-compose.yml
-└── render.yaml       Configurazione deploy Render.com
+└── render.yaml          Render.com deploy configuration
 ```
 
-Il backend segue un'architettura a layer: `Controller → Service → Repository → EF Core DbContext`, con DTO e mapper dedicati per ogni entità.
+The backend follows a layered architecture: `Controller → Service → Repository → EF Core DbContext`, with dedicated DTOs and mappers for each entity.
 
-## Avvio in locale
+## Running locally
 
-### Prerequisiti
+### Prerequisites
 - .NET 8 SDK
 - Node.js 20+
-- (opzionale) `dotnet-ef` CLI per le migrazioni: `dotnet tool install --global dotnet-ef`
+- (optional) `dotnet-ef` CLI for migrations: `dotnet tool install --global dotnet-ef`
 
 ### Backend
 
 ```bash
 cd api
-dotnet user-secrets set "Jwt:Key" "una-chiave-segreta-lunga-a-piacere"
+dotnet user-secrets set "Jwt:Key" "a-long-secret-key-of-your-choice"
 dotnet run
 ```
 
-L'API parte su `http://localhost:5246` e usa il database SQLite già presente (`api/MovieWorld.db`), popolato con dati di esempio (film, generi, cast, utenti, ordini).
+The API starts on `http://localhost:5246` and uses the SQLite database already included (`api/MovieWorld.db`), pre-populated with sample data (movies, genres, cast, users, orders).
 
-Per applicare eventuali nuove migrazioni:
+To apply any new migrations:
 
 ```bash
 cd api
@@ -83,56 +93,56 @@ npm install
 npm start
 ```
 
-L'app parte su `http://localhost:4200` e punta all'API su `http://localhost:5246` (vedi `frontend/src/app/constants/app.config.ts`).
+The app starts on `http://localhost:4200` and points to the API at `http://localhost:5246` (see `frontend/src/app/constants/app.config.ts`).
 
-### Invio email (opzionale)
+### Sending email (optional)
 
-L'invio email (conferma ordine, reset password) è disattivato finché non si configura un relay SMTP. Esempio con SendGrid, in `api/appsettings.Development.json`:
+Email sending (order confirmation, password reset) is disabled until an SMTP relay is configured. Example with SendGrid, in `api/appsettings.Development.json`:
 
 ```json
 "Email": {
   "Host": "smtp.sendgrid.net",
   "Port": "587",
   "Username": "apikey",
-  "FromAddress": "tuo-indirizzo-verificato@example.com",
+  "FromAddress": "your-verified-address@example.com",
   "FromName": "MovieWorld"
 }
 ```
 
-La password/API key va impostata separatamente, senza committarla:
+The password/API key must be set separately, without committing it:
 
 ```bash
-dotnet user-secrets set "Email:Password" "la-tua-api-key"
+dotnet user-secrets set "Email:Password" "your-api-key"
 ```
 
-Se `Email:Host` non è configurato, il servizio logga un warning e non blocca mai il flusso principale (es. la creazione dell'ordine va comunque a buon fine anche senza email configurata).
+If `Email:Host` is not configured, the service logs a warning and never blocks the main flow (e.g. order creation still succeeds even without email configured).
 
 ### Rate limiting
 
-Gli endpoint `login`, `register` e `forgot-password` sono limitati a 5 richieste al minuto per indirizzo IP (budget condiviso tra i tre), per mitigare tentativi di brute-force. Oltre la soglia l'API risponde `429 Too Many Requests`. Configurato in `Program.cs`, nessuna variabile d'ambiente richiesta.
+The `login`, `register`, and `forgot-password` endpoints are limited to 5 requests per minute per IP address (a shared budget across all three), to mitigate brute-force attempts. Beyond the threshold the API responds with `429 Too Many Requests`. Configured in `Program.cs`, no environment variable required.
 
-### Test
+### Tests
 
 ```bash
 cd api.Tests
 dotnet test
 ```
 
-Copre la logica di business più delicata (repository mockati con Moq): validazione e calcolo sconto dei coupon, creazione/attivazione coupon, generazione di notifiche ed email al cambio di stato di un ordine.
+Covers the most delicate business logic (repositories mocked with Moq): coupon validation and discount calculation, coupon creation/activation, and notification/email generation on order status changes.
 
-## Deploy con Docker
+## Deploying with Docker
 
 ```bash
-JWT_KEY="una-chiave-segreta-lunga-a-piacere" docker compose up --build
+JWT_KEY="a-long-secret-key-of-your-choice" docker compose up --build
 ```
 
-L'immagine finale contiene sia l'API .NET che i file statici Angular pubblicati, serviti tutti dalla stessa porta (`8080` di default, configurabile con `PORT`).
+The final image contains both the .NET API and the published Angular static files, all served on the same port (`8080` by default, configurable via `PORT`).
 
 ## CI
 
-Il workflow in `.github/workflows/ci.yml` esegue automaticamente, ad ogni push/PR su `main`, la suite di test backend (`dotnet test`) e la build di produzione del frontend (`ng build`).
+The workflow in `.github/workflows/ci.yml` automatically runs, on every push/PR to `main`, the backend test suite (`dotnet test`) and the production frontend build (`ng build`).
 
-## Note
+## Notes
 
-- Il database SQLite viene committato nel repository per avere sempre dati di demo pronti all'uso in sviluppo e nel primo deploy.
-- Le migrazioni EF Core si trovano in `api/Migrations`; ogni modifica al modello dati richiede una nuova migrazione (`dotnet ef migrations add NomeMigrazione`) seguita da `dotnet ef database update`.
+- The SQLite database is committed to the repository so demo data is always ready to use in development and on first deploy.
+- EF Core migrations live in `api/Migrations`; every data model change requires a new migration (`dotnet ef migrations add MigrationName`) followed by `dotnet ef database update`.
