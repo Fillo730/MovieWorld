@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 import { ApiResponse } from '../models/ApiResponse.model';
 import { CouponValidationResult } from '../models/CouponValidationResult.model';
 import { Coupon, CreateCouponRequest } from '../models/Coupon.model';
+import { CouponStats } from '../models/CouponStats.model';
 
 //Constants
 import { getApiUrl } from '../constants/app.config';
@@ -34,5 +35,9 @@ export class CouponService {
 
   public toggleCoupon(id: number): Observable<ApiResponse<string>> {
     return this.http.put<ApiResponse<string>>(`${this.apiUrl}/${id}/toggle`, {});
+  }
+
+  public getCouponStats(): Observable<ApiResponse<CouponStats>> {
+    return this.http.get<ApiResponse<CouponStats>>(`${this.apiUrl}/stats`);
   }
 }

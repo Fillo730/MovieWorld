@@ -118,6 +118,23 @@ public class CouponService(ICouponRepository couponRepository) : ICouponService
         }
     }
 
+    public async Task<CouponStatsDto> GetCouponStatsAsync()
+    {
+        var usageStats = await _couponRepository.GetUsageStatisticsAsync();
+
+        return new CouponStatsDto
+        {
+            TotalDiscountGiven = usageStats.Sum(s => s.TotalDiscount),
+            TotalRedemptions = usageStats.Sum(s => s.UsesCount),
+            TopCoupons = usageStats.Select(s => new CouponUsageStatDto
+            {
+                Code = s.Code,
+                UsesCount = s.UsesCount,
+                TotalDiscount = s.TotalDiscount
+            }).ToList()
+        };
+    }
+
     private static CouponDto MapToDto(Coupon coupon)
     {
         return new CouponDto

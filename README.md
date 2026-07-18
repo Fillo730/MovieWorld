@@ -1,5 +1,7 @@
 # MovieWorld
 
+![CI](https://github.com/Fillo730/MovieWorld/actions/workflows/ci.yml/badge.svg)
+
 MovieWorld è un e-commerce full-stack per la vendita di film: catalogo con ricerca e filtri avanzati, carrello, checkout multi-punto-vendita, area utente con ordini/recensioni/wishlist e un pannello di amministrazione completo.
 
 ## Stack tecnologico
@@ -32,13 +34,15 @@ MovieWorld è un e-commerce full-stack per la vendita di film: catalogo con rice
 - **Home page**: hero con carosello film cult, sezione "Visti di recente" (localStorage), sezione "I più votati"
 - **Carrello e checkout**: selezione punto vendita (anche per distanza geografica), codici sconto/coupon, email di conferma ordine
 - **Area utente**: profilo con modifica dati, cambio password, reset password via email, notifiche email ordini, punto vendita preferito, storico ordini con filtri, storico recensioni, avatar generati automaticamente
-- **Pannello Admin**: gestione utenti, film, cast, news, ordini, coupon sconto; dashboard statistiche (vendite, generi, utenti)
+- **Notifiche**: campanella in header con notifiche in-app (+ email) quando un admin cambia lo stato di un ordine
+- **Pannello Admin**: gestione utenti, film, cast, news, ordini, coupon sconto (con statistiche di utilizzo/sconto erogato in dashboard); dashboard statistiche (vendite, generi, utenti)
 
 ## Struttura del progetto
 
 ```
 MovieWorld/
 ├── api/            API .NET 8 (Controllers, Services, Repositories, Models, Migrations)
+├── api.Tests/        Test xUnit per la logica di business del backend
 ├── frontend/        Applicazione Angular 20
 ├── Dockerfile        Build multi-stage (frontend + backend in un'unica immagine)
 ├── docker-compose.yml
@@ -103,6 +107,19 @@ dotnet user-secrets set "Email:Password" "la-tua-api-key"
 
 Se `Email:Host` non è configurato, il servizio logga un warning e non blocca mai il flusso principale (es. la creazione dell'ordine va comunque a buon fine anche senza email configurata).
 
+### Rate limiting
+
+Gli endpoint `login`, `register` e `forgot-password` sono limitati a 5 richieste al minuto per indirizzo IP (budget condiviso tra i tre), per mitigare tentativi di brute-force. Oltre la soglia l'API risponde `429 Too Many Requests`. Configurato in `Program.cs`, nessuna variabile d'ambiente richiesta.
+
+### Test
+
+```bash
+cd api.Tests
+dotnet test
+```
+
+Copre la logica di business più delicata (repository mockati con Moq): validazione e calcolo sconto dei coupon, creazione/attivazione coupon, generazione di notifiche ed email al cambio di stato di un ordine.
+
 ## Deploy con Docker
 
 ```bash
@@ -110,6 +127,10 @@ JWT_KEY="una-chiave-segreta-lunga-a-piacere" docker compose up --build
 ```
 
 L'immagine finale contiene sia l'API .NET che i file statici Angular pubblicati, serviti tutti dalla stessa porta (`8080` di default, configurabile con `PORT`).
+
+## CI
+
+Il workflow in `.github/workflows/ci.yml` esegue automaticamente, ad ogni push/PR su `main`, la suite di test backend (`dotnet test`) e la build di produzione del frontend (`ng build`).
 
 ## Note
 

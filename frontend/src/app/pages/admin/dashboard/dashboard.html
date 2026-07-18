@@ -243,6 +243,68 @@
     </div>
   </section>
 
+  <hr class="section-divider">
+
+  <section class="dashboard-section mb-5">
+    <h3 class="text-color section-title">{{ "Admin.Dashboard.Sections.CouponManagement" | translate }}</h3>
+    <div class="cards-row mb-4">
+      <dashboard-card-component
+        [label]="'Admin.Dashboard.Labels.CouponTotalDiscount' | translate"
+        [value]="couponStats.totalDiscountGiven"
+        icon="sell"
+        colorClass="green">
+      </dashboard-card-component>
+
+      <dashboard-card-component
+        [label]="'Admin.Dashboard.Labels.CouponTotalRedemptions' | translate"
+        [value]="couponStats.totalRedemptions"
+        icon="confirmation_number"
+        colorClass="purple">
+      </dashboard-card-component>
+    </div>
+
+    <div class="mt-4">
+      <mat-card class="background-color-custom p-0 overflow-hidden">
+        <mat-card-header class="p-3 border-bottom-theme">
+          <mat-card-title class="text-color fs-5">
+            🎟️ {{ 'Admin.Dashboard.Labels.TopCoupons' | translate }}
+          </mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+          <div class="table-responsive">
+            <table class="table background-color-custom mb-0">
+              <thead>
+                <tr>
+                  <th class="background-color-custom text-color">{{ 'Admin.CouponsPage.CodeLabel' | translate }}</th>
+                  <th class="text-end background-color-custom text-color">{{ 'Admin.CouponsPage.UsesLabel' | translate }}</th>
+                  <th class="text-end background-color-custom text-color">{{ 'Admin.Dashboard.Table.Discount' | translate }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (stat of couponStats.topCoupons; track stat.code) {
+                  <tr>
+                    <td class="fw-bold background-color-custom text-color">{{ stat.code }}</td>
+                    <td class="text-end align-middle background-color-custom text-color">{{ stat.usesCount }}</td>
+                    <td class="text-end align-middle fw-bold text-success background-color-custom">
+                      {{ stat.totalDiscount | currency:'EUR' }}
+                    </td>
+                  </tr>
+                } @empty {
+                  <tr>
+                    <td colspan="3" class="text-center p-4 text-muted">
+                      {{ 'Admin.Dashboard.Table.NoDataAvailable' | translate }}
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </section>
+
 </div>
 }
 }

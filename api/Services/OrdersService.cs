@@ -8,15 +8,19 @@ using System.Threading.Tasks;
 
 namespace MovieWorld.Services;
 
-public class OrdersService (IOrdersRepository ordersRepository, IOrdersMapper ordersMapper, IPagedMapper pagedMapper, IStatisticsMapper statisticMapper) : IOrdersService
+public class OrdersService (IOrdersRepository ordersRepository, IOrdersMapper ordersMapper, IPagedMapper pagedMapper, IStatisticsMapper statisticMapper, INotificationService notificationService, IEmailService emailService) : IOrdersService
 {
     private readonly IOrdersRepository _ordersRepository = ordersRepository;
 
     private readonly IOrdersMapper _ordersMapper = ordersMapper;
 
     private readonly IPagedMapper _pagedMapper = pagedMapper;
-    
+
     private readonly IStatisticsMapper _statisticsMapper = statisticMapper;
+
+    private readonly INotificationService _notificationService = notificationService;
+
+    private readonly IEmailService _emailService = emailService;
 
     public async Task<OrderDto> AddAsync(OrderDto order, string lang)
     {
@@ -117,10 +121,41 @@ public class OrdersService (IOrdersRepository ordersRepository, IOrdersMapper or
             return null;
         }
 
+        var previousStateId = existingOrder.OrderStateId;
+
         _ordersMapper.MapUpdateToDb(order, existingOrder);
 
         await _ordersRepository.SaveChangesAsync();
 
+        if (previousStateId != existingOrder.OrderStateId)
+        {
+            await _notificationService.CreateNotificationAsync(
+                existingOrder.UserId,
+                $"Il tuo ordine #{existingOrder.OrderId} è stato aggiornato: {order.State.Name}",
+                "/your-orders");
+
+            if (existingOrder.User.EmailNotificationsEnabled)
+            {
+                await _emailService.SendEmailAsync(
+                    existingOrder.User.Email,
+                    existingOrder.User.Name,
+                    $"Aggiornamento ordine #{existingOrder.OrderId} - MovieWorld",
+                    BuildOrderStatusChangedEmailBody(existingOrder.OrderId, existingOrder.User.Name, order.State.Name));
+            }
+        }
+
         return _ordersMapper.MapToDto(existingOrder, lang);
+    }
+
+    private static string BuildOrderStatusChangedEmailBody(int orderId, string userName, string newStateName)
+    {
+        return $@"
+            <div style=""font-family:sans-serif;max-width:500px;margin:0 auto;"">
+                <h2>Ciao {userName},</h2>
+                <p>Lo stato del tuo ordine <strong>#{orderId}</strong> è stato aggiornato a:</p>
+                <p style=""font-size:1.2em;font-weight:bold;color:#3f51b5;"">{newStateName}</p>
+                <p>Puoi consultare i dettagli del tuo ordine in qualsiasi momento dalla sezione ""I miei ordini"" del tuo profilo.</p>
+                <p style=""color:#888;font-size:0.9em;margin-top:24px;"">Puoi disattivare queste notifiche in qualsiasi momento dal tuo profilo.</p>
+            </div>";
     }
 }

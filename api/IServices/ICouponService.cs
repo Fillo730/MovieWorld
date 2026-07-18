@@ -9,4 +9,5 @@ public interface ICouponService
     Task<(bool Success, string? Error)> ToggleCouponActiveAsync(int couponId);
     Task<CouponValidationResultDto> ValidateCouponAsync(string code, decimal subtotal);
     Task IncrementCouponUsageAsync(string code);
+    Task<CouponStatsDto> GetCouponStatsAsync();
 }

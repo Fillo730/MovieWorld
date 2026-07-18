@@ -37,7 +37,8 @@ export const API_ENDPOINTS =  {
     USERS: "users",
     REVIEWS: "reviews",
     WISHLIST: "wishlist",
-    COUPONS: "coupons"
+    COUPONS: "coupons",
+    NOTIFICATIONS: "notifications"
 } as const;
 
 export function getApiUrl (key : keyof typeof API_ENDPOINTS) : string {

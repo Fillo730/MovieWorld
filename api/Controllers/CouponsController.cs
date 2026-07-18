@@ -28,6 +28,22 @@ public class CouponsController(ICouponService couponService) : BaseController
     }
 
     [Authorize(Roles = "Admin")]
+    [HttpGet("stats")]
+    public async Task<IActionResult> GetCouponStats()
+    {
+        try
+        {
+            var stats = await _couponService.GetCouponStatsAsync();
+
+            return Ok(ApiResponse<CouponStatsDto>.CreateSuccessResponse(stats));
+        }
+        catch (Exception ex)
+        {
+            return Ok(ApiResponse<CouponStatsDto>.CreateFailureResponse(ex.Message));
+        }
+    }
+
+    [Authorize(Roles = "Admin")]
     [HttpGet]
     public async Task<IActionResult> GetAllCoupons()
     {

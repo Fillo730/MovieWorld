@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using MovieWorld.Dtos;
 using MovieWorld.IServices;
 using MovieWorld.Models;
@@ -9,6 +10,7 @@ namespace MovieWorld.Controllers;
 [Route("api/[controller]")]
 public class AuthController(IAuthService authService) : BaseController
 {
+    [EnableRateLimiting("auth")]
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginRequestDto request)
     {
@@ -22,6 +24,7 @@ public class AuthController(IAuthService authService) : BaseController
         return Ok(ApiResponse<LoginResponseDto>.CreateSuccessResponse(result));
     }
 
+    [EnableRateLimiting("auth")]
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] RegisterRequestDto request)
     {
@@ -30,6 +33,7 @@ public class AuthController(IAuthService authService) : BaseController
         return Ok(ApiResponse<LoginResponseDto>.CreateSuccessResponse(result));
     }
 
+    [EnableRateLimiting("auth")]
     [HttpPost("forgot-password")]
     public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDto request)
     {

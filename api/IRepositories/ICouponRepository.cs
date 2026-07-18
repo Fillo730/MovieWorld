@@ -9,5 +9,6 @@ public interface ICouponRepository
     Task<bool> ExistsByCodeAsync(string code);
     Task AddAsync(Coupon coupon);
     Task<Coupon?> GetByIdAsync(int id);
+    Task<IEnumerable<CouponUsageStatistic>> GetUsageStatisticsAsync();
     Task SaveChangesAsync();
 }

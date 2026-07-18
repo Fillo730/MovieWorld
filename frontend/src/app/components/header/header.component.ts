@@ -1,6 +1,7 @@
 //Angular Core
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { DatePipe } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 
 //rxjs
@@ -25,9 +26,11 @@ import { AuthService } from '../../services/auth.service';
 import { DEFAULT_AVATAR } from '../../utils/validURLPath';
 import { ToastService } from '../../services/toast.service';
 import { MovieService } from '../../services/movie.service';
+import { NotificationService } from '../../services/notification.service';
 
 //Models
 import { Movie } from '../../models/Movie.model';
+import { AppNotification } from '../../models/Notification.model';
 
 //Utils
 import { goToMovieDetail } from '../../utils/navigationFunctions';
@@ -37,6 +40,7 @@ import { goToMovieDetail } from '../../utils/navigationFunctions';
   standalone: true,
   imports: [
     FormsModule,
+    DatePipe,
     RouterLink,
     AvatarModule,
     AvatarGroupModule,
@@ -55,6 +59,10 @@ export class Header {
   toastService : ToastService = inject(ToastService);
   translateService : TranslateService = inject(TranslateService);
   movieService : MovieService = inject(MovieService);
+  notificationService : NotificationService = inject(NotificationService);
+
+  notifications = signal<AppNotification[]>([]);
+  unreadCount = this.notificationService.unreadCount;
 
   searchQuery: string = '';
   searchResults: Movie[] = [];
@@ -105,6 +113,33 @@ export class Header {
     this.searchResults = [];
     this.showSearchResults = false;
     goToMovieDetail(movie, this.router);
+  }
+
+  handleOpenNotifications(): void {
+    this.notificationService.getNotifications(0, 10).subscribe(response => {
+      if (response.success) this.notifications.set(response.data.items);
+    });
+  }
+
+  handleNotificationClick(notification: AppNotification): void {
+    if (!notification.isRead) {
+      this.notificationService.markAsRead(notification.notificationId).subscribe();
+      this.notifications.set(
+        this.notifications().map(n => n.notificationId === notification.notificationId ? { ...n, isRead: true } : n)
+      );
+    }
+
+    if (notification.link) {
+      this.router.navigate([notification.link]);
+    }
+  }
+
+  handleMarkAllNotificationsAsRead(): void {
+    this.notificationService.markAllAsRead().subscribe(response => {
+      if (response.success) {
+        this.notifications.set(this.notifications().map(n => ({ ...n, isRead: true })));
+      }
+    });
   }
 
   isCartEmpty() {

@@ -26,7 +26,12 @@
     "LogoutMessage": "Logout effettuato con successo",
     "SearchPlaceholder": "Cerca un film...",
     "SearchLoading": "Ricerca in corso...",
-    "SearchNoResults": "Nessun film trovato"
+    "SearchNoResults": "Nessun film trovato",
+    "Notifications": {
+      "Title": "Notifiche",
+      "MarkAllRead": "Segna tutte come lette",
+      "Empty": "Nessuna notifica"
+    }
   },
   "Footer": {
     "HelpAndInfo": {
@@ -382,7 +387,8 @@
         "CastManagement": "Gestione Cast",
         "MovieManagement": "Gestione Film",
         "NewsManagement": "Gestione News",
-        "OrdersManagment": "Gestione Ordini"
+        "OrdersManagment": "Gestione Ordini",
+        "CouponManagement": "Gestione Coupon"
       },
       "Loading": {
         "TitleError": "Ops! Errore di caricamento",
@@ -410,11 +416,15 @@
         "TopSpenders": "Top utenti per spesa totale",
         "UsersMonthThisYearLabel": "Utenti iscritti negli ultimi 6 mesi",
         "OrdersPerOrderStateLabel": "Numero ordini per stato dell'ordine",
-        "GenreRevenueLabel": "Incasso per genere (€)"
+        "GenreRevenueLabel": "Incasso per genere (€)",
+        "CouponTotalDiscount": "Sconto totale erogato (€)",
+        "CouponTotalRedemptions": "Utilizzi coupon totali",
+        "TopCoupons": "Coupon più utilizzati"
       },
       "Table": {
         "User": "Utente",
         "Revenue": "Spesa Totale",
+        "Discount": "Sconto generato",
         "NoDataAvailable": "Nessun dato disponibile"
       }
     },

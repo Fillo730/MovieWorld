@@ -22,6 +22,8 @@ import { forkJoin } from 'rxjs';
 import { UserMonth } from '../../../models/stats/UserMonth.model';
 import { StateHandlerComponent } from '../../../components/state-handler/state-handler.component';
 import { OrdersPerOrderState } from '../../../models/stats/OrdersPerOrderState.model';
+import { CouponService } from '../../../services/coupon.service';
+import { CouponStats } from '../../../models/CouponStats.model';
 
 @Component({
   selector: 'dashboard-component',
@@ -49,6 +51,7 @@ export class DashboardAdminComponent implements OnInit {
   private ordersService = inject(OrdersService);
   private newsService = inject(NewsService);
   private themeService = inject(ThemeService);
+  private couponService = inject(CouponService);
 
   isLoading : boolean = false;
   errorLoading : boolean = false;
@@ -77,6 +80,8 @@ export class DashboardAdminComponent implements OnInit {
   ordersCompletedCount !: number;
   revenueYears !: RevenueYear[];
   ordersPerOrderState !: OrdersPerOrderState[];
+
+  couponStats !: CouponStats;
 
   public pieChartUsers : ChartConfiguration<'pie'>['data'] = { labels: [], datasets: []}
   public pieChartCast : ChartConfiguration<'pie'>['data'] = { labels: [], datasets: []}
@@ -133,7 +138,8 @@ export class DashboardAdminComponent implements OnInit {
       orders: this.ordersService.getOrdersCount(),
       ordersCompleted: this.ordersService.getOrdersCompletedCount(),
       revenue: this.ordersService.getRevenueForEveryYear(),
-      ordersPerOrderState: this.ordersService.getOrdersCountPerOrderState()
+      ordersPerOrderState: this.ordersService.getOrdersCountPerOrderState(),
+      couponStats: this.couponService.getCouponStats()
     }).subscribe(res => {
       this.adminCount = res.admins.success ? res.admins.data : 0;
       this.totalUsers = res.totalUsers.success ? res.totalUsers.data : 0;
@@ -158,7 +164,7 @@ export class DashboardAdminComponent implements OnInit {
       this.ordersCompletedCount = res.ordersCompleted.data;
       this.revenueYears = res.revenue.data;
       this.ordersPerOrderState = res.ordersPerOrderState.data;
-      console.log(this.ordersPerOrderState);
+      this.couponStats = res.couponStats.success ? res.couponStats.data : { totalDiscountGiven: 0, totalRedemptions: 0, topCoupons: [] };
 
       this.refreshAllCharts();
       this.isLoading = false;

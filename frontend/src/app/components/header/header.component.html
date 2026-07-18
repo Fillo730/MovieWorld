@@ -75,6 +75,54 @@
 
         <theme-toggler></theme-toggler>
 
+        @if (isLoggedIn()) {
+          <div class="dropdown">
+            <a class="dropdown-toggle d-flex align-items-center cursor-pointer"
+              id="notificationsMenu"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              (click)="handleOpenNotifications()"
+              style="text-decoration: none;">
+
+              @if (unreadCount() > 0) {
+                <p-overlay-badge [value]="unreadCount()" severity="danger" class="inline-flex">
+                  <i class="pi pi-bell text-color" style="font-size: 1.5rem;"></i>
+                </p-overlay-badge>
+              } @else {
+                <i class="pi pi-bell text-color" style="font-size: 1.5rem;"></i>
+              }
+            </a>
+
+            <ul class="dropdown-menu dropdown-menu-end notifications-dropdown" aria-labelledby="notificationsMenu">
+              <li class="d-flex justify-content-between align-items-center px-3 py-2">
+                <span class="fw-bold text-color">{{ 'Header.Notifications.Title' | translate }}</span>
+                @if (unreadCount() > 0) {
+                  <a class="small cursor-pointer text-primary" (click)="handleMarkAllNotificationsAsRead()">
+                    {{ 'Header.Notifications.MarkAllRead' | translate }}
+                  </a>
+                }
+              </li>
+              <li><hr class="dropdown-divider"></li>
+
+              @if (notifications().length === 0) {
+                <li class="px-3 py-3 text-center text-color opacity-7 small">
+                  {{ 'Header.Notifications.Empty' | translate }}
+                </li>
+              } @else {
+                @for (notification of notifications(); track notification.notificationId) {
+                  <li>
+                    <a class="dropdown-item notification-item cursor-pointer" [class.unread]="!notification.isRead"
+                      (click)="handleNotificationClick(notification)">
+                      <div class="small">{{ notification.message }}</div>
+                      <div class="notification-date">{{ notification.createdAt | date:'dd/MM/yyyy HH:mm' }}</div>
+                    </a>
+                  </li>
+                }
+              }
+            </ul>
+          </div>
+        }
+
        @if(isLoggedIn()) {
         <div class="dropdown">
           <a class="dropdown-toggle d-flex align-items-center" 

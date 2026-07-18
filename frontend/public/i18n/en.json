@@ -8,7 +8,12 @@
     "WishlistNavBar": "My Wishlist",
     "SearchPlaceholder": "Search a movie...",
     "SearchLoading": "Searching...",
-    "SearchNoResults": "No movies found"
+    "SearchNoResults": "No movies found",
+    "Notifications": {
+      "Title": "Notifications",
+      "MarkAllRead": "Mark all as read",
+      "Empty": "No notifications"
+    }
   },
   "Footer": {
     "HelpAndInfo": {
@@ -362,7 +367,8 @@
         "CastManagement": "Cast Management",
         "MovieManagement": "Movie Management",
         "NewsManagement": "News Management",
-        "OrdersManagment": "Order Management"
+        "OrdersManagment": "Order Management",
+        "CouponManagement": "Coupon Management"
       },
       "Labels": {
         "Admins": "Administrators",
@@ -384,7 +390,16 @@
         "TopSpenders": "Top spending users",
         "UsersMonthThisYearLabel": "Users registered in the last 6 months",
         "OrdersPerOrderStateLabel": "Number of orders per order status",
-        "GenreRevenueLabel": "Revenue per genre (€)"
+        "GenreRevenueLabel": "Revenue per genre (€)",
+        "CouponTotalDiscount": "Total discount given (€)",
+        "CouponTotalRedemptions": "Total coupon redemptions",
+        "TopCoupons": "Most used coupons"
+      },
+      "Table": {
+        "User": "User",
+        "Revenue": "Total Spent",
+        "Discount": "Discount generated",
+        "NoDataAvailable": "No data available"
       }
     },
     "MoviesPage": {
